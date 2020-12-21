@@ -10,5 +10,5 @@ I found some incoherences in my thought and must give a massive review on my fil
 
 ## Formats
 * I did 2 folders ;
-        * Matrix    :   Where usage will be mostly for Characters displaying.
-        * Strip     :   Where usage will be coloring a room, for example.
+    * Matrix    :   Where usage will be mostly for Characters displaying.
+    * Strip     :   Where usage will be coloring a room, for example.
