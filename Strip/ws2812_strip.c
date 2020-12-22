@@ -16,7 +16,7 @@
 // ... C51/C166 routines that instructs the compiler to generate intrinsic code | _nop_():
 #include <intrins.h>
 #include "../F11-NeoPix_StripPrButt/base_sfr.h"	// ... Base (SFR, sbit, define, var. type, etc...)
-#include "../F11-NeoPix_StripPrButt/time.h"		// ... Timers function and Waiting Function.
+//#include "../F11-NeoPix_StripPrButt/time.h"		// ... Timers function and Waiting Function.
 #include "ws2812_strip.h"	// ... Timers function and Waiting Function.
 
 //-- GLOBAL VARIABLES	INIT:------------------------------->
@@ -102,7 +102,7 @@ void strip_Clear(pixel* addressStrip)
    strip_Show(addressSave);
 }
 
-void matrix_StatusReset(pixel* addressMatrix)
+void strip_StatusReset(pixel* addressMatrix)
 {	// Var. Dec. :
    unsigned int i;
 
@@ -123,8 +123,15 @@ void strip_Show(pixel* addressStrip)
 
    for(i = 0; i < MAX_LEDS; i++)
    {
-      pixel_Show(addressStrip->colorPix.Red, addressStrip->colorPix.Green, addressStrip->colorPix.Blue);
-      addressStrip++;
+		 if(addressStrip->status != 0)
+		 {
+			 pixel_Show(addressStrip->colorPix.Red, addressStrip->colorPix.Green, addressStrip->colorPix.Blue);
+		 }
+		 else
+		 {
+			 pixel_Show(BRIGHT_MIN, BRIGHT_MIN, BRIGHT_MIN);
+		 }
+		 addressStrip++;
    }
 
    // Enable / Re-activate Timer after Paquets Sent :
@@ -132,72 +139,72 @@ void strip_Show(pixel* addressStrip)
 }
 
 
-void Matrix_LimitPos(pixel* _addMatrix, color newColor, unsigned int _Begin, unsigned int _End)
+void strip_LimitPos(pixel* addressStrip, color newColor, \
+													 unsigned int _Begin, unsigned int _End)
 {	// Var. Dec. :
 	uint16 i;	// LED Position for filling Board of neoPix.
 	// To avoid problems about the parameters, I prefered to work with copies.
-	pixel* AddSave = _addMatrix;
+	pixel* AddSave = addressStrip;
 	
 	for(i = 0; i < MAX_LEDS; i++)
 	{
 		if((i >= _Begin) && (i <= _End))
 		{
-			_addMatrix->colorPix.Red = newColor.Red;
-			_addMatrix->colorPix.Green = newColor.Green;
-			_addMatrix->colorPix.Blue = newColor.Blue;
+			addressStrip->colorPix.Red = newColor.Red;
+			addressStrip->colorPix.Green = newColor.Green;
+			addressStrip->colorPix.Blue = newColor.Blue;
 		}
 		else
 		{
-			_addMatrix->colorPix.Red = BRIGHT_MIN;
-			_addMatrix->colorPix.Green = BRIGHT_MIN;
-			_addMatrix->colorPix.Blue = BRIGHT_MIN;
+			addressStrip->colorPix.Red = BRIGHT_MIN;
+			addressStrip->colorPix.Green = BRIGHT_MIN;
+			addressStrip->colorPix.Blue = BRIGHT_MIN;
 		}
-		_addMatrix++;
+		addressStrip++;
 	}
 	strip_Show(AddSave);
 }
 
-void Matrix_InvertArray(pixel* _addMatrix)
+void strip_StatusInverter(pixel* addressStrip)
 {	// Var. Dec. :
 	xdata uint16 i;	// LED Position for filling Board of neoPix.
-	xdata uint16 j;	// Address recovering counter of the matrix.
+	//xdata uint16 j;	// Address recovering counter of the matrix.
 	// To avoid problems about the parameters, I prefered to work with copies.
-	pixel* AddSave = _addMatrix;
+	//pixel* AddSave = addressStrip;
 	xdata color tmp = {0, 0, 0};
 
 	for(i = 0; i < MAX_LEDS; i++)
 	{
-		if((_addMatrix->colorPix.Red != 0) || (_addMatrix->colorPix.Green != 0) || (_addMatrix->colorPix.Blue != 0))
+		if((addressStrip->colorPix.Red != 0) || (addressStrip->colorPix.Green != 0) || (addressStrip->colorPix.Blue != 0))
 		{
-			tmp.Red = _addMatrix->colorPix.Red;
-			tmp.Green = _addMatrix->colorPix.Green;
-			tmp.Blue = _addMatrix->colorPix.Blue;
+			tmp.Red = addressStrip->colorPix.Red;
+			tmp.Green = addressStrip->colorPix.Green;
+			tmp.Blue = addressStrip->colorPix.Blue;
 			break;
 		}
-		_addMatrix++;
+		addressStrip++;
 	}
 
-	for(i = 0; i < j; i++)
-	{
-		_addMatrix--;
-	}
+// 	for(i = 0; i < j; i++)
+// 	{
+// 		addressStrip--;
+// 	}
 	
 	for(i = 0; i < MAX_LEDS; i++)
 	{
-		if(_addMatrix->status == 0)
+		if(addressStrip[i].status == 0)
 		{
-			_addMatrix->status = 1;
-			_addMatrix->colorPix.Red = tmp.Red;
-			_addMatrix->colorPix.Green = tmp.Green;
-			_addMatrix->colorPix.Blue = tmp.Blue;
+			addressStrip[i].status = 1;
+			addressStrip[i].colorPix.Red = tmp.Red;
+			addressStrip[i].colorPix.Green = tmp.Green;
+			addressStrip[i].colorPix.Blue = tmp.Blue;
 		}
 		else
 		{
-			_addMatrix->status = 0;
-			_addMatrix->colorPix.Red = BRIGHT_MIN;
-			_addMatrix->colorPix.Green = BRIGHT_MIN;
-			_addMatrix->colorPix.Blue = BRIGHT_MIN;
+			addressStrip[i].status = 0;
+			addressStrip[i].colorPix.Red = BRIGHT_MIN;
+			addressStrip[i].colorPix.Green = BRIGHT_MIN;
+			addressStrip[i].colorPix.Blue = BRIGHT_MIN;
 		}
-		_addMatrix++;
 	}
 }

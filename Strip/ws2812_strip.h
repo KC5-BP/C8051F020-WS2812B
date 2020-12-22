@@ -11,9 +11,8 @@
 */
 /*========================================================================================>
 =========================================================================================*/
-// Linker to : ...
-// .. Base (SFR, sbit, define, var. type, etc...)
-#include "../F11-NeoPix_StripPrButt/base_sfr.h"
+// Linker to (if needed) : ..
+
 
 // Library Definition :
 // Beginning of definition...
@@ -140,15 +139,14 @@ extern void strip_StatusReset(pixel* addressStrip);
  * Output	 	:	Nothin'                                                                  */
 extern void strip_Show(pixel* addressStrip);
 
-// Printing characters on Matrix.
-//extern void Matrix_Print(tstr_NeoPixel* _addMatrix, tstr_Color _newCol, const char* _CharToWrite, ...);
+
 // NeoPix of only a specific Color and Fading it.
 //void NeoPix_Fader(NeoPixel* _AddNeoPix, Color _NewCol, uint16 _ui16_Pos, uint16 _ui16_Speed);
 // Board of only a specific Color on a specific position.
-extern void Matrix_LimitPos(pixel* _addMatrix, color newColor, \
+extern void strip_LimitPos(pixel* addressStrip, color newColor, \
 														unsigned int _Begin, unsigned int _End);
-// Reversed every status of the LED's group.
-extern void Matrix_InvertArray(pixel* _addMatrix);
+// Reversed every status of the strip.
+extern void strip_StatusInverter(pixel* _addMatrix);
 
 
 #endif
