@@ -40,8 +40,15 @@ void pixel_SetColor(pixel* addressStrip, color newColor, unsigned int position)
    // Set the position info. in the structure :
    addressStrip->pos = position;
 
-   // Set the status to ON :
-   addressStrip->status = 1;
+   // Set the status to ON if color different of "black" :
+	 if((newColor.Red == 0) && (newColor.Green == 0) && (newColor.Blue == 0))
+	 {
+			addressStrip->status = 0;
+	 }
+	 else
+	 {
+			addressStrip->status = 1;
+	 }
 }
 
 void pixel_Show(unsigned char red, unsigned char green, unsigned char blue)
@@ -167,7 +174,7 @@ void strip_LimitPos(pixel* addressStrip, color newColor, \
 
 void strip_StatusInverter(pixel* addressStrip)
 {	// Var. Dec. :
-	xdata uint16 i;	// LED Position for filling Board of neoPix.
+	/*xdata uint16 i;	// LED Position for filling Board of neoPix.
 	//xdata uint16 j;	// Address recovering counter of the matrix.
 	// To avoid problems about the parameters, I prefered to work with copies.
 	//pixel* AddSave = addressStrip;
@@ -175,7 +182,8 @@ void strip_StatusInverter(pixel* addressStrip)
 
 	for(i = 0; i < MAX_LEDS; i++)
 	{
-		if((addressStrip->colorPix.Red != 0) || (addressStrip->colorPix.Green != 0) || (addressStrip->colorPix.Blue != 0))
+		//if((addressStrip->colorPix.Red != 0) || (addressStrip->colorPix.Green != 0) || (addressStrip->colorPix.Blue != 0))
+		if(addressStrip->status != 0)
 		{
 			tmp.Red = addressStrip->colorPix.Red;
 			tmp.Green = addressStrip->colorPix.Green;
@@ -206,5 +214,6 @@ void strip_StatusInverter(pixel* addressStrip)
 			addressStrip[i].colorPix.Green = BRIGHT_MIN;
 			addressStrip[i].colorPix.Blue = BRIGHT_MIN;
 		}
-	}
+		//addressStrip++;
+	}*/
 }
