@@ -1,7 +1,7 @@
 # Ws2812
 Examples Header and C files for Ws2812b monitoring with a Silabs C8051F020
 
-![Kaiminus (french name) : Pic made the 8th Mai 2018](pbs.twimg.com/media/DcrguXRWsAAZQeq?format-jpg&name=large)
+![Kaiminus (french name) : Pic made the 8th Mai 2018](pbs.twimg.com/media/DcrguXRWsAAZQeq?format=jpg&name=large)
 
 ## Last comment :
 This is the first comment and I created my files back in 2018 and I decided to put it here as a back up.
