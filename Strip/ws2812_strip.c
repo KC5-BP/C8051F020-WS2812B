@@ -26,23 +26,25 @@ xdata pixel strip[MAX_LEDS] = {{0, 0, 0}, 0, 0};   // Initialize it to '0'.
 void pixel_SetColor(pixel* addressStrip, color newColor, unsigned int position)
 {	// Var. Dec. :
    // To avoid problems about the parameters, I preferred to work with copies.
-   unsigned char Red = newColor.Red;
-   unsigned char Green = newColor.Green;
-   unsigned char Blue = newColor.Blue;
+   //unsigned char Red = newColor.Red;
+   //unsigned char Green = newColor.Green;
+   //unsigned char Blue = newColor.Blue;
 
    addressStrip += (position - 1);	// go to the wanted LED position.
 
    // Set "color" values :
-   addressStrip->colorPix.Red = Red;
-   addressStrip->colorPix.Green = Green;
-   addressStrip->colorPix.Blue = Blue;
+   //addressStrip->colorPix.Red = Red;
+   //addressStrip->colorPix.Green = Green;
+   //addressStrip->colorPix.Blue = Blue;
+   addressStrip->colorPix = newColor;
+	// Could write addressStrip[position - 1]. ... but it takes more code operations.
 
    // Set the position info. in the structure :
    addressStrip->pos = position;
 
    // Set the status to ON if color different of "black" :
 	 if((newColor.Red == 0) && (newColor.Green == 0) && (newColor.Blue == 0))
-	 {
+	 {	// Complement : == operator not possible in C.
 			addressStrip->status = 0;
 	 }
 	 else
