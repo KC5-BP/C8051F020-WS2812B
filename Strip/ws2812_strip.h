@@ -113,6 +113,12 @@ extern xdata pixel strip[MAX_LEDS];
  *					position, 2bytes - position in the strip to set the color.
  * Output	 	:	Nothin'                                                            */
 extern void pixel_SetColor(pixel* addressStrip, color newColor, unsigned int position);
+/* Description  :   Toggling status into the specific strip position.
+ * Last_Update  :   01.01.2021
+ * Input		:   addressStrip, 6bytes - address of the strip
+ *					position, 2bytes - position in the strip to set the color.
+ * Output	 	:	Nothin'                                                            */
+extern void pixel_StatusToggle(pixel* addressStrip, unsigned int position);
 /* Description  :   Send the 24bits color of one pixel.
  * Last_Update  :   22.12.2020
  * Input		:   red, 1byte.

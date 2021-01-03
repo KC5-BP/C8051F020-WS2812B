@@ -34,7 +34,23 @@ void pixel_SetColor(pixel* addressStrip, color newColor, unsigned int position)
 
     // Set the status to ON if color different of "black" :
     if((newColor.Red == 0) && (newColor.Green == 0) && (newColor.Blue == 0))
-    {   // Complement : " == " operator not possible in C.
+    {   // Complement : " == " operator not possible on a complet struct in C.
+        addressStrip->status = 0;
+    }
+    else
+    {
+        addressStrip->status = 1;
+    }
+}
+
+void pixel_StatusToggle(pixel* addressStrip, unsigned int position)
+{
+    // Go to the wanted LED position.
+    addressStrip += (position - 1);
+
+    // Set the status to ON if color different of "black" :
+    if(addressStrip->status != 0)
+    {   
         addressStrip->status = 0;
     }
     else
