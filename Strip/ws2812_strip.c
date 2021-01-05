@@ -164,7 +164,7 @@ void strip_StatusReset(pixel* addressStrip)
     }
 }
 
-void strip_StatusInverter(pixel* addressStrip)
+void strip_Inverter(pixel* addressStrip)
 {   // Var. Dec. :
     unsigned int i; // LED Position for filling Board of strip.
     color tmpColor; // Color recovered to invert the actual strip's color.

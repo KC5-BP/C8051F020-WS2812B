@@ -172,7 +172,7 @@ extern void strip_StatusReset(pixel* addressStrip);
  * Last_Update  :   2021.01.06
  * Input	    :   addressStrip, 6bytes - address of the strip
  * Output	 	:	Nothin'                                                            */
-extern void strip_StatusInverter(pixel* addressStrip);
+extern void strip_Inverter(pixel* addressStrip);
 
 // NeoPix of only a specific Color and Fading it.
 //void NeoPix_Fader(NeoPixel* _AddNeoPix, Color _NewCol, uint16 _ui16_Pos, \
