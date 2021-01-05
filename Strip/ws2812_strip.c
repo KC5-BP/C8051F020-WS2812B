@@ -4,11 +4,11 @@
 |x|  ,__  -'""`;
 |x| /   \  /"'  \
 |x|   __// \-"-_/
-|x| ´"   \  |       > Title:
+|x| ´"   \  |       > Title : ws2812_strip
 |x| \     |  \  _.-"',
-|x| "^,-´\/\  '" ,--. \     > Src : Timers_Wait_Xms.h
+|x| "^,-´\/\  '" ,--. \     > Src : Timers_Wait_Xms.c
 |x|  \|\| | | , /    | |    >   (One of my own
-|x|     '`'\|._ |   / /         first header file)
+|x|     '`'\|._ |   / /         first c file)
 |x|         '\),/  / |      > Creation: 2019.11.21
 |x|           |/.-"_/       > By :  KC5-BP
 |x| .__---+-_/'|--"
@@ -180,7 +180,7 @@ void strip_StatusInverter(pixel* addressStrip)
         }
         addressStrip++; // Increase address for clearing next position.
     }
-    for(i = 0; i < MAX_LEDS; i++)   // Second loop to toggle the LED status.
+    for(i = 0; i < MAX_LEDS; i++)   // Second loop to toggle LEDs status.
     {
         if(addressRecovery->status == 0)
         {
