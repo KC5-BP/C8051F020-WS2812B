@@ -1,13 +1,28 @@
-/*-->	Title	:	ws2812_strip
-		  |
-		  '->	Source	:	Timers_Wait_Xms.h (One of my own first header file)
-		  |
-		  '->	Creation	:	21.11.2019
-		  :			|
-		  :			'->	Last Update	:	December 2020
-		  |
-		  '->	Description	:	Declarations of NeoPixels Usage functions.
-*/
+/*,..-----------------------------------------------------.
+ /´/
+|x| __--""'\
+|x|  ,__  -'""`;
+|x| /   \  /"'  \
+|x|   __// \-"-_/
+|x| ´"   \  |       > Title:
+|x| \     |  \  _.-"',
+|x| "^,-´\/\  '" ,--. \     > Src : Timers_Wait_Xms.h
+|x|  \|\| | | , /    | |    >   (One of my own
+|x|     '`'\|._ |   / /         first header file)
+|x|         '\),/  / |      > Creation: 2019.11.21
+|x|           |/.-"_/       > By :  KC5-BP
+|x| .__---+-_/'|--"
+|x|         _| |_--,        > Description :
+|x|        ',/ |   /            Declarations of RGB's
+|x|        /|| |  /             ws2812b usage funct. .
+|x|     |\| |/ |- |
+|x| .-,-/ | /  '/-"
+|x| -\|/-/\/ ^,'|
+|x| _-     |  |/
+|x|  .  --"  /
+|x| /--__,.-/
+ \`\____________________________________________________/
+  \______________________________________________________*/
 /*======================================================================================>
 =======================================================================================*/
 // Linker to : ..
@@ -23,39 +38,47 @@
 #include "ws2812_strip.h"
 
 //-- GLOBAL VARIABLES	INIT:----------------------------->
-xdata pixel strip[MAX_LEDS] = {{0, 0, 0}, 0};    // Initialize Strip to '0'.
+xdata pixel strip[MAX_LEDS] = {{0, 0, 0}, 0};   // Initialize Strip to '0'.
 
+//-------------------------------------------------------------------------------------->
 void pixel_SetColor(pixel* addressStrip, color newColor, unsigned int position)
-{   // Go to the wanted LED position.
-    addressStrip += (position - 1);
+{   // "position" validity ..
+    if(position < MAX_LEDS)
+    {   // Go to the wanted LED position.
+        addressStrip += position;
 
-    // Set "color" values :
-    addressStrip->colorPix = newColor;
+        // Set "color" values :
+        addressStrip->colorPix = newColor;
 
-    // Set the status to ON if color different of "black" :
-    if((newColor.Red == 0) && (newColor.Green == 0) && (newColor.Blue == 0))
-    {   // Complement : " == " operator not possible on a complet struct in C.
-        addressStrip->status = 0;
-    }
-    else
-    {
-        addressStrip->status = 1;
+        // Set the status to ON if color different of "black" :
+        if ( (newColor.Red == BRIGHT_MIN)
+                && (newColor.Green == BRIGHT_MIN)
+                    && (newColor.Blue == BRIGHT_MIN) )
+        {   // Complement : " == " operator not possible on a complete struct in C.
+            addressStrip->status = 0;
+        }
+        else
+        {
+            addressStrip->status = 1;
+        }
     }
 }
 
 void pixel_StatusToggle(pixel* addressStrip, unsigned int position)
-{
-    // Go to the wanted LED position.
-    addressStrip += (position - 1);
+{   // "position" validity ..
+    if(position < MAX_LEDS)
+    {   // Go to the wanted LED position.
+        addressStrip += position;
 
-    // Set the status to ON if color different of "black" :
-    if(addressStrip->status != 0)
-    {   
-        addressStrip->status = 0;
-    }
-    else
-    {
-        addressStrip->status = 1;
+        // Set the status to ON if color different of "black" :
+        if (addressStrip->status != 0)
+        {
+            addressStrip->status = 0;
+        }
+        else
+        {
+            addressStrip->status = 1;
+        }
     }
 }
 
@@ -93,11 +116,10 @@ void pixel_Show(unsigned char red, unsigned char green, unsigned char blue)
 //-------------------------------------------------------------------------------------->
 void strip_Show(pixel* addressStrip)
 {   // Var. Dec. :
-    xdata uint16 i;
+    xdata unsigned int i;
 
     // Disable Timer to avoid interrupting Sending Paquets :
     TR0 = 0;
-
     for(i = 0; i < MAX_LEDS; i++)
     {
         if(addressStrip->status != 0)
@@ -111,7 +133,6 @@ void strip_Show(pixel* addressStrip)
         }
         addressStrip++; // Increase address for next position changes ..
     }
-
     // Enable / Re-activate Timer after Packets Sent :
     TR0 = 1;
 }
@@ -122,16 +143,13 @@ void strip_Clear(pixel* addressStrip)
     pixel* addressSave = addressStrip;
 
     for(i = 0; i < MAX_LEDS; i++)
-    {	// Clear ALL Color at the original address ...
+    {	// Clear ALL color at the original address ...
         addressStrip->colorPix.Red = BRIGHT_MIN;
         addressStrip->colorPix.Green = BRIGHT_MIN;
         addressStrip->colorPix.Blue = BRIGHT_MIN;
-
         addressStrip->status = 0; // Clear status ..
-
-        addressStrip++; // Increase address for clearing next position.
+        addressStrip++; // Increase address for next position changes ..
     }
-
     strip_Show(addressSave);
 }
 
@@ -142,54 +160,48 @@ void strip_StatusReset(pixel* addressStrip)
     for(i = 0; i < MAX_LEDS; i++)
     {   // Clear Status to keep color in the original address ...
         addressStrip->status = 0;
-
         addressStrip++; // Increase address for clearing next position.
     }
 }
 
 void strip_StatusInverter(pixel* addressStrip)
 {   // Var. Dec. :
-    unsigned int i;
-    color tmpColor;
-    pixel* AddSave = addressStrip;
+    unsigned int i; // LED Position for filling Board of strip.
+    color tmpColor; // Color recovered to invert the actual strip's color.
+    // Keep a reference to the first position of the strip.
+    pixel* addressRecovery = addressStrip;
 
-    for(i = 0; i < MAX_LEDS; i++)   // First loop to find the first LED alight
-    {                               // that will give the colour when reverse status.
-        if(addressStrip->status != 0)
-        {
+    for(i = 0; i < MAX_LEDS; i++)   // First loop to find the first LED alight that
+    {                                   // will give the colour to set for the
+        if(addressStrip->status != 0)       // reversed status ..
+        {   // color found => recovering and ending loop.
             tmpColor = addressStrip->colorPix;
             break;
         }
-        addressStrip++;
+        addressStrip++; // Increase address for clearing next position.
     }
-
-    addressStrip = AddSave;
-
     for(i = 0; i < MAX_LEDS; i++)   // Second loop to toggle the LED status.
     {
-        if(addressStrip->status == 0)
+        if(addressRecovery->status == 0)
         {
-            addressStrip->status = 1;
-            addressStrip->colorPix = tmpColor;
+            addressRecovery->status = 1;
+            addressRecovery->colorPix = tmpColor;
         }
         else
         {
-            addressStrip->status = 0;
-            addressStrip->colorPix.Red = BRIGHT_MIN;
-            addressStrip->colorPix.Green = BRIGHT_MIN;
-            addressStrip->colorPix.Blue = BRIGHT_MIN;
+            addressRecovery->status = 0;
+            addressRecovery->colorPix.Red = BRIGHT_MIN;
+            addressRecovery->colorPix.Green = BRIGHT_MIN;
+            addressRecovery->colorPix.Blue = BRIGHT_MIN;
         }
-        addressStrip++; // Increase address for next position changes ..
+        addressRecovery++; // Increase address for next position changes ..
     }
 }
 
-//-------------------------------------------------------------------------------------->
 void strip_LimitPos(pixel* addressStrip, color newColor, \
 											    unsigned int _Begin, unsigned int _End)
 {	// Var. Dec. :
-	uint16 i;	// LED Position for filling Board of neoPix.
-	// To avoid problems about the parameters, I prefered to work with copies.
-	pixel* AddSave = addressStrip;
+	unsigned int i; // LED Position for filling Board of strip.
 	
 	for(i = 0; i < MAX_LEDS; i++)
 	{
@@ -197,16 +209,17 @@ void strip_LimitPos(pixel* addressStrip, color newColor, \
 		{
 			addressStrip->colorPix.Red = newColor.Red;
 			addressStrip->colorPix.Green = newColor.Green;
-			addressStrip->colorPix.Blue = newColor.Blue;
+            addressStrip->colorPix.Blue = newColor.Blue;
+            addressStrip->status = 1;
 		}
 		else
 		{
 			addressStrip->colorPix.Red = BRIGHT_MIN;
 			addressStrip->colorPix.Green = BRIGHT_MIN;
 			addressStrip->colorPix.Blue = BRIGHT_MIN;
+            addressStrip->status = 0;
 		}
 		addressStrip++;
 	}
-	strip_Show(AddSave);
 }
 
