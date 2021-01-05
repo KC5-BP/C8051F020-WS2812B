@@ -198,29 +198,21 @@ void strip_Inverter(pixel* addressStrip)
     }
 }
 
-void strip_LimitPos(pixel* addressStrip, color newColor, \
-											    unsigned int _Begin, unsigned int _End)
+void strip_ChainedLeds(pixel* addressStrip, color newColor, \
+                                               unsigned int begin, unsigned int end)
 {	// Var. Dec. :
 	unsigned int i; // LED Position for filling Board of strip.
 	
 	for(i = 0; i < MAX_LEDS; i++)
 	{
-		if((i >= _Begin) && (i <= _End))
+		if((i >= begin) && (i <= end))
 		{
-            //pixel_SetColor(addressStrip, newColor, i - 1);
 			addressStrip->colorPix.Red = newColor.Red;
 			addressStrip->colorPix.Green = newColor.Green;
             addressStrip->colorPix.Blue = newColor.Blue;
             addressStrip->status = 1;
 		}
-		else
-		{
-		    /* A*/
-			/*addressStrip->colorPix.Red = BRIGHT_MIN;
-			addressStrip->colorPix.Green = BRIGHT_MIN;
-			addressStrip->colorPix.Blue = BRIGHT_MIN;
-            addressStrip->status = 0;*/
-		}
+		else { /* Before first use, don't forget to clear strip's status. */ }
 		addressStrip++;
 	}
 }

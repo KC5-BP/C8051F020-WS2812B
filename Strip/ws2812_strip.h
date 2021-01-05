@@ -23,17 +23,6 @@
 |x| /--__,.-/
  \`\____________________________________________________/
   \______________________________________________________*/
-/*-->	Title	:	ws2812_strip
-		  |
-		  '->	Source	:	Timers_Wait_Xms.h (One of my own first header file)
-		  |
-		  '->	Creation	:	21.11.2019
-		  :			|
-		  :			'->	Last Update	:	24.12.2020
-		  |
-		  '->	Description	:	Give the ability to use NeoPixels func. from
-								an external 'C' file.
-*/
 /*======================================================================================>
 =======================================================================================*/
 // Linker to (if needed) : ..
@@ -83,46 +72,24 @@ extern xdata pixel strip[MAX_LEDS];
 // on the CPU Clock.
 #define SEND0() {\
                     SBIT_OUT_STRIP = 1;\
-	                _nop_();\
-					_nop_();\
-					_nop_();\
-					_nop_();\
-					_nop_();\
-					_nop_();\
+	                _nop_(); _nop_(); _nop_();\
+					_nop_(); _nop_(); _nop_();\
 					SBIT_OUT_STRIP = 0;\
-					_nop_();\
-					_nop_();\
-					_nop_();\
-					_nop_();\
-					_nop_();\
-					_nop_();\
-					_nop_();\
-					_nop_();\
-					_nop_();\
+					_nop_(); _nop_(); _nop_();\
+					_nop_(); _nop_(); _nop_();\
+					_nop_(); _nop_(); _nop_();\
 				}
 // .. sending DATA '1' in Manchester  / Timing : 0 > 0.85[us] | 1 > 0.45[us] +- 150[ns] :
 #define SEND1()	{\
                     SBIT_OUT_STRIP = 1;\
-					_nop_();\
-					_nop_();\
-					_nop_();\
-					_nop_();\
-					_nop_();\
-					_nop_();\
-					_nop_();\
-					_nop_();\
-					_nop_();\
-					_nop_();\
-					_nop_();\
-					_nop_();\
-					_nop_();\
-					_nop_();\
-					_nop_();\
+					_nop_(); _nop_(); _nop_();\
+					_nop_(); _nop_(); _nop_();\
+					_nop_(); _nop_(); _nop_();\
+					_nop_(); _nop_(); _nop_();\
+					_nop_(); _nop_(); _nop_();\
 					_nop_();\
 					SBIT_OUT_STRIP = 0;\
-					_nop_();\
-					_nop_();\
-					_nop_();\
+					_nop_(); _nop_(); _nop_();\
 				}
 
 // .. sending ONE bit of A specific color.
@@ -173,13 +140,15 @@ extern void strip_StatusReset(pixel* addressStrip);
  * Input	    :   addressStrip, 6bytes - address of the strip
  * Output	 	:	Nothin'                                                            */
 extern void strip_Inverter(pixel* addressStrip);
-
-// NeoPix of only a specific Color and Fading it.
-//void NeoPix_Fader(NeoPixel* _AddNeoPix, Color _NewCol, uint16 _ui16_Pos, \
-//                                                                  uint16 _ui16_Speed);
-// Board of only a specific Color on a specific position.
-extern void strip_LimitPos(pixel* addressStrip, color newColor, \
-                                                unsigned int _Begin, unsigned int _End);
+/* Description  :   Set a chain of LEDs to a specific color.
+ * Last_Update  :   2021.01.06
+ * Input		:   addressStrip, 6bytes - address of the strip
+ *					position, 2bytes - position in the strip to set the color.
+ *					begin, 2bytes - FIRST position of the chain to light up.
+ *					end, 2bytes - LAST position of the chain to light up.
+ * Output	 	:	Nothin'                                                            */
+extern void strip_ChainedLeds(pixel* addressStrip, color newColor, \
+                                                unsigned int begin, unsigned int end);
 
 #endif
 // End of definition.
