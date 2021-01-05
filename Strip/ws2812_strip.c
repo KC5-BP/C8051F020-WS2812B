@@ -184,15 +184,15 @@ void strip_Inverter(pixel* addressStrip)
     {
         if(addressRecovery->status == 0)
         {
-            addressRecovery->status = 1;
             addressRecovery->colorPix = tmpColor;
+            addressRecovery->status = 1;
         }
         else
         {
-            addressRecovery->status = 0;
             addressRecovery->colorPix.Red = BRIGHT_MIN;
             addressRecovery->colorPix.Green = BRIGHT_MIN;
             addressRecovery->colorPix.Blue = BRIGHT_MIN;
+            addressRecovery->status = 0;
         }
         addressRecovery++; // Increase address for next position changes ..
     }
@@ -207,6 +207,7 @@ void strip_LimitPos(pixel* addressStrip, color newColor, \
 	{
 		if((i >= _Begin) && (i <= _End))
 		{
+            //pixel_SetColor(addressStrip, newColor, i - 1);
 			addressStrip->colorPix.Red = newColor.Red;
 			addressStrip->colorPix.Green = newColor.Green;
             addressStrip->colorPix.Blue = newColor.Blue;
@@ -214,10 +215,11 @@ void strip_LimitPos(pixel* addressStrip, color newColor, \
 		}
 		else
 		{
-			addressStrip->colorPix.Red = BRIGHT_MIN;
+		    /* A*/
+			/*addressStrip->colorPix.Red = BRIGHT_MIN;
 			addressStrip->colorPix.Green = BRIGHT_MIN;
 			addressStrip->colorPix.Blue = BRIGHT_MIN;
-            addressStrip->status = 0;
+            addressStrip->status = 0;*/
 		}
 		addressStrip++;
 	}
