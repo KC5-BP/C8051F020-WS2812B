@@ -216,4 +216,3 @@ void strip_ChainedLeds(pixel* addressStrip, color newColor, \
 		addressStrip++;
 	}
 }
-
