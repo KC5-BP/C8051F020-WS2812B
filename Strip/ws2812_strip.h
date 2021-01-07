@@ -46,7 +46,7 @@
 #define BRIGHT_MID 0x10 // Value to make light a LED (MID Intensity).
 #endif
 
-#define STEP_COLOR 0x05 // Value to In-/De- crease the Intensity of a Color.
+#define STEP_COLOR 0x02 // Value to In-/De- crease the Intensity of a Color.
 
 //-- GLOBAL TYPE		: -------------------------------->
 // Description : Creation of color type based R-G-B ..
