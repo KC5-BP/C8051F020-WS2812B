@@ -36,7 +36,7 @@
 xdata pixel strip[MAX_LEDS] = {{0, 0, 0}, 0};   // Initialize everything to 0.
 
 //-------------------------------------------------------------------------------------->
-void pixel_Set(pixel* addressStrip, color newColor, unsigned int position)
+void pixel_Set(pixel* addressStrip, color newColor, posType position)
 {   // "position" validity ..
     if(position < MAX_LEDS)
     {   // Go to the wanted LED position.
@@ -58,7 +58,7 @@ void pixel_Set(pixel* addressStrip, color newColor, unsigned int position)
         }
     }
 }
-void pixel_Reset(pixel* addressStrip, unsigned int position)
+void pixel_Reset(pixel* addressStrip, posType position)
 {   // Var. Dec. :
     color black = {0, 0, 0};
 
@@ -73,7 +73,7 @@ void pixel_Reset(pixel* addressStrip, unsigned int position)
     }
 }
 
-void pixel_StatusToggle(pixel* addressStrip, unsigned int position)
+void pixel_StatusToggle(pixel* addressStrip, posType position)
 {   // "position" validity ..
     if(position < MAX_LEDS)
     {   // Go to the wanted LED position.
@@ -136,17 +136,12 @@ void strip_Show(pixel* addressStrip)
 void strip_Off(pixel* addressStrip)
 {   // Var. Dec. :
     unsigned int i;
-    pixel* addressSave = addressStrip;
 
     for(i = 0; i < MAX_LEDS; i++)
     {	// Clear ALL color at the original address ...
-        addressStrip->colorPix.Red = BRIGHT_MIN;
-        addressStrip->colorPix.Green = BRIGHT_MIN;
-        addressStrip->colorPix.Blue = BRIGHT_MIN;
-        addressStrip->status = 0; // Clear status ..
-        addressStrip++; // Increase address for next position changes ..
+        pixel_Reset(addressStrip, i);
     }
-    strip_Show(addressSave);
+    strip_Show(addressStrip);
 }
 
 void strip_StatusReset(pixel* addressStrip)
@@ -195,7 +190,7 @@ void strip_Inverter(pixel* addressStrip)
 }
 
 void strip_ChainedLeds(pixel* addressStrip, color newColor, \
-                                               unsigned int begin, unsigned int end)
+                                               posType begin, posType end)
 {	// Var. Dec. :
 	unsigned int i; // LED Position for filling Board of strip.
 	

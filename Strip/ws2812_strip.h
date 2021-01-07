@@ -47,11 +47,10 @@
 //----------------------------------\STRIP_Definitions/---------------------------------.
 // '-> NUMBER of LEDs presents on the strip :
 #define MAX_LEDS 300
-#define __STRIP_LEDS_NUMBER MAX_LEDS
-#if __STRIP_LEDS_NUMBER < 256
-typedef positionType = char;
-#elif __STRIP_LEDS_NUMBER < 65536
-//typedef positionType = short;
+#if MAX_LEDS < 256
+    typedef unsigned char posType;   // 8bits value.
+#else
+    typedef unsigned int posType;    // 16bits value.
 #endif
 
 // '-> COLORS Intensities values :
@@ -117,19 +116,19 @@ extern xdata pixel strip[MAX_LEDS];
  *					newColor, 3bytes - color to set
  *					position, 2bytes - position in the strip to set the color.
  * Output	 	:	Nothin'                                                            */
-extern void pixel_Set(pixel* addressStrip, color newColor, unsigned int position);
+extern void pixel_Set(pixel* addressStrip, color newColor, posType position);
 /* Description  :   Filling color into the specific strip position.
  * Last_Update  :   2021.01.07
  * Input		:   addressStrip, 6bytes - address of the strip
  *					position, 2bytes - position in the strip to set the color.
  * Output	 	:	Nothin'                                                            */
-extern void pixel_Reset(pixel* addressStrip, unsigned int position);
+extern void pixel_Reset(pixel* addressStrip, posType position);
 /* Description  :   Toggling status into the specific strip position.
  * Last_Update  :   2021.01.06
  * Input		:   addressStrip, 6bytes - address of the strip
  *					position, 2bytes - position in the strip to set the color.
  * Output	 	:	Nothin'                                                            */
-extern void pixel_StatusToggle(pixel* addressStrip, unsigned int position);
+extern void pixel_StatusToggle(pixel* addressStrip, posType position);
 /* Description  :   Send the 24bits color of one pixel.
  * Last_Update  :   2021.01.06
  * Input		:   red, 1byte.
@@ -168,7 +167,7 @@ extern void strip_Inverter(pixel* addressStrip);
  *					end, 2bytes - LAST position of the chain to light up.
  * Output	 	:	Nothin'                                                            */
 extern void strip_ChainedLeds(pixel* addressStrip, color newColor, \
-                                                unsigned int begin, unsigned int end);
+                                                posType begin, posType end);
 
 #endif
 // End of definition.
