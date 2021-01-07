@@ -48,9 +48,11 @@
 // '-> NUMBER of LEDs presents on the strip :
 #define MAX_LEDS 300
 #if MAX_LEDS < 256
-    typedef unsigned char posType;   // 8bits value.
+    typedef unsigned char posType;  // 8bits value.
+#elif MAX_LEDS < 65536
+    typedef unsigned int posType;   // 16bits value.
 #else
-    typedef unsigned int posType;    // 16bits value.
+    typedef unsigned long posType;  // 32bits value.
 #endif
 
 // '-> COLORS Intensities values :
