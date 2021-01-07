@@ -58,6 +58,7 @@ void pixel_Set(pixel* addressStrip, color newColor, posType position)
         }
     }
 }
+
 void pixel_Reset(pixel* addressStrip, posType position)
 {   // Var. Dec. :
     const color BLACK = {0, 0, 0};
@@ -73,12 +74,22 @@ void pixel_Reset(pixel* addressStrip, posType position)
     }
 }
 
-void pixel_StatusToggle(pixel* addressStrip, posType position)
+color pixel_GetColor(pixel* addressStrip, posType position)
+{
+    return (addressStrip + position)->colorPix;
+}
+
+unsigned char pixel_GetStatus(pixel* addressStrip, posType position)
+{
+    return (addressStrip + position)->status;
+}
+
+void pixel_ToggleStatus(pixel* addressStrip, posType position)
 {   // "position" validity ..
     if(position < MAX_LEDS)
     {   // Go to the wanted LED position.
         addressStrip += position;
-        
+
         if (addressStrip->status != 0)
         {   // Set the status to OFF if status was ON.
             addressStrip->status = 0;
@@ -144,7 +155,7 @@ void strip_Off(pixel* addressStrip)
     strip_Show(addressStrip);
 }
 
-void strip_StatusReset(pixel* addressStrip)
+void strip_ResetStatus(pixel* addressStrip)
 {   // Var. Dec. :
     unsigned int i;
 

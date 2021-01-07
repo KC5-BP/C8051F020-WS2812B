@@ -110,27 +110,39 @@ extern xdata pixel strip[MAX_LEDS];
 
 //===================================================
 //===============================\FUNCTIONS'_Prototypes/================================>
-/* Description  :   Filling color to the specific strip position.
+/* Description  :   Filling color and setting status to the specific LED position.
  * Last_Update  :   2021.01.07
  * Input		:   addressStrip, 6bytes - address of the strip
  *					newColor, 3bytes - color to set
- *					position, 2bytes - position in the strip to set the color.
+ *					position, xbytes - position in the strip to set the color.
  * Output	 	:	Nothin'                                                            */
 extern void pixel_Set(pixel* addressStrip, color newColor, posType position);
-/* Description  :   Resetting color & status to the specific strip position.
+/* Description  :   Resetting color & status to the specific LED position.
  * Last_Update  :   2021.01.07
  * Input		:   addressStrip, 6bytes - address of the strip
- *					position, 2bytes - position in the strip to set the color.
+ *					position, xbytes - position in the strip to set the color.
  * Output	 	:	Nothin'                                                            */
 extern void pixel_Reset(pixel* addressStrip, posType position);
-/* Description  :   Toggling status into the specific strip position.
- * Last_Update  :   2021.01.06
+/* Description  :   Recovering << color >> of a specific LED.
+ * Last_Update  :   2021.01.07
  * Input		:   addressStrip, 6bytes - address of the strip
- *					position, 2bytes - position in the strip to set the color.
+ *					position, xbytes - position in the strip to set the color.
  * Output	 	:	Nothin'                                                            */
-extern void pixel_StatusToggle(pixel* addressStrip, posType position);
-/* Description  :   Send the 24bits color of one pixel.
- * Last_Update  :   2021.01.06
+extern color pixel_GetColor(pixel* addressStrip, posType position);
+/* Description  :   Recovering << status >> of a specific LED.
+ * Last_Update  :   2021.01.07
+ * Input		:   addressStrip, 6bytes - address of the strip
+ *					position, xbytes - position in the strip to set the color.
+ * Output	 	:	Nothin'                                                            */
+extern unsigned char pixel_GetStatus(pixel* addressStrip, posType position);
+/* Description  :   Toggling status into the specific strip position.
+ * Last_Update  :   2021.01.07
+ * Input		:   addressStrip, 6bytes - address of the strip
+ *					position, xbytes - position in the strip to set the color.
+ * Output	 	:	Nothin'                                                            */
+extern void pixel_ToggleStatus(pixel* addressStrip, posType position);
+/* Description  :   Send the 24bits color (one by one) of a pixel.
+ * Last_Update  :   2021.01.07
  * Input		:   red, 1byte.
  *					green, 1byte.
  *					blue, 1byte.
@@ -152,7 +164,7 @@ extern void strip_Off(pixel* addressStrip);
  * Last_Update  :   2021.01.07
  * Input	    :   addressStrip, 6bytes - address of the strip
  * Output	 	:	Nothin'                                                            */
-extern void strip_StatusReset(pixel* addressStrip);
+extern void strip_ResetStatus(pixel* addressStrip);
 /* Description  :   Reverse every LED status on all the strip, but keep the colors
  *                  in memory.
  * Last_Update  :   2021.01.06
