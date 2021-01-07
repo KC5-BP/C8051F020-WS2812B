@@ -1,39 +1,34 @@
-/*,..-----------------------------------------------------.
- /´/
+/*..-----------------------------------------------------------------------------------.
+../ .---------------------------------------------------------------------------------. \
+./´/
 |x| __--""'\
 |x|  ,__  -'""`;
 |x| /   \  /"'  \
 |x|   __// \-"-_/
-|x| ´"   \  |       > Title : ws2812_strip
+|x| ´"   \  |           > Title : ws2812_strip
 |x| \     |  \  _.-"',
-|x| "^,-´\/\  '" ,--. \     > Src : Timers_Wait_Xms.c
-|x|  \|\| | | , /    | |    >   (One of my own
-|x|     '`'\|._ |   / /         first c file)
-|x|         '\),/  / |      > Creation: 2019.11.21
-|x|           |/.-"_/       > By :  KC5-BP
+|x| "^,-´\/\  '" ,--. \         > Src : Timers_Wait_Xms.c
+|x|  \|\| | | , /    | |        >           (One of my own first c file)
+|x|     '`'\|._ |   / /
+|x|         '\),/  / |          > Creation: 2019.11.21
+|x|           |/.-"_/           > By :  KC5-BP
 |x| .__---+-_/'|--"
-|x|         _| |_--,        > Description :
-|x|        ',/ |   /            Declarations of RGB's
-|x|        /|| |  /             ws2812b usage funct. .
+|x|         _| |_--,            > Description :
+|x|        ',/ |   /                Declarations of RGB's ws2812b LEDs usage funct. .
+|x|        /|| |  /
 |x|     |\| |/ |- |
 |x| .-,-/ | /  '/-"
 |x| -\|/-/\/ ^,'|
 |x| _-     |  |/
 |x|  .  --"  /
 |x| /--__,.-/
- \`\____________________________________________________/
-  \______________________________________________________*/
-/*======================================================================================>
+.\`\__________________________________________________________________________________/´/
+..`____________________________________________________________________________________´
+========================================================================================>
 =======================================================================================*/
 // Linker to : ..
-// .. definition folder SFR (Like Port Definition "P5", "P6", etc...)
+// .. definition folder SFR (Like Port Definition "P5", "P6", TR0, etc...)
 #include <c8051f020.h>
-// .. C51/C166 routines that instructs the compiler to generate intrinsic code | _nop_():
-#include <intrins.h>
-// .. Base (SFR, sbit, define, var. type, etc...)
-#include "../F11-NeoPix_StripPrButt/base_sfr.h"
-// .. Timers function and Waiting Function.
-//#include "../F11-NeoPix_StripPrButt/time.h"
 // .. created header for NeoPixel management.
 #include "ws2812_strip.h"
 
@@ -69,7 +64,6 @@ void pixel_StatusToggle(pixel* addressStrip, unsigned int position)
     if(position < MAX_LEDS)
     {   // Go to the wanted LED position.
         addressStrip += position;
-
         // Set the status to ON if color different of "black" :
         if (addressStrip->status != 0)
         {
@@ -85,32 +79,20 @@ void pixel_StatusToggle(pixel* addressStrip, unsigned int position)
 void pixel_Show(unsigned char red, unsigned char green, unsigned char blue)
 {   // For the WS2812b, the order is High bit to low AND Green - Red - Blue.
     // Sending GREEN.
-    SEND_TO_LED(green, BIT7);
-    SEND_TO_LED(green, BIT6);
-    SEND_TO_LED(green, BIT5);
-    SEND_TO_LED(green, BIT4);
-    SEND_TO_LED(green, BIT3);
-    SEND_TO_LED(green, BIT2);
-    SEND_TO_LED(green, BIT1);
-    SEND_TO_LED(green, BIT0);
+    SEND_TO_LED(green, BIT7); SEND_TO_LED(green, BIT6);
+    SEND_TO_LED(green, BIT5); SEND_TO_LED(green, BIT4);
+    SEND_TO_LED(green, BIT3); SEND_TO_LED(green, BIT2);
+    SEND_TO_LED(green, BIT1); SEND_TO_LED(green, BIT0);
     // Sending RED.
-    SEND_TO_LED(red, BIT7);
-    SEND_TO_LED(red, BIT6);
-    SEND_TO_LED(red, BIT5);
-    SEND_TO_LED(red, BIT4);
-    SEND_TO_LED(red, BIT3);
-    SEND_TO_LED(red, BIT2);
-    SEND_TO_LED(red, BIT1);
-    SEND_TO_LED(red, BIT0);
+    SEND_TO_LED(red, BIT7); SEND_TO_LED(red, BIT6);
+    SEND_TO_LED(red, BIT5); SEND_TO_LED(red, BIT4);
+    SEND_TO_LED(red, BIT3); SEND_TO_LED(red, BIT2);
+    SEND_TO_LED(red, BIT1); SEND_TO_LED(red, BIT0);
     // Sending BLUE.
-    SEND_TO_LED(blue, BIT7);
-    SEND_TO_LED(blue, BIT6);
-    SEND_TO_LED(blue, BIT5);
-    SEND_TO_LED(blue, BIT4);
-    SEND_TO_LED(blue, BIT3);
-    SEND_TO_LED(blue, BIT2);
-    SEND_TO_LED(blue, BIT1);
-    SEND_TO_LED(blue, BIT0);
+    SEND_TO_LED(blue, BIT7); SEND_TO_LED(blue, BIT6);
+    SEND_TO_LED(blue, BIT5); SEND_TO_LED(blue, BIT4);
+    SEND_TO_LED(blue, BIT3); SEND_TO_LED(blue, BIT2);
+    SEND_TO_LED(blue, BIT1); SEND_TO_LED(blue, BIT0);
 }
 
 //-------------------------------------------------------------------------------------->
@@ -118,7 +100,7 @@ void strip_Show(pixel* addressStrip)
 {   // Var. Dec. :
     xdata unsigned int i;
 
-    // Disable Timer to avoid interrupting Sending Paquets :
+    // Disable Timer to avoid interrupting Sending "Packets" :
     TR0 = 0;
     for(i = 0; i < MAX_LEDS; i++)
     {
@@ -133,11 +115,11 @@ void strip_Show(pixel* addressStrip)
         }
         addressStrip++; // Increase address for next position changes ..
     }
-    // Enable / Re-activate Timer after Packets Sent :
+    // Enable / Re-activate Timer after "Packets" Sent :
     TR0 = 1;
 }
 
-void strip_Clear(pixel* addressStrip)
+void strip_Off(pixel* addressStrip)
 {   // Var. Dec. :
     unsigned int i;
     pixel* addressSave = addressStrip;
