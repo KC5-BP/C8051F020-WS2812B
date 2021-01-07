@@ -29,14 +29,14 @@
 // Linker to : ..
 // .. definition folder SFR (Like Port Definition "P5", "P6", TR0, etc...)
 #include <c8051f020.h>
-// .. created header for NeoPixel management.
+// .. created header for ws2812b functions usage.
 #include "ws2812_strip.h"
 
-//-- GLOBAL VARIABLES	INIT:----------------------------->
-xdata pixel strip[MAX_LEDS] = {{0, 0, 0}, 0};   // Initialize Strip to '0'.
+//-- GLOBAL VARIABLES INIT : ----------------------------->
+xdata pixel strip[MAX_LEDS] = {{0, 0, 0}, 0};   // Initialize everything to 0.
 
 //-------------------------------------------------------------------------------------->
-void pixel_SetColor(pixel* addressStrip, color newColor, unsigned int position)
+void pixel_Set(pixel* addressStrip, color newColor, unsigned int position)
 {   // "position" validity ..
     if(position < MAX_LEDS)
     {   // Go to the wanted LED position.
@@ -56,6 +56,20 @@ void pixel_SetColor(pixel* addressStrip, color newColor, unsigned int position)
         {
             addressStrip->status = 1;
         }
+    }
+}
+void pixel_Reset(pixel* addressStrip, unsigned int position)
+{   // Var. Dec. :
+    color black = {0, 0, 0};
+
+    // "position" validity ..
+    if(position < MAX_LEDS)
+    {   // Go to the wanted LED position.
+        addressStrip += position;
+        // Set "color" values to black.
+        addressStrip->colorPix = black;
+        // Set status to '0' (OFF).
+        addressStrip->status = 0;
     }
 }
 
@@ -79,20 +93,20 @@ void pixel_StatusToggle(pixel* addressStrip, unsigned int position)
 void pixel_Show(unsigned char red, unsigned char green, unsigned char blue)
 {   // For the WS2812b, the order is High bit to low AND Green - Red - Blue.
     // Sending GREEN.
-    SEND_TO_LED(green, BIT7); SEND_TO_LED(green, BIT6);
-    SEND_TO_LED(green, BIT5); SEND_TO_LED(green, BIT4);
-    SEND_TO_LED(green, BIT3); SEND_TO_LED(green, BIT2);
-    SEND_TO_LED(green, BIT1); SEND_TO_LED(green, BIT0);
+    SEND_COLOR_BIT(green, BIT7); SEND_COLOR_BIT(green, BIT6);
+    SEND_COLOR_BIT(green, BIT5); SEND_COLOR_BIT(green, BIT4);
+    SEND_COLOR_BIT(green, BIT3); SEND_COLOR_BIT(green, BIT2);
+    SEND_COLOR_BIT(green, BIT1); SEND_COLOR_BIT(green, BIT0);
     // Sending RED.
-    SEND_TO_LED(red, BIT7); SEND_TO_LED(red, BIT6);
-    SEND_TO_LED(red, BIT5); SEND_TO_LED(red, BIT4);
-    SEND_TO_LED(red, BIT3); SEND_TO_LED(red, BIT2);
-    SEND_TO_LED(red, BIT1); SEND_TO_LED(red, BIT0);
+    SEND_COLOR_BIT(red, BIT7); SEND_COLOR_BIT(red, BIT6);
+    SEND_COLOR_BIT(red, BIT5); SEND_COLOR_BIT(red, BIT4);
+    SEND_COLOR_BIT(red, BIT3); SEND_COLOR_BIT(red, BIT2);
+    SEND_COLOR_BIT(red, BIT1); SEND_COLOR_BIT(red, BIT0);
     // Sending BLUE.
-    SEND_TO_LED(blue, BIT7); SEND_TO_LED(blue, BIT6);
-    SEND_TO_LED(blue, BIT5); SEND_TO_LED(blue, BIT4);
-    SEND_TO_LED(blue, BIT3); SEND_TO_LED(blue, BIT2);
-    SEND_TO_LED(blue, BIT1); SEND_TO_LED(blue, BIT0);
+    SEND_COLOR_BIT(blue, BIT7); SEND_COLOR_BIT(blue, BIT6);
+    SEND_COLOR_BIT(blue, BIT5); SEND_COLOR_BIT(blue, BIT4);
+    SEND_COLOR_BIT(blue, BIT3); SEND_COLOR_BIT(blue, BIT2);
+    SEND_COLOR_BIT(blue, BIT1); SEND_COLOR_BIT(blue, BIT0);
 }
 
 //-------------------------------------------------------------------------------------->

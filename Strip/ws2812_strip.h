@@ -36,17 +36,24 @@
 // Beginning of definition...
 #ifndef __ws2812_strip__
 #define __ws2812_strip__
-
 //===================================================
-//================================\Header's_Definitions/================================>
+//================================\HEADER'S_Definitions/================================>
+
 //----------------------------------\OUTPUT_Definition/---------------------------------.
 // '-> PORT Definition : Strip dedicated pin on port P2 ..
 #define	BYO_WS281x P2
-// '-> PIN Definition : .. on pin nbr 4 :/!\ FROM 0 /!\:
+// '-> PIN Definition : .. on pin nbr 4 : /!\ FROM 0 /!\:
     sbit SBIT_OUT_STRIP = BYO_WS281x ^ 4;
 //----------------------------------\STRIP_Definitions/---------------------------------.
 // '-> NUMBER of LEDs presents on the strip :
 #define MAX_LEDS 300
+#define __STRIP_LEDS_NUMBER MAX_LEDS
+#if __STRIP_LEDS_NUMBER < 256
+typedef positionType = char;
+#elif __STRIP_LEDS_NUMBER < 65536
+//typedef positionType = short;
+#endif
+
 // '-> COLORS Intensities values :
 #define BRIGHT_MAX 0xFF // MAX Intensity : 60mA for 1 LED at WHITE ..
 #define BRIGHT_MIN 0x00 // MIN Intensity : LED turned "off".
@@ -56,27 +63,25 @@
 #define BRIGHT_MID 0x10 // MID Intensity : Alternated value (just comment upper line).
 #endif
 
-#define STEP_COLOR 0x02 // Value to In-/De- crease the Intensity of a Color.
-
 //-- GLOBAL TYPE		: -------------------------------->
-// Description : Creation of color type based R-G-B ..
+//-- COLOR          : ------>
 typedef struct {
     unsigned char Red;
     unsigned char Green;
     unsigned char Blue;
-}color; // .. named color.
+}color; // Creation of a color type based R-G-B named << color >>.
 
-// Description : Creation of the definition of one LED (WS281x) ..
+//-- LED / PIXEL    : ------>
 typedef struct {
-    color colorPix;         // .. with a color,
-    unsigned char status;   // And a Status (ON : 1 / OFF : 0).
-}pixel; // .. named pixel.
+    color colorPix;         // A color  (see structure above)
+    unsigned char status;   // A status (OFF : 0 / ON : 1).
+}pixel; // Creation of the definition of one LED (WS281x) named << pixel >>.
 
 //-- GLOBAL VARIABLES	: -------------------------------->
-// Declare an array of pixels defining the Strip. Initialization in the 'C' file.
+// Declare an array of << pixel >> defining the LED's strip. Init. in the 'C' file.
 extern xdata pixel strip[MAX_LEDS];
 
-//-- GLOBAL MACROS ..	: -------------------------------->
+//-- GLOBAL MACROS ..   : -------------------------------->
 // .. sending DATA '0' in Manchester  / Timing : 0 > 0.4[us] | 1 > 0.8[us] +- 150[ns] :
 // _nop_() is in <intrins.h> and waste a time machine, like a delay but scaling
 // on the CPU Clock.
@@ -101,19 +106,24 @@ extern xdata pixel strip[MAX_LEDS];
 					SBIT_OUT_STRIP = 0;\
 					_nop_(); _nop_(); _nop_();\
 				}
-
 // .. sending ONE bit of A specific color.
-#define SEND_TO_LED(COLOR, MASK) { if((COLOR & MASK) != 0) {SEND1();} else{SEND0();} }
+#define SEND_COLOR_BIT(COLOR, MASK) { if((COLOR & MASK) != 0) {SEND1();} else{SEND0();} }
 
-//-------------------------------------------------------------------------------------->
-// Function Prototypes :
+//===================================================
+//===============================\FUNCTIONS'_Prototypes/================================>
 /* Description  :   Filling color into the specific strip position.
  * Last_Update  :   2021.01.06
  * Input		:   addressStrip, 6bytes - address of the strip
  *					newColor, 3bytes - color to set
  *					position, 2bytes - position in the strip to set the color.
  * Output	 	:	Nothin'                                                            */
-extern void pixel_SetColor(pixel* addressStrip, color newColor, unsigned int position);
+extern void pixel_Set(pixel* addressStrip, color newColor, unsigned int position);
+/* Description  :   Filling color into the specific strip position.
+ * Last_Update  :   2021.01.07
+ * Input		:   addressStrip, 6bytes - address of the strip
+ *					position, 2bytes - position in the strip to set the color.
+ * Output	 	:	Nothin'                                                            */
+extern void pixel_Reset(pixel* addressStrip, unsigned int position);
 /* Description  :   Toggling status into the specific strip position.
  * Last_Update  :   2021.01.06
  * Input		:   addressStrip, 6bytes - address of the strip
