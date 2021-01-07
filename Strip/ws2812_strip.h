@@ -110,14 +110,14 @@ extern xdata pixel strip[MAX_LEDS];
 
 //===================================================
 //===============================\FUNCTIONS'_Prototypes/================================>
-/* Description  :   Filling color into the specific strip position.
- * Last_Update  :   2021.01.06
+/* Description  :   Filling color to the specific strip position.
+ * Last_Update  :   2021.01.07
  * Input		:   addressStrip, 6bytes - address of the strip
  *					newColor, 3bytes - color to set
  *					position, 2bytes - position in the strip to set the color.
  * Output	 	:	Nothin'                                                            */
 extern void pixel_Set(pixel* addressStrip, color newColor, posType position);
-/* Description  :   Filling color into the specific strip position.
+/* Description  :   Resetting color & status to the specific strip position.
  * Last_Update  :   2021.01.07
  * Input		:   addressStrip, 6bytes - address of the strip
  *					position, 2bytes - position in the strip to set the color.
