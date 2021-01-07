@@ -175,28 +175,22 @@ void strip_Inverter(pixel* addressStrip)
 
     for(i = 0; i < MAX_LEDS; i++)   // First loop to find the first LED alight that
     {                                   // will give the colour to set for the
-        if(addressStrip->status != 0)       // reversed status ..
+        if(pixel_GetStatus(addressStrip, i) != 0)       // reversed status ..
         {   // color found => recovering and ending loop.
-            tmpColor = addressStrip->colorPix;
+            tmpColor = pixel_GetColor(addressStrip, i);
             break;
         }
-        addressStrip++; // Increase address for clearing next position.
     }
     for(i = 0; i < MAX_LEDS; i++)   // Second loop to toggle LEDs status.
     {
-        if(addressRecovery->status == 0)
+        if(pixel_GetStatus(addressStrip, i) == 0)
         {
-            addressRecovery->colorPix = tmpColor;
-            addressRecovery->status = 1;
+            pixel_Set(addressStrip, tmpColor, i);
         }
         else
         {
-            addressRecovery->colorPix.Red = BRIGHT_MIN;
-            addressRecovery->colorPix.Green = BRIGHT_MIN;
-            addressRecovery->colorPix.Blue = BRIGHT_MIN;
-            addressRecovery->status = 0;
+            pixel_Reset(addressStrip, i);
         }
-        addressRecovery++; // Increase address for next position changes ..
     }
 }
 
@@ -209,12 +203,8 @@ void strip_ChainedLeds(pixel* addressStrip, color newColor, \
 	{
 		if((i >= begin) && (i <= end))
 		{
-			addressStrip->colorPix.Red = newColor.Red;
-			addressStrip->colorPix.Green = newColor.Green;
-            addressStrip->colorPix.Blue = newColor.Blue;
-            addressStrip->status = 1;
+		    pixel_Set(addressStrip, newColor, i);
 		}
 		else { /* Before first use, don't forget to clear strip's status. */ }
-		addressStrip++;
 	}
 }
