@@ -190,10 +190,10 @@ extern void pixel_ToggleStatus(pixel* addressMatrix, posType position);
 void pixel_Show(unsigned char red, unsigned char green, unsigned char blue);
 /* Description :  Recovered the position of a LED depending of the Line and Column given.
  *	               + the Matrix orientation take in count through cst (matrixDisplay).
- * Last_Update :  21.12.2020
+ * Last_Update :  2021.01.11
  * Input       :  posX,	1byte - Column (from 1 instead of 0)
  *             :  posY,	1byte - Line (from 1 instead of 0)
- * Output      :      , 2bytes - Position from 1 to MAX_LEDS                           */
+ * Output      :      , xbytes - Position from 1 to MAX_LEDS                           */
 extern unsigned int pixel_RecoverPosition(unsigned char posX, unsigned char posY);
 
 //-------------------------------------------------------------------------------------->
@@ -228,18 +228,19 @@ extern void matrix_Inverter(pixel* addressMatrix);
 //extern void matrix_ChainedLeds(pixel* addressMatrix, color newColor, \
 //                                                posType begin, posType end);
 //-------------------------------------------------------->
-/* Description :	Set position where to start displaying text.
- * Last_Update :  21.12.2020
- * Input       :  posX,	1byte - Column (from 1 instead of 0)
- *             :  posY,	1byte - Line (from 1 instead of 0)
- * Output	 	:	Nothin'                                                                  */
+/* Description  :   Set position where to start displaying text.
+ * Last_Update  :   2021.01.11
+ * Input        :   column, 1byte - Column (from 1 instead of 0)
+ *              :   line, 1byte - Line (from 1 instead of 0)
+ * Output       :   Nothin'                                                            */
 extern void matrix_SetTextPosition(unsigned char column, unsigned char line);
-/* Description :	Printing text on Matrix.
- * Last_Update :  21.12.2020
- * Input		   :	addressMatrix, 6bytes - address of the matrix
- *						newColor, 3bytes - color to set
- *						position, 2bytes - position in the matrix to set the color.
- * Output	 	:	Nothin'                                                                  */
+/* Description  :   Filling status of addressMatrix to be displayed.
+ * Last_Update  :   2021.01.11
+ * Input        :   addressMatrix, 6bytes - address of the matrix
+ *					newColor, 3bytes - color to set
+ *					const char*, xbytes - Chain of characters that
+ *					                        will be analyzed to fill the array.
+ * Output       :   Nothin'                                                            */
 extern void matrix_Print(pixel* addressMatrix, color newColor, \
 												 const char* _CharToWrite, ...);
 
