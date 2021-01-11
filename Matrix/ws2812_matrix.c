@@ -357,6 +357,7 @@ void matrix_SetTextPosition(unsigned char  column, unsigned char line)
     //if(line > MAX_COLU) Offset.line = MAX_LINE;
     //else Offset.line = line;
 
+    // Need to find a way for getting 
     Offset.column = column;
     Offset.line = line;
 }
