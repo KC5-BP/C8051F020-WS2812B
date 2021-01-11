@@ -583,15 +583,25 @@ extern xdata char cBoard_QuestMark_Mob[35] = {\
 0, 0, 0, 0, 0,\
 0, 1, 0, 0, 0}; 
 //------------------->
+// ';' : 3x7
+extern xdata char cBoard_SemiColon[21] = {\
+0, 0, 0,\
+1, 1, 0,\
+1, 1, 0,\
+0, 0, 0,\
+1, 1, 0,\
+0, 1, 0,\
+1, 0, 0};
+//------------------->
 // ':' : 3x7
 extern xdata char cBoard_Colon[21] = {\
 0, 0, 0,\
+1, 1, 0,\
+1, 1, 0,\
 0, 0, 0,\
-0, 1, 0,\
-0, 1, 0,\
-0, 0, 0,\
-0, 1, 0,\
-0, 1, 0}; 
+1, 1, 0,\
+1, 1, 0,\
+0, 0, 0};
 //------------------->
 // '=' : 3x7
 extern xdata char cBoard_Equal[21] = {\
@@ -631,7 +641,7 @@ extern xdata char cBoard_OpenBracket[35] = {\
 0, 1, 0, 0, 0,\
 0, 1, 0, 0, 0,\
 0, 1, 0, 0, 0,\
-0, 0, 1, 0, 0}; 
+0, 0, 1, 0, 0};
 //------------------->
 // ')' : 5x7
 extern xdata char cBoard_CloseBracket[35] = {\
@@ -780,7 +790,7 @@ extern xdata char cBoard_Ampersand[35] = {\
 0, 1, 0, 0, 0,\
 1, 0, 1, 0, 1,\
 1, 0, 0, 1, 0,\
-0, 1, 1, 0, 1};  
+0, 1, 1, 0, 1};
 //------------------->
 // '/' : 3x7
 extern xdata char cBoard_Slash[21] = {\

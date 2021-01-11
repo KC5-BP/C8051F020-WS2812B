@@ -93,7 +93,7 @@ typedef struct {
     color colorPix;         // A color  (see structure above)
     unsigned char status;   // A status (OFF : 0 / ON : 1).
     unsigned char x;    // X value about the matrix.
-    //unsigned char y;    // Y value about the matrix.
+    unsigned char y;    // Y value about the matrix.
 }pixel; // Creation of the definition of one LED (WS281x) named << pixel >>.
 
 //-- TEXT Offset    : ------>

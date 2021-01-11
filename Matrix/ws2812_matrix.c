@@ -35,8 +35,7 @@
 #include "kc5_bp_matrix_alphanum.h"
 
 //-- GLOBAL VARIABLES INIT : ----------------------------->
-//xdata pixel matrix[MAX_LEDS] = {{0, 0, 0}, 0, 0, 0};    // Initialize everything to 0.
-xdata pixel matrix[MAX_LEDS] = {{0, 0, 0}, 0, 0};    // Initialize everything to 0.
+xdata pixel matrix[MAX_LEDS] = {{0, 0, 0}, 0, 0, 0};    // Initialize everything to 0.
 xdata offsetText Offset = {0, 0};                   // Init. column + line to 0.
 xdata matrixFormat matrixDisplay = {0, 0};      // Init. matrixView + txtFont to 0.
 
@@ -357,7 +356,7 @@ void matrix_SetTextPosition(unsigned char  column, unsigned char line)
     //if(line > MAX_COLU) Offset.line = MAX_LINE;
     //else Offset.line = line;
 
-    // Need to find a way for getting 
+    // Need to find a way for getting
     Offset.column = column;
     Offset.line = line;
 }
@@ -488,7 +487,230 @@ void matrix_Print(pixel* addressMatrix, color newColor, const char* _CharToWrite
 
 				switch(*cP_CharToPrint)
 				{
-					case 'A':
+                    case ' ':
+                        addressMatrix[NeoPix_Pos].status = cBoard_Space[OFF_CHAR_DIM_3X7 - CharReadOrga];
+                        break;
+                    case '!':
+                        addressMatrix[NeoPix_Pos].status = cBoard_ExclaMark[OFF_CHAR_DIM_3X7 - CharReadOrga];
+                        break;
+                    //case '\"':
+                    case '#':
+                        addressMatrix[NeoPix_Pos].status = cBoard_HashtagV1[OFF_CHAR_DIM_5X7 - CharReadOrga];
+                        break;
+                    //case '$':
+                    case '%':
+                        addressMatrix[NeoPix_Pos].status = cBoard_xMult[OFF_CHAR_DIM_3X7 - CharReadOrga];
+                        break;
+                    case '&':
+                        addressMatrix[NeoPix_Pos].status = cBoard_Ampersand[OFF_CHAR_DIM_5X7 - CharReadOrga];
+                        break;
+                    case '\'':
+                        addressMatrix[NeoPix_Pos].status = cBoard_Apost[OFF_CHAR_DIM_2X7 - CharReadOrga];
+                        break;
+                    case '(':
+                        addressMatrix[NeoPix_Pos].status = cBoard_OpenBracket[OFF_CHAR_DIM_5X7 - CharReadOrga];
+                        break;
+                    case ')':
+                        addressMatrix[NeoPix_Pos].status = cBoard_CloseBracket[OFF_CHAR_DIM_5X7 - CharReadOrga];
+                        break;
+                    case '*':
+                        addressMatrix[NeoPix_Pos].status = cBoard_Asterisk[OFF_CHAR_DIM_3X7 - CharReadOrga];
+                        break;
+                    case '+':
+                        addressMatrix[NeoPix_Pos].status = cBoard_Plus[OFF_CHAR_DIM_3X7 - CharReadOrga];
+                        break;
+                    case ',':
+                        addressMatrix[NeoPix_Pos].status = cBoard_Comma[OFF_CHAR_DIM_3X7 - CharReadOrga];
+                        break;
+                    case '-':
+                        addressMatrix[NeoPix_Pos].status = cBoard_Hyphen[OFF_CHAR_DIM_3X7 - CharReadOrga];
+                        break;
+                    case '.':
+                        addressMatrix[NeoPix_Pos].status = cBoard_Dot[OFF_CHAR_DIM_3X7 - CharReadOrga];
+                        break;
+                    case '/':
+                        addressMatrix[NeoPix_Pos].status = cBoard_Slash[OFF_CHAR_DIM_3X7 - CharReadOrga];
+                        break;
+
+                    case '0':
+                        switch(matrixDisplay.txtFont)
+                        {
+                            case numberClassic:
+                                addressMatrix[NeoPix_Pos].status = cBoard_0_Val[OFF_CHAR_DIM_4X7 - CharReadOrga];
+                                break;
+                            case numberTime:
+                                addressMatrix[NeoPix_Pos].status = cBoard_0_Time[OFF_CHAR_DIM_5X7 - CharReadOrga];
+                                break;
+                            case numberMob:
+                                addressMatrix[NeoPix_Pos].status = cBoard_0_Mob[OFF_CHAR_DIM_4X6 - CharReadOrga];
+                                break;
+                            default :	/* State of every undefined case, so not supposed to come here. */	break;
+                        }
+                        break;
+                    case '1':
+                        switch(matrixDisplay.txtFont)
+                        {
+                            case numberClassic:
+                                addressMatrix[NeoPix_Pos].status = cBoard_1_Val[OFF_CHAR_DIM_4X7 - CharReadOrga];
+                                break;
+                            case numberTime:
+                                addressMatrix[NeoPix_Pos].status = cBoard_1_Time[OFF_CHAR_DIM_5X7 - CharReadOrga];
+                                break;
+                            case numberMob:
+                                addressMatrix[NeoPix_Pos].status = cBoard_1_Mob[OFF_CHAR_DIM_4X6 - CharReadOrga];
+                                break;
+                            default :	/* State of every undefined case, so not supposed to come here. */	break;
+                        }
+                        break;
+                    case '2':
+                        switch(matrixDisplay.txtFont)
+                        {
+                            case numberClassic:
+                                addressMatrix[NeoPix_Pos].status = cBoard_2_Val[OFF_CHAR_DIM_4X7 - CharReadOrga];
+                                break;
+                            case numberTime:
+                                addressMatrix[NeoPix_Pos].status = cBoard_2_Time[OFF_CHAR_DIM_5X7 - CharReadOrga];
+                                break;
+                            case numberMob:
+                                addressMatrix[NeoPix_Pos].status = cBoard_2_Mob[OFF_CHAR_DIM_4X6 - CharReadOrga];
+                                break;
+                            default :	/* State of every undefined case, so not supposed to come here. */	break;
+                        }
+                        break;
+                    case '3':
+                        switch(matrixDisplay.txtFont)
+                        {
+                            case numberClassic:
+                                addressMatrix[NeoPix_Pos].status = cBoard_3_Val[OFF_CHAR_DIM_4X7 - CharReadOrga];
+                                break;
+                            case numberTime:
+                                addressMatrix[NeoPix_Pos].status = cBoard_3_Time[OFF_CHAR_DIM_5X7 - CharReadOrga];
+                                break;
+                            case numberMob:
+                                addressMatrix[NeoPix_Pos].status = cBoard_3_Mob[OFF_CHAR_DIM_4X6 - CharReadOrga];
+                                break;
+                            default :	/* State of every undefined case, so not supposed to come here. */	break;
+                        }
+                        break;
+                    case '4':
+                        switch(matrixDisplay.txtFont)
+                        {
+                            case numberClassic:
+                                addressMatrix[NeoPix_Pos].status = cBoard_4_Val[OFF_CHAR_DIM_4X7 - CharReadOrga];
+                                break;
+                            case numberTime:
+                                addressMatrix[NeoPix_Pos].status = cBoard_4_Time[OFF_CHAR_DIM_5X7 - CharReadOrga];
+                                break;
+                            case numberMob:
+                                addressMatrix[NeoPix_Pos].status = cBoard_4_Mob[OFF_CHAR_DIM_4X6 - CharReadOrga];
+                                break;
+                            default :	/* State of every undefined case, so not supposed to come here. */	break;
+                        }
+                        break;
+                    case '5':
+                        switch(matrixDisplay.txtFont)
+                        {
+                            case numberClassic:
+                                addressMatrix[NeoPix_Pos].status = cBoard_5_Val[OFF_CHAR_DIM_4X7 - CharReadOrga];
+                                break;
+                            case numberTime:
+                                addressMatrix[NeoPix_Pos].status = cBoard_5_Time[OFF_CHAR_DIM_5X7 - CharReadOrga];
+                                break;
+                            case numberMob:
+                                addressMatrix[NeoPix_Pos].status = cBoard_5_Mob[OFF_CHAR_DIM_4X6 - CharReadOrga];
+                                break;
+                            default :	/* State of every undefined case, so not supposed to come here. */	break;
+                        }
+                        break;
+                    case '6':
+                        switch(matrixDisplay.txtFont)
+                        {
+                            case numberClassic:
+                                addressMatrix[NeoPix_Pos].status = cBoard_6_Val[OFF_CHAR_DIM_4X7 - CharReadOrga];
+                                break;
+                            case numberTime:
+                                addressMatrix[NeoPix_Pos].status = cBoard_6_Time[OFF_CHAR_DIM_5X7 - CharReadOrga];
+                                break;
+                            case numberMob:
+                                addressMatrix[NeoPix_Pos].status = cBoard_6_Mob[OFF_CHAR_DIM_4X6 - CharReadOrga];
+                                break;
+                            default :	/* State of every undefined case, so not supposed to come here. */	break;
+                        }
+                        break;
+                    case '7':
+                        switch(matrixDisplay.txtFont)
+                        {
+                            case numberClassic:
+                                addressMatrix[NeoPix_Pos].status = cBoard_7_Val[OFF_CHAR_DIM_4X7 - CharReadOrga];
+                                break;
+                            case numberTime:
+                                addressMatrix[NeoPix_Pos].status = cBoard_7_Time[OFF_CHAR_DIM_5X7 - CharReadOrga];
+                                break;
+                            case numberMob:
+                                addressMatrix[NeoPix_Pos].status = cBoard_7_Mob[OFF_CHAR_DIM_4X6 - CharReadOrga];
+                                break;
+                            default :	/* State of every undefined case, so not supposed to come here. */	break;
+                        }
+                        break;
+                    case '8':
+                        switch(matrixDisplay.txtFont)
+                        {
+                            case numberClassic:
+                                addressMatrix[NeoPix_Pos].status = cBoard_8_Val[OFF_CHAR_DIM_4X7 - CharReadOrga];
+                                break;
+                            case numberTime:
+                                addressMatrix[NeoPix_Pos].status = cBoard_8_Time[OFF_CHAR_DIM_5X7 - CharReadOrga];
+                                break;
+                            case numberMob:
+                                addressMatrix[NeoPix_Pos].status = cBoard_8_Mob[OFF_CHAR_DIM_4X6 - CharReadOrga];
+                                break;
+                            default :	/* State of every undefined case, so not supposed to come here. */	break;
+                        }
+                        break;
+                    case '9':
+                        switch(matrixDisplay.txtFont)
+                        {
+                            case numberClassic:
+                                addressMatrix[NeoPix_Pos].status = cBoard_9_Val[OFF_CHAR_DIM_4X7 - CharReadOrga];
+                                break;
+                            case numberTime:
+                                addressMatrix[NeoPix_Pos].status = cBoard_9_Time[OFF_CHAR_DIM_5X7 - CharReadOrga];
+                                break;
+                            case numberMob:
+                                addressMatrix[NeoPix_Pos].status = cBoard_9_Mob[OFF_CHAR_DIM_4X6 - CharReadOrga];
+                                break;
+                            default :	/* State of every undefined case, so not supposed to come here. */	break;
+                        }
+                        break;
+
+                    case ':':
+                        addressMatrix[NeoPix_Pos].status = cBoard_Colon[OFF_CHAR_DIM_3X7 - CharReadOrga];
+                        break;
+                    case ';':
+                        addressMatrix[NeoPix_Pos].status = cBoard_SemiColon[OFF_CHAR_DIM_3X7 - CharReadOrga];
+                        break;
+                    //case '<':
+                    case '=':
+                        addressMatrix[NeoPix_Pos].status = cBoard_Equal[OFF_CHAR_DIM_3X7 - CharReadOrga];
+                        break;
+                    //case '>':
+                    case '?':
+                        switch(matrixDisplay.txtFont)
+                        {
+                            case numberClassic:
+                                addressMatrix[NeoPix_Pos].status = cBoard_QuestMark[OFF_CHAR_DIM_4X7 - CharReadOrga];
+                                break;
+                            case numberMob:
+                                addressMatrix[NeoPix_Pos].status = cBoard_QuestMark_Mob[OFF_CHAR_DIM_5X7 - CharReadOrga];
+                                break;
+                            default :	/* State of every undefined case, so not supposed to come here.	*/break;
+                        }
+                        break;
+                    case '@':
+                        addressMatrix[NeoPix_Pos].status = cBoard_At[OFF_CHAR_DIM_5X7 - CharReadOrga];
+                        break;
+
+                    case 'A':
 						addressMatrix[NeoPix_Pos].status = cBoard_A[OFF_CHAR_DIM_4X7 - CharReadOrga];
 						break;
 					case 'B':
@@ -566,203 +788,35 @@ void matrix_Print(pixel* addressMatrix, color newColor, const char* _CharToWrite
 					case 'Z':
 						addressMatrix[NeoPix_Pos].status = cBoard_Z[OFF_CHAR_DIM_4X7 - CharReadOrga];
 						break;
-//
-					case '0':
-						switch(matrixDisplay.txtFont)
-						{
-							case numberClassic:
-								addressMatrix[NeoPix_Pos].status = cBoard_0_Val[OFF_CHAR_DIM_4X7 - CharReadOrga];
-								break;
-							case numberTime:
-								addressMatrix[NeoPix_Pos].status = cBoard_0_Time[OFF_CHAR_DIM_5X7 - CharReadOrga];
-								break;
-							case numberMob:
-								addressMatrix[NeoPix_Pos].status = cBoard_0_Mob[OFF_CHAR_DIM_4X6 - CharReadOrga];
-								break;
-							default :	/* State of every undefined case, so not supposed to come here. */	break;
-						}
-						break;
-					case '1':
-						switch(matrixDisplay.txtFont)
-						{
-							case numberClassic:
-								addressMatrix[NeoPix_Pos].status = cBoard_1_Val[OFF_CHAR_DIM_4X7 - CharReadOrga];
-								break;
-							case numberTime:
-								addressMatrix[NeoPix_Pos].status = cBoard_1_Time[OFF_CHAR_DIM_5X7 - CharReadOrga];
-								break;
-							case numberMob:
-								addressMatrix[NeoPix_Pos].status = cBoard_1_Mob[OFF_CHAR_DIM_4X6 - CharReadOrga];
-								break;
-							default :	/* State of every undefined case, so not supposed to come here. */	break;
-						}
-						break;
-					case '2':
-						switch(matrixDisplay.txtFont)
-						{
-							case numberClassic:
-								addressMatrix[NeoPix_Pos].status = cBoard_2_Val[OFF_CHAR_DIM_4X7 - CharReadOrga];
-								break;
-							case numberTime:
-								addressMatrix[NeoPix_Pos].status = cBoard_2_Time[OFF_CHAR_DIM_5X7 - CharReadOrga];
-								break;
-							case numberMob:
-								addressMatrix[NeoPix_Pos].status = cBoard_2_Mob[OFF_CHAR_DIM_4X6 - CharReadOrga];
-								break;
-							default :	/* State of every undefined case, so not supposed to come here. */	break;
-						}
-						break;
-					case '3':
-						switch(matrixDisplay.txtFont)
-						{
-							case numberClassic:
-								addressMatrix[NeoPix_Pos].status = cBoard_3_Val[OFF_CHAR_DIM_4X7 - CharReadOrga];
-								break;
-							case numberTime:
-								addressMatrix[NeoPix_Pos].status = cBoard_3_Time[OFF_CHAR_DIM_5X7 - CharReadOrga];
-								break;
-							case numberMob:
-								addressMatrix[NeoPix_Pos].status = cBoard_3_Mob[OFF_CHAR_DIM_4X6 - CharReadOrga];
-								break;
-							default :	/* State of every undefined case, so not supposed to come here. */	break;
-						}
-						break;
-					case '4':
-						switch(matrixDisplay.txtFont)
-						{
-							case numberClassic:
-								addressMatrix[NeoPix_Pos].status = cBoard_4_Val[OFF_CHAR_DIM_4X7 - CharReadOrga];
-								break;
-							case numberTime:
-								addressMatrix[NeoPix_Pos].status = cBoard_4_Time[OFF_CHAR_DIM_5X7 - CharReadOrga];
-								break;
-							case numberMob:
-								addressMatrix[NeoPix_Pos].status = cBoard_4_Mob[OFF_CHAR_DIM_4X6 - CharReadOrga];
-								break;
-							default :	/* State of every undefined case, so not supposed to come here. */	break;
-						}
-						break;
-					case '5':
-						switch(matrixDisplay.txtFont)
-						{
-							case numberClassic:
-								addressMatrix[NeoPix_Pos].status = cBoard_5_Val[OFF_CHAR_DIM_4X7 - CharReadOrga];
-								break;
-							case numberTime:
-								addressMatrix[NeoPix_Pos].status = cBoard_5_Time[OFF_CHAR_DIM_5X7 - CharReadOrga];
-								break;
-							case numberMob:
-								addressMatrix[NeoPix_Pos].status = cBoard_5_Mob[OFF_CHAR_DIM_4X6 - CharReadOrga];
-								break;
-							default :	/* State of every undefined case, so not supposed to come here. */	break;
-						}
-						break;
-					case '6':
-						switch(matrixDisplay.txtFont)
-						{
-							case numberClassic:
-								addressMatrix[NeoPix_Pos].status = cBoard_6_Val[OFF_CHAR_DIM_4X7 - CharReadOrga];
-								break;
-							case numberTime:
-								addressMatrix[NeoPix_Pos].status = cBoard_6_Time[OFF_CHAR_DIM_5X7 - CharReadOrga];
-								break;
-							case numberMob:
-								addressMatrix[NeoPix_Pos].status = cBoard_6_Mob[OFF_CHAR_DIM_4X6 - CharReadOrga];
-								break;
-							default :	/* State of every undefined case, so not supposed to come here. */	break;
-						}
-						break;
-					case '7':
-						switch(matrixDisplay.txtFont)
-						{
-							case numberClassic:
-								addressMatrix[NeoPix_Pos].status = cBoard_7_Val[OFF_CHAR_DIM_4X7 - CharReadOrga];
-								break;
-							case numberTime:
-								addressMatrix[NeoPix_Pos].status = cBoard_7_Time[OFF_CHAR_DIM_5X7 - CharReadOrga];
-								break;
-							case numberMob:
-								addressMatrix[NeoPix_Pos].status = cBoard_7_Mob[OFF_CHAR_DIM_4X6 - CharReadOrga];
-								break;
-							default :	/* State of every undefined case, so not supposed to come here. */	break;
-						}
-						break;
-					case '8':
-						switch(matrixDisplay.txtFont)
-						{
-							case numberClassic:
-								addressMatrix[NeoPix_Pos].status = cBoard_8_Val[OFF_CHAR_DIM_4X7 - CharReadOrga];
-								break;
-							case numberTime:
-								addressMatrix[NeoPix_Pos].status = cBoard_8_Time[OFF_CHAR_DIM_5X7 - CharReadOrga];
-								break;
-							case numberMob:
-								addressMatrix[NeoPix_Pos].status = cBoard_8_Mob[OFF_CHAR_DIM_4X6 - CharReadOrga];
-								break;
-							default :	/* State of every undefined case, so not supposed to come here. */	break;
-						}
-						break;
-					case '9':
-						switch(matrixDisplay.txtFont)
-						{
-							case numberClassic:
-								addressMatrix[NeoPix_Pos].status = cBoard_9_Val[OFF_CHAR_DIM_4X7 - CharReadOrga];
-								break;
-							case numberTime:
-								addressMatrix[NeoPix_Pos].status = cBoard_9_Time[OFF_CHAR_DIM_5X7 - CharReadOrga];
-								break;
-							case numberMob:
-								addressMatrix[NeoPix_Pos].status = cBoard_9_Mob[OFF_CHAR_DIM_4X6 - CharReadOrga];
-								break;
-							default :	/* State of every undefined case, so not supposed to come here. */	break;
-						}
-						break;
 
-					case '.':
-						addressMatrix[NeoPix_Pos].status = cBoard_Dot[OFF_CHAR_DIM_3X7 - CharReadOrga];
-						break;
-					case ',':
-						addressMatrix[NeoPix_Pos].status = cBoard_Comma[OFF_CHAR_DIM_3X7 - CharReadOrga];
-						break;
-					case '!':
-						addressMatrix[NeoPix_Pos].status = cBoard_ExclaMark[OFF_CHAR_DIM_3X7 - CharReadOrga];
-						break;
-					case '?':
-						switch(matrixDisplay.txtFont)
-						{
-							case numberClassic:
-								addressMatrix[NeoPix_Pos].status = cBoard_QuestMark[OFF_CHAR_DIM_4X7 - CharReadOrga];
-								break;
-							case numberMob:
-								addressMatrix[NeoPix_Pos].status = cBoard_QuestMark_Mob[OFF_CHAR_DIM_5X7 - CharReadOrga];
-								break;
-							default :	/* State of every undefined case, so not supposed to come here.	*/break;
-						}
-						break;
-					case ':':
-						addressMatrix[NeoPix_Pos].status = cBoard_Colon[OFF_CHAR_DIM_3X7 - CharReadOrga];
-						break;
-
+                    case '[':
+                        addressMatrix[NeoPix_Pos].status = cBoard_OpenSqBracket[OFF_CHAR_DIM_5X7 - CharReadOrga];
+                        break;
+                    //case '\\':
+                    case ']':
+                        addressMatrix[NeoPix_Pos].status = cBoard_CloseSqBracket[OFF_CHAR_DIM_5X7 - CharReadOrga];
+                        break;
 					case '^':
-						//addressMatrix[NeoPix_Pos].status = cBoard_Heart[OFF_CHAR_DIM_7X6 - CharReadOrga];
+						addressMatrix[NeoPix_Pos].status = cBoard_Heart[OFF_CHAR_DIM_7X6 - CharReadOrga];
 						break;
-
-					case '\'':
-						addressMatrix[NeoPix_Pos].status = cBoard_Apost[OFF_CHAR_DIM_2X7 - CharReadOrga];
-						break;
-
-					case '*':
-						addressMatrix[NeoPix_Pos].status = cBoard_Asterisk[OFF_CHAR_DIM_3X7 - CharReadOrga];
-						break;
-
-					case ' ':
-						addressMatrix[NeoPix_Pos].status = cBoard_Space[OFF_CHAR_DIM_3X7 - CharReadOrga];
-						break;
+                    case '_':
+                        addressMatrix[NeoPix_Pos].status = cBoard_Underscore[OFF_CHAR_DIM_4X7 - CharReadOrga];
+                        break;
+                    //case '`':
+                    case '{':
+                        addressMatrix[NeoPix_Pos].status = cBoard_OpenRoBracket[OFF_CHAR_DIM_5X7 - CharReadOrga];
+                        break;
+                    //case '|':
+                    case '}':
+                        addressMatrix[NeoPix_Pos].status = cBoard_CloseRoBracket[OFF_CHAR_DIM_5X7 - CharReadOrga];
+                        break;
+                    case '~':
+                        addressMatrix[NeoPix_Pos].status = cBoard_Tilda[OFF_CHAR_DIM_5X7 - CharReadOrga];
+                        break;
 
 					case '\n':
 						Offset.column = 1;
 						Offset.line -= 8;	// Decrease Line of Height + 1 line to make a space.
-						//Offset.line = 3;
 						break;
 					
 					default :	/* State of every undefined case, so not supposed to come here. */	break;
@@ -772,9 +826,6 @@ void matrix_Print(pixel* addressMatrix, color newColor, const char* _CharToWrite
 				if(addressMatrix[NeoPix_Pos].status != 0)
 				{
                     addressMatrix[NeoPix_Pos].colorPix = newColor;
-					//addressMatrix[NeoPix_Pos].colorPix.Red = newColor.Red;
-					//addressMatrix[NeoPix_Pos].colorPix.Green = newColor.Green;
-					//addressMatrix[NeoPix_Pos].colorPix.Blue = newColor.Blue;
 				}
 				else
 				{
