@@ -522,8 +522,8 @@ extern xdata char cBoard_9_Mob[24] = {\
 1, 1, 0, 1,\
 0, 0, 0, 1,\
 0, 0, 0, 1,\
-0, 0, 0, 1}; 
-// Special Char., like space, comma, dot, "!", "?", ... ->
+0, 0, 0, 1};
+// Special Char., like ' ', ',', '.', '!', '?', ... ----->
 // ' ' : 3x7
 extern xdata char cBoard_Space[21] = {\
 0, 0, 0,\
@@ -532,7 +532,7 @@ extern xdata char cBoard_Space[21] = {\
 0, 0, 0,\
 0, 0, 0,\
 0, 0, 0,\
-0, 0, 0}; 
+0, 0, 0};
 //------------------->
 // '.' : 3x7
 extern xdata char cBoard_Dot[21] = {\
@@ -562,7 +562,7 @@ extern xdata char cBoard_ExclaMark[21] = {\
 1, 0, 1,\
 0, 1, 0,\
 0, 0, 0,\
-0, 1, 0}; 
+0, 1, 0};
 //------------------->
 // '?' : 4x7
 extern xdata char cBoard_QuestMark[28] = {\
@@ -601,7 +601,7 @@ extern xdata char cBoard_Equal[21] = {\
 0, 0, 0,\
 1, 1, 1,\
 0, 0, 0,\
-0, 0, 0}; 
+0, 0, 0};
 //------------------->
 // <'> : 2x7
 extern xdata char cBoard_Apost[14] = {\
@@ -621,27 +621,7 @@ extern xdata char cBoard_Asterisk[21] = {\
 0, 1, 0,\
 1, 0, 1,\
 0, 0, 0,\
-0, 0, 0}; 
-//------------------->
-// '<<' : 5x7
-extern xdata char cBoard_OpenQuote[35] = {\
-0, 0, 0, 0, 0,\
-0, 0, 0, 0, 0,\
-0, 1, 0, 0, 1,\
-1, 0, 0, 1, 0,\
-0, 1, 0, 0, 1,\
-0, 0, 0, 0, 0,\
-0, 0, 0, 0, 0}; 
-//------------------->
-// '>>' : 5x7
-extern xdata char cBoard_ClosQuote[35] = {\
-0, 0, 0, 0, 0,\
-0, 0, 0, 0, 0,\
-1, 0, 0, 1, 0,\
-0, 1, 0, 0, 1,\
-1, 0, 0, 1, 0,\
-0, 0, 0, 0, 0,\
-0, 0, 0, 0, 0}; 
+0, 0, 0};
 //------------------->
 // '(' : 5x7
 extern xdata char cBoard_OpenBracket[35] = {\
@@ -711,7 +691,7 @@ extern xdata char cBoard_Hyphen[21] = {\
 1, 1, 1,\
 0, 0, 0,\
 0, 0, 0,\
-0, 0, 0}; 
+0, 0, 0};
 //------------------->
 // '_' : 4x7
 extern xdata char cBoard_Underscore[28] = {\
@@ -751,7 +731,7 @@ extern xdata char cBoard_xMult[21] = {\
 0, 1, 0,\
 1, 0, 0,\
 1, 0, 1,\
-0, 0, 0};  
+0, 0, 0};
 //------------------->
 // '@' : 5x7
 extern xdata char cBoard_At[35] = {\
@@ -819,7 +799,7 @@ extern xdata char cBoard_Heart[42] = {\
 1, 0, 0, 0, 0, 0, 1,\
 0, 1, 0, 0, 0, 1, 0,\
 0, 0, 1, 0, 1, 0, 0,\
-0, 0, 0, 1, 0, 0, 0,}; 
+0, 0, 0, 1, 0, 0, 0,};
 
 //-- GLOBAL MACROS ..	:------------------------------->
 //---------------------------------------------------------------------------------------->

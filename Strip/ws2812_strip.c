@@ -170,8 +170,6 @@ void strip_Inverter(pixel* addressStrip)
 {   // Var. Dec. :
     unsigned int i; // LED Position for filling Board of strip.
     color tmpColor; // Color recovered to invert the actual strip's color.
-    // Keep a reference to the first position of the strip.
-    pixel* addressRecovery = addressStrip;
 
     for(i = 0; i < MAX_LEDS; i++)   // First loop to find the first LED alight that
     {                                   // will give the colour to set for the

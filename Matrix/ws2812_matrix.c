@@ -1,33 +1,131 @@
-/*-->	Title	:	KBP_NeoPixel_SM
-		  |
-		  '->	Source	:	Timers_Wait_Xms.h (One of my own first header file)
-		  |
-		  '->	Creation	:	21.11.2019
-		  :			|
-		  :			'->	Last Update	:	March 2020
-		  |
-		  '->	Description	:	Declarations of NeoPixels Usage functions.
-*/
-/*======================================================================================>
+/*..-----------------------------------------------------------------------------------.
+../ .---------------------------------------------------------------------------------. \
+./´/
+|x| __--""'\
+|x|  ,__  -'""`;
+|x| /   \  /"'  \
+|x|   __// \-"-_/
+|x| ´"   \  |           > Title : ws2812_strip
+|x| \     |  \  _.-"',
+|x| "^,-´\/\  '" ,--. \         > Src : Timers_Wait_Xms.c
+|x|  \|\| | | , /    | |        >           (One of my own first c file)
+|x|     '`'\|._ |   / /
+|x|         '\),/  / |          > Creation: 2019.11.21
+|x|           |/.-"_/           > By :  KC5-BP
+|x| .__---+-_/'|--"
+|x|         _| |_--,            > Description :
+|x|        ',/ |   /                Declarations of RGB's ws2812b LEDs usage funct. .
+|x|        /|| |  /
+|x|     |\| |/ |- |
+|x| .-,-/ | /  '/-"
+|x| -\|/-/\/ ^,'|
+|x| _-     |  |/
+|x|  .  --"  /
+|x| /--__,.-/
+.\`\__________________________________________________________________________________/´/
+..`____________________________________________________________________________________´
+========================================================================================>
 =======================================================================================*/
-// Linker to : ...
-#include <c8051f020.h>		// ... definition folder SFR
-													// (Like Port Definition "P5", "P6", etc...)
-// ... C51/C166 routines that instructs the compiler to generate intrinsic code | _nop_():
-#include <intrins.h>
-//#include "../F12-NeoPix_MatrixPrButt/base_sfr.h"	// ... Base (SFR, sbit, define, var. type, etc...)
-//#include "../F12-NeoPix_MatrixPrButt/time.h"		// ... Timers function and Waiting Function.
-#include "ws2812_matrix.h"	// ... Timers function and Waiting Function.
-#include "kc5_bp_matrix_alphanum.h"	// ... Personal alphabet and number's font.
+// Linker to : ..
+// .. definition folder SFR (Like Port Definition "P5", "P6", TR0, etc...)
+#include <c8051f020.h>
+// .. created header for ws2812b functions usage.
+#include "ws2812_matrix.h"
+// .. character's definitions.
+#include "kc5_bp_matrix_alphanum.h"
 
-//-- GLOBAL VARIABLES	INIT:------------------------------->
-xdata pixel matrix[MAX_LEDS] = {{0, 0, 0}, 0, 0};   // Initialize it to '0'.
-																				// & the Position is a Var. that can be unused.
-xdata offsetText Offset = {0, 0};
-xdata matrixFormat matrixDisplay = {0, 0};
+//-- GLOBAL VARIABLES INIT : ----------------------------->
+//xdata pixel matrix[MAX_LEDS] = {{0, 0, 0}, 0, 0, 0};    // Initialize everything to 0.
+xdata pixel matrix[MAX_LEDS] = {{0, 0, 0}, 0, 0};    // Initialize everything to 0.
+xdata offsetText Offset = {0, 0};                   // Init. column + line to 0.
+xdata matrixFormat matrixDisplay = {0, 0};      // Init. matrixView + txtFont to 0.
 
-/* Graphic     :
- *	Initial : 0/+-360 degrees :
+//-------------------------------------------------------------------------------------->
+void pixel_Set(pixel* addressMatrix, color newColor, posType position)
+{   // "position" validity ..
+    if(position < MAX_LEDS)
+    {   // Go to the wanted LED position.
+        addressMatrix += position;
+
+        // Set "color" values :
+        addressMatrix->colorPix = newColor;
+
+        // Set the status to ON if color different of "black" :
+        if ( (newColor.Red == BRIGHT_MIN)
+             && (newColor.Green == BRIGHT_MIN)
+             && (newColor.Blue == BRIGHT_MIN) )
+        {   // Complement : " == " operator not possible on a complete struct in C.
+            addressMatrix->status = 0;
+        }
+        else
+        {
+            addressMatrix->status = 1;
+        }
+    }
+}
+
+void pixel_Reset(pixel* addressMatrix, posType position)
+{   // Var. Dec. :
+    xdata const color BLACK = {0, 0, 0};
+
+    // "position" validity ..
+    if(position < MAX_LEDS)
+    {   // Go to the wanted LED position.
+        addressMatrix += position;
+        // Set "color" values to black.
+        addressMatrix->colorPix = BLACK;
+        // Set status to '0' (OFF).
+        addressMatrix->status = 0;
+    }
+}
+
+color pixel_GetColor(pixel* addressMatrix, posType position)
+{
+    return (addressMatrix + position)->colorPix;
+}
+
+unsigned char pixel_GetStatus(pixel* addressMatrix, posType position)
+{
+    return (addressMatrix + position)->status;
+}
+
+void pixel_ToggleStatus(pixel* addressMatrix, posType position)
+{   // "position" validity ..
+    if(position < MAX_LEDS)
+    {   // Go to the wanted LED position.
+        addressMatrix += position;
+
+        if (addressMatrix->status != 0)
+        {   // Set the status to OFF if status was ON.
+            addressMatrix->status = 0;
+        }
+        else
+        {   // Set the status to ON if status was OFF.
+            addressMatrix->status = 1;
+        }
+    }
+}
+
+void pixel_Show(unsigned char red, unsigned char green, unsigned char blue)
+{   // For the WS2812b, the order is High bit to low AND Green - Red - Blue.
+    // Sending GREEN.
+    SEND_COLOR_BIT(green, BIT7); SEND_COLOR_BIT(green, BIT6);
+    SEND_COLOR_BIT(green, BIT5); SEND_COLOR_BIT(green, BIT4);
+    SEND_COLOR_BIT(green, BIT3); SEND_COLOR_BIT(green, BIT2);
+    SEND_COLOR_BIT(green, BIT1); SEND_COLOR_BIT(green, BIT0);
+    // Sending RED.
+    SEND_COLOR_BIT(red, BIT7); SEND_COLOR_BIT(red, BIT6);
+    SEND_COLOR_BIT(red, BIT5); SEND_COLOR_BIT(red, BIT4);
+    SEND_COLOR_BIT(red, BIT3); SEND_COLOR_BIT(red, BIT2);
+    SEND_COLOR_BIT(red, BIT1); SEND_COLOR_BIT(red, BIT0);
+    // Sending BLUE.
+    SEND_COLOR_BIT(blue, BIT7); SEND_COLOR_BIT(blue, BIT6);
+    SEND_COLOR_BIT(blue, BIT5); SEND_COLOR_BIT(blue, BIT4);
+    SEND_COLOR_BIT(blue, BIT3); SEND_COLOR_BIT(blue, BIT2);
+    SEND_COLOR_BIT(blue, BIT1); SEND_COLOR_BIT(blue, BIT0);
+}
+
+/*	Initial : 0/+-360 degrees :
  *          33 :  / - - - - - - - -  -  -  -  -  -  -  /
  * 			32 :  \ - - - - - - - -  -  -  -  -  -  -  \.
  * 			 1 :  - - - - - - - - -  -  -  -  -  -  -  /
@@ -47,234 +145,220 @@ xdata matrixFormat matrixDisplay = {0, 0};
  *       |  |  |  |  |  |  |   |   |   |   |   |   |   |   |   | : 242
  *       \  /  \  /  \  /  \   /   \   /   \   /   \   /   \   / : 241
  *      16 17 48 49 80 81 112 113 144 145 176 177 208 209 240 241                      */
-unsigned int pixel_PosRecovery(unsigned char posX, unsigned char posY)
+unsigned int pixel_RecoverPosition(unsigned char posX, unsigned char posY)
 {	// Var. Dec. :
-   unsigned char ui8_newX = 0, ui8_newY = 0;
-   unsigned char ui8_X = 0, ui8_Y = 0;
-   unsigned int ui16_matOffset = 0;
-   unsigned int ui16_returnPos = 0;
+    xdata unsigned char ui8_newX = 0, ui8_newY = 0;
+    xdata unsigned char ui8_X = 0, ui8_Y = 0;
+    xdata unsigned int ui16_matOffset = 0;
+    xdata unsigned int ui16_returnPos = 0;
 
-	// Condition about starting from 1, instead of 0.
-	if(posX == 0) { ui8_X = 1; } else { ui8_X = posX;}
-	if(posY == 0) { ui8_Y = 1; } else { ui8_Y = posY;}
+    // Condition about starting from 1, instead of 0.
+    if(posX == 0) { ui8_X = 1; } else { ui8_X = posX;}
+    if(posY == 0) { ui8_Y = 1; } else { ui8_Y = posY;}
 
-	switch(matrixDisplay.matrixView)
-	{
-		case 0:
-		case 360:
-		case (-360):
-			// Condition about the Line being Even or not.
-			// Then, by the Matrix routing, define how the WS281x must be adressed.
-			if((posY % 2) == 0)
-			{
-				if(ui8_X <= MAX_COLUMN)
-				{
-					ui8_newX = MAX_COLUMN - ui8_X;
-					ui16_matOffset = 0;
-				}
-				else
-				{
-					if(ui8_X <= (2 * MAX_COLUMN))
-					{
-						ui8_newX = (2 * MAX_COLUMN) - ui8_X;
-						ui16_matOffset = MAX_COLUMN * MAX_LINE;
-					}
-					else
-					{
-						ui8_newX = (3 * MAX_COLUMN) - ui8_X;
-						ui16_matOffset = 2 * MAX_COLUMN * MAX_LINE;
-					}
-				}
-			}
-			else
-			{
-				if(ui8_X <= MAX_COLUMN)
-				{
-					ui8_newX = (ui8_X - 1);
-					ui16_matOffset = 0;
-				}
-				else
-				{
-					if(ui8_X <= (2 * MAX_COLUMN))
-					{
-						ui8_newX = (ui8_X - MAX_COLUMN - 1);
-						ui16_matOffset = MAX_COLUMN * MAX_LINE;
-					}
-					else
-					{
-						ui8_newX = (ui8_X - (2 * MAX_COLUMN) - 1);
-						ui16_matOffset = 2 * MAX_COLUMN * MAX_LINE;
-					}
-				}
-			}
-			ui16_returnPos = (((ui8_Y - 1) * MAX_COLUMN) + ui8_newX) + ui16_matOffset;
-			break;
-
-
-		case 90:
-		case (-270):
-			// Condition about the Line being Even or not.
-			// Then, by the Matrix routing, define how the WS281x must be adressed.
-			if((posX % 2) == 0)
-			{
-				ui8_newY = (MAX_LINE - 1) - posY;
-			}
-			else
-			{
-				ui8_newY = posY;
-			}
-			ui16_returnPos = (((posX - 1) * MAX_COLUMN) + ui8_newY);
-			break;
-
-		case 180:
-		case (-180):
-			// Condition about the Line being Even or not.
-			// Then, by the Matrix routing, define how the WS281x must be adressed.
-			if((posY % 2) == 0)
-			{
-				ui8_newX = MAX_COLUMN - ui8_X;
-			}
-			else
-			{
-				ui8_newX = (ui8_X - 1);
-			}
-			ui16_returnPos = (((ui8_Y - 1) * MAX_COLUMN) + ui8_newX);
-			break;
+    switch(matrixDisplay.matrixView)
+    {
+        case 0:
+        case 360:
+        case (-360):
+            // Condition about the Line being Even or not.
+            // Then, by the Matrix routing, define how the WS281x must be adressed.
+            if((posY % 2) == 0)
+            {
+                if(ui8_X <= MAX_COLU)
+                {
+                    ui8_newX = MAX_COLU - ui8_X;
+                    ui16_matOffset = 0;
+                }
+                else
+                {
+                    if(ui8_X <= (2 * MAX_COLU))
+                    {
+                        ui8_newX = (2 * MAX_COLU) - ui8_X;
+                        ui16_matOffset = MAX_COLU * MAX_LINE;
+                    }
+                    else
+                    {
+                        ui8_newX = (3 * MAX_COLU) - ui8_X;
+                        ui16_matOffset = 2 * MAX_COLU * MAX_LINE;
+                    }
+                }
+            }
+            else
+            {
+                if(ui8_X <= MAX_COLU)
+                {
+                    ui8_newX = (ui8_X - 1);
+                    ui16_matOffset = 0;
+                }
+                else
+                {
+                    if(ui8_X <= (2 * MAX_COLU))
+                    {
+                        ui8_newX = (ui8_X - MAX_COLU - 1);
+                        ui16_matOffset = MAX_COLU * MAX_LINE;
+                    }
+                    else
+                    {
+                        ui8_newX = (ui8_X - (2 * MAX_COLU) - 1);
+                        ui16_matOffset = 2 * MAX_COLU * MAX_LINE;
+                    }
+                }
+            }
+            ui16_returnPos = (((ui8_Y - 1) * MAX_COLU) + ui8_newX) + ui16_matOffset;
+            break;
 
 
-		case 270:
-		case (-90):
-			// Condition about the Line being Even or not.
-			// Then, by the Matrix routing, define how the WS281x must be adressed.
-			if((posX % 2) == 0)
-			{
-				ui8_newY = (MAX_LINE - 1) - posY;
-			}
-			else
-			{
-				ui8_newY = posY;
-			}
-			ui16_returnPos = (((posX - 1) * MAX_COLUMN) + ui8_newY); // Checker les PosRecov en rotation.
-			break;
+        case 90:
+        case (-270):
+            // Condition about the Line being Even or not.
+            // Then, by the Matrix routing, define how the WS281x must be adressed.
+            if((posX % 2) == 0)
+            {
+                ui8_newY = (MAX_LINE - 1) - posY;
+            }
+            else
+            {
+                ui8_newY = posY;
+            }
+            ui16_returnPos = (((posX - 1) * MAX_COLU) + ui8_newY);
+            break;
 
-		default :	/* State of every undefined case, so not supposed to come here. */	break;
-	}
-	return ui16_returnPos; // Return Pos.
+        case 180:
+        case (-180):
+            // Condition about the Line being Even or not.
+            // Then, by the Matrix routing, define how the WS281x must be adressed.
+            if((posY % 2) == 0)
+            {
+                ui8_newX = MAX_COLU - ui8_X;
+            }
+            else
+            {
+                ui8_newX = (ui8_X - 1);
+            }
+            ui16_returnPos = (((ui8_Y - 1) * MAX_COLU) + ui8_newX);
+            break;
+
+
+        case 270:
+        case (-90):
+            // Condition about the Line being Even or not.
+            // Then, by the Matrix routing, define how the WS281x must be adressed.
+            if((posX % 2) == 0)
+            {
+                ui8_newY = (MAX_LINE - 1) - posY;
+            }
+            else
+            {
+                ui8_newY = posY;
+            }
+            ui16_returnPos = (((posX - 1) * MAX_COLU) + ui8_newY); // Checker les PosRecov en rotation.
+            break;
+
+        default :	/* State of every undefined case, so not supposed to come here. */	break;
+    }
+    return ui16_returnPos; // Return Pos.
 }
 
-void pixel_SetColor(pixel* addressMatrix, color newColor, unsigned int position)
-{	// Var. Dec. :
-	// To avoid problems about the parameters, I preferred to work with copies.
-	unsigned char Red = newColor.Red;
-   unsigned char Green = newColor.Green;
-   unsigned char Blue = newColor.Blue;
-
-	addressMatrix += (position - 1);	// go to the wanted LED position.
-
-	// Set "color" values :
-   addressMatrix->colorPix.Red = Red;
-   addressMatrix->colorPix.Green = Green;
-   addressMatrix->colorPix.Blue = Blue;
-
-   // Set the position info. in the structure :
-   addressMatrix->pos = position;
-
-   // Set the status to ON :
-   addressMatrix->status = 1;
-}
-
-void pixel_Show(unsigned char red, unsigned char green, unsigned char blue)
-{	// Var. Dec. :
-   // To avoid problems about the parameters, I preferred to work with copies.
-	unsigned char tmpRed = red;
-	unsigned char tmpGreen = green;
-	unsigned char tmpBlue = blue;
-
-	// For the WS2812b, the order is High bit to low AND Green - Red - Blue.
-	// Sending GREEN.
-	SEND_TO_LED(tmpGreen, BIT7);
-	SEND_TO_LED(tmpGreen, BIT6);
-	SEND_TO_LED(tmpGreen, BIT5);
-	SEND_TO_LED(tmpGreen, BIT4);
-	SEND_TO_LED(tmpGreen, BIT3);
-	SEND_TO_LED(tmpGreen, BIT2);
-	SEND_TO_LED(tmpGreen, BIT1);
-	SEND_TO_LED(tmpGreen, BIT0);
-	// Sending RED.
-	SEND_TO_LED(tmpRed, BIT7);
-	SEND_TO_LED(tmpRed, BIT6);
-	SEND_TO_LED(tmpRed, BIT5);
-	SEND_TO_LED(tmpRed, BIT4);
-	SEND_TO_LED(tmpRed, BIT3);
-	SEND_TO_LED(tmpRed, BIT2);
-	SEND_TO_LED(tmpRed, BIT1);
-	SEND_TO_LED(tmpRed, BIT0);
-	// Sending BLUE.
-	SEND_TO_LED(tmpBlue, BIT7);
-	SEND_TO_LED(tmpBlue, BIT6);
-	SEND_TO_LED(tmpBlue, BIT5);
-	SEND_TO_LED(tmpBlue, BIT4);
-	SEND_TO_LED(tmpBlue, BIT3);
-	SEND_TO_LED(tmpBlue, BIT2);
-	SEND_TO_LED(tmpBlue, BIT1);
-	SEND_TO_LED(tmpBlue, BIT0);
-}
-
-
-void matrix_Clear(pixel* addressMatrix)
-{	// Var. Dec. :
-	unsigned int i;
-	pixel* addressSave = addressMatrix;
-
-	for(i = 0; i < MAX_LEDS; i++)
-	{	// Clear ALL Color in the original addresses ...
-      addressMatrix->colorPix.Red = BRIGHT_MIN;
-      addressMatrix->colorPix.Green = BRIGHT_MIN;
-      addressMatrix->colorPix.Blue = BRIGHT_MIN;
-
-      addressMatrix->pos = 0; // Clear position ..
-
-      addressMatrix->status = 0; // Clear status ..
-
-      addressMatrix++;  // Increase address for clearing next position.
-	}
-	matrix_Show(addressSave);
-}
-
-void matrix_StatusReset(pixel* addressMatrix)
-{	// Var. Dec. :
-	unsigned int i;
-
-	for(i = 0; i < MAX_LEDS; i++)
-	{	// Clear Status to keep color in the original addresses ...
-      addressMatrix->status = 0;
-
-      addressMatrix++;  // Increase address for clearing next position.
-	}
-}
-
+//-------------------------------------------------------------------------------------->
 void matrix_Show(pixel* addressMatrix)
-{	// Var. Dec. :
-	xdata uint16 i;
+{   // Var. Dec. :
+    xdata unsigned int i;
 
-	// Disable Timer to avoid interrupting Sending Paquets :
-	TR0 = 0;
-
-	for(i = 0; i < MAX_LEDS; i++)
-	{
-		pixel_Show(addressMatrix->colorPix.Red, addressMatrix->colorPix.Green, addressMatrix->colorPix.Blue);
-		addressMatrix++;
-	}
-
-	// Enable / Re-activate Timer after Paquets Sent :
-	TR0 = 1;
+    // Disable Timer to avoid interrupting Sending "Packets" :
+    TR0 = 0;
+    for(i = 0; i < MAX_LEDS; i++)
+    {
+        if(addressMatrix->status != 0)
+        {
+            pixel_Show(addressMatrix->colorPix.Red, addressMatrix->colorPix.Green, \
+                        addressMatrix->colorPix.Blue);
+        }
+        else
+        {
+            pixel_Show(BRIGHT_MIN, BRIGHT_MIN, BRIGHT_MIN);
+        }
+        addressMatrix++; // Increase address for next position changes ..
+    }
+    // Enable / Re-activate Timer after "Packets" Sent :
+    TR0 = 1;
 }
 
+void matrix_Off(pixel* addressMatrix)
+{   // Var. Dec. :
+    xdata unsigned int i;
 
-void matrix_SetTextPos(unsigned char  column, unsigned char line)
-{
-   Offset.column = column;
-   Offset.line = line;
+    for(i = 0; i < MAX_LEDS; i++)
+    {	// Clear ALL color at the original address ...
+        pixel_Reset(addressMatrix, i);
+    }
+    matrix_Show(addressMatrix);
+}
+
+void matrix_ResetStatus(pixel* addressMatrix)
+{   // Var. Dec. :
+    xdata unsigned int i;
+
+    for(i = 0; i < MAX_LEDS; i++)
+    {   // Clear Status to keep color in the original address ...
+        addressMatrix->status = 0;
+        addressMatrix++; // Increase address for clearing next position.
+    }
+}
+
+void matrix_Inverter(pixel* addressMatrix)
+{   // Var. Dec. :
+    xdata unsigned int i; // LED Position for filling Board of strip.
+    xdata color tmpColor; // Color recovered to invert the actual strip's color.
+
+    for(i = 0; i < MAX_LEDS; i++)   // First loop to find the first LED alight that
+    {                                   // will give the colour to set for the
+        if(pixel_GetStatus(addressMatrix, i) != 0)       // reversed status ..
+        {   // color found => recovering and ending loop.
+            tmpColor = pixel_GetColor(addressMatrix, i);
+            break;
+        }
+    }
+    for(i = 0; i < MAX_LEDS; i++)   // Second loop to toggle LEDs status.
+    {
+        if(pixel_GetStatus(addressMatrix, i) == 0)
+        {
+            pixel_Set(addressMatrix, tmpColor, i);
+        }
+        else
+        {
+            pixel_Reset(addressMatrix, i);
+        }
+    }
+}
+
+void matrix_ChainedLeds(pixel* addressMatrix, color newColor, \
+                                               posType begin, posType end)
+{	// Var. Dec. :
+    xdata unsigned int i; // LED Position for filling Board of strip.
+
+    for(i = 0; i < MAX_LEDS; i++)
+    {
+        if((i >= begin) && (i <= end))
+        {
+            pixel_Set(addressMatrix, newColor, i);
+        }
+        else { /* Before first use, don't forget to clear strip's status. */ }
+    }
+}
+
+void matrix_SetTextPosition(unsigned char  column, unsigned char line)
+{   // COLUMN validity ..
+    //if(column < 1) Offset.column = 1;
+    //if(column > MAX_COLU) Offset.column = MAX_COLU;
+    //else Offset.column = column;
+    // LINE validity ..
+    //if(line < 1) Offset.line = 1;
+    //if(line > MAX_COLU) Offset.line = MAX_LINE;
+    //else Offset.line = line;
+
+    Offset.column = column;
+    Offset.line = line;
 }
 
 void matrix_Print(pixel* addressMatrix, color newColor, const char* _CharToWrite, ...)
@@ -375,9 +459,9 @@ void matrix_Print(pixel* addressMatrix, color newColor, const char* _CharToWrite
 		{
 			for(j = 0; j < Cnt_Col; j++)
 			{	// Same Line :
-				NeoPix_Pos = pixel_PosRecovery((j+Offset.column), i+Offset.line);
+				NeoPix_Pos = pixel_RecoverPosition((j+Offset.column), i+Offset.line);
 				// Condition about possible value for displaying or not.
-				if(NeoPix_Pos >= ((MAX_COLUMN * MAX_LINE) * MATRIX_NBR))
+				if(NeoPix_Pos >= ((MAX_COLU * MAX_LINE) * MATRIX_NBR))
 				{
 					break;
 				}
@@ -651,7 +735,7 @@ void matrix_Print(pixel* addressMatrix, color newColor, const char* _CharToWrite
 							case numberMob:
 								addressMatrix[NeoPix_Pos].status = cBoard_QuestMark_Mob[OFF_CHAR_DIM_5X7 - CharReadOrga];
 								break;
-							default :	/* State of every undefined case, so not supposed to come here. */	break;
+							default :	/* State of every undefined case, so not supposed to come here.	*/break;
 						}
 						break;
 					case ':':
@@ -659,7 +743,7 @@ void matrix_Print(pixel* addressMatrix, color newColor, const char* _CharToWrite
 						break;
 
 					case '^':
-						addressMatrix[NeoPix_Pos].status = cBoard_Heart[OFF_CHAR_DIM_7X6 - CharReadOrga];
+						//addressMatrix[NeoPix_Pos].status = cBoard_Heart[OFF_CHAR_DIM_7X6 - CharReadOrga];
 						break;
 
 					case '\'':
@@ -686,9 +770,10 @@ void matrix_Print(pixel* addressMatrix, color newColor, const char* _CharToWrite
 				// Coloring only One char at a Time :
 				if(addressMatrix[NeoPix_Pos].status != 0)
 				{
-					addressMatrix[NeoPix_Pos].colorPix.Red = newColor.Red;
-					addressMatrix[NeoPix_Pos].colorPix.Green = newColor.Green;
-					addressMatrix[NeoPix_Pos].colorPix.Blue = newColor.Blue;
+                    addressMatrix[NeoPix_Pos].colorPix = newColor;
+					//addressMatrix[NeoPix_Pos].colorPix.Red = newColor.Red;
+					//addressMatrix[NeoPix_Pos].colorPix.Green = newColor.Green;
+					//addressMatrix[NeoPix_Pos].colorPix.Blue = newColor.Blue;
 				}
 				else
 				{
@@ -707,28 +792,4 @@ void matrix_Print(pixel* addressMatrix, color newColor, const char* _CharToWrite
 		else
 		{ /* Nothin', avoid increase Col. after a \n. */ }
 	}
-}
-
-void strip_LedChain(pixel* addressMatrix, color newColor, unsigned int start, unsigned int end)
-{	// Var. Dec. :
-   unsigned int i;
-   pixel* addressSave = addressMatrix;
-
-	for(i = 0; i < MAX_LEDS; i++)
-	{
-		if((i >= start) && (i <= end))
-		{
-         addressMatrix->colorPix.Red = newColor.Red;
-         addressMatrix->colorPix.Green = newColor.Green;
-         addressMatrix->colorPix.Blue = newColor.Blue;
-		}
-		else
-		{
-         addressMatrix->colorPix.Red = BRIGHT_MIN;
-         addressMatrix->colorPix.Green = BRIGHT_MIN;
-         addressMatrix->colorPix.Blue = BRIGHT_MIN;
-		}
-    addressMatrix++;
-	}
-	matrix_Show(addressSave);
 }
