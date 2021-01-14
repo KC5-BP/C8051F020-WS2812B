@@ -5,7 +5,7 @@
 |x|  ,__  -'""`;
 |x| /   \  /"'  \
 |x|   __// \-"-_/
-|x| ´"   \  |           > Title : ws2812_strip
+|x| ´"   \  |           > Title : ws2812_matrix
 |x| \     |  \  _.-"',
 |x| "^,-´\/\  '" ,--. \         > Src : Timers_Wait_Xms.h
 |x|  \|\| | | , /    | |        >           (One of my own first c file)

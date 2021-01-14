@@ -5,7 +5,7 @@
 |x|  ,__  -'""`;
 |x| /   \  /"'  \
 |x|   __// \-"-_/
-|x| ´"   \  |           > Title : ws2812_strip
+|x| ´"   \  |           > Title : ws2812_matrix
 |x| \     |  \  _.-"',
 |x| "^,-´\/\  '" ,--. \         > Src : Timers_Wait_Xms.c
 |x|  \|\| | | , /    | |        >           (One of my own first c file)
@@ -365,7 +365,7 @@ void matrix_Print(pixel* addressMatrix, color newColor, const char* _CharToWrite
 {	// Var. Dec. :
 	xdata unsigned int i;	// Y and Filling
 	xdata unsigned char j;	// X
-	xdata unsigned char Cnt_Lin = 0;	// For Char with different : Line
+	xdata unsigned char Cnt_Lin = 7;	// For Char with different : Line
 	xdata unsigned char Cnt_Col = 0;	// For Char with different : Colu
 	const char* cP_CharToPrint;	// Recover the actual char to print.
 	xdata unsigned int NeoPix_Pos = 0;	// Position recovery from an int to
@@ -381,11 +381,11 @@ void matrix_Print(pixel* addressMatrix, color newColor, const char* _CharToWrite
 			case 'N':	case 'O':	case 'P':   case 'Q':	case 'R':	case 'S':
 			case 'T':	case 'U':   case 'X':	case 'Y':	case 'Z':
 				Cnt_Col = 4;
-				Cnt_Lin = 7;
+				//Cnt_Lin = 7;
 				break;
 			case 'M':	case 'V':	case 'W':
 				Cnt_Col = 5;
-				Cnt_Lin = 7;
+                //Cnt_Lin = 7;
 				break;
 			// Numbers + Style : ------------------------------------------->
 			case '0':	case '1':	case '2':	case '3':	case '4':
@@ -394,11 +394,11 @@ void matrix_Print(pixel* addressMatrix, color newColor, const char* _CharToWrite
 				{
  					case numberClassic:
 						Cnt_Col = 4;
-						Cnt_Lin = 7;
+                        //Cnt_Lin = 7;
 						break;
 					case numberTime:
 						Cnt_Col = 5;
-						Cnt_Lin = 7;
+                        //Cnt_Lin = 7;
 						break;
 					case numberMob:
 						Cnt_Col = 4;
@@ -412,24 +412,24 @@ void matrix_Print(pixel* addressMatrix, color newColor, const char* _CharToWrite
 			case ':':	case '=':   case '*':   case '-':
 			case '+':	case '%':   /*case '°':*/   case '/':
 				Cnt_Col = 3;
-				Cnt_Lin = 7;
+                //Cnt_Lin = 7;
 				break;
 
          case '\'':
 				Cnt_Col = 2;
-				Cnt_Lin = 7;
+                //Cnt_Lin = 7;
 				break;
 
         case '(':	case ')':   case '{':   case '}':
         case '[':	case ']':   case '~':   case '@':
         case '#':	case '&':
 				Cnt_Col = 5;
-				Cnt_Lin = 7;
+                //Cnt_Lin = 7;
 				break;
 
         case '_':
 				Cnt_Col = 4;
-				Cnt_Lin = 7;
+                //Cnt_Lin = 7;
 				break;
 
 			case '^':
@@ -442,11 +442,11 @@ void matrix_Print(pixel* addressMatrix, color newColor, const char* _CharToWrite
 				{
 					case numberClassic:
 						Cnt_Col = 4;
-						Cnt_Lin = 7;
+                        //Cnt_Lin = 7;
 						break;
 					case numberMob:
 						Cnt_Col = 5;
-						Cnt_Lin = 7;
+                        //Cnt_Lin = 7;
 						break;
 					default :	/* State of every undefined case, so not supposed to come here. */	break;
 				}
@@ -498,6 +498,8 @@ void matrix_Print(pixel* addressMatrix, color newColor, const char* _CharToWrite
                         addressMatrix[NeoPix_Pos].status = cBoard_HashtagV1[OFF_CHAR_DIM_5X7 - CharReadOrga];
                         break;
                     //case '$':
+                    //  addressMatrix[NeoPix_Pos].status = ;
+                    //  break;
                     case '%':
                         addressMatrix[NeoPix_Pos].status = cBoard_xMult[OFF_CHAR_DIM_3X7 - CharReadOrga];
                         break;
@@ -690,10 +692,14 @@ void matrix_Print(pixel* addressMatrix, color newColor, const char* _CharToWrite
                         addressMatrix[NeoPix_Pos].status = cBoard_SemiColon[OFF_CHAR_DIM_3X7 - CharReadOrga];
                         break;
                     //case '<':
+                    //  addressMatrix[NeoPix_Pos].status = ;
+                    //  break;
                     case '=':
                         addressMatrix[NeoPix_Pos].status = cBoard_Equal[OFF_CHAR_DIM_3X7 - CharReadOrga];
                         break;
                     //case '>':
+                    //  addressMatrix[NeoPix_Pos].status = ;
+                    //  break;
                     case '?':
                         switch(matrixDisplay.txtFont)
                         {
@@ -793,6 +799,8 @@ void matrix_Print(pixel* addressMatrix, color newColor, const char* _CharToWrite
                         addressMatrix[NeoPix_Pos].status = cBoard_OpenSqBracket[OFF_CHAR_DIM_5X7 - CharReadOrga];
                         break;
                     //case '\\':
+                    //  addressMatrix[NeoPix_Pos].status = ;
+                    //  break;
                     case ']':
                         addressMatrix[NeoPix_Pos].status = cBoard_CloseSqBracket[OFF_CHAR_DIM_5X7 - CharReadOrga];
                         break;
@@ -803,10 +811,14 @@ void matrix_Print(pixel* addressMatrix, color newColor, const char* _CharToWrite
                         addressMatrix[NeoPix_Pos].status = cBoard_Underscore[OFF_CHAR_DIM_4X7 - CharReadOrga];
                         break;
                     //case '`':
+                    //  addressMatrix[NeoPix_Pos].status = ;
+                    //  break;
                     case '{':
                         addressMatrix[NeoPix_Pos].status = cBoard_OpenRoBracket[OFF_CHAR_DIM_5X7 - CharReadOrga];
                         break;
                     //case '|':
+                    //  addressMatrix[NeoPix_Pos].status = ;
+                    //  break;
                     case '}':
                         addressMatrix[NeoPix_Pos].status = cBoard_CloseRoBracket[OFF_CHAR_DIM_5X7 - CharReadOrga];
                         break;

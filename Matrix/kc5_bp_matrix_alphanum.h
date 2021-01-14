@@ -5,12 +5,12 @@
 |x|  ,__  -'""`;
 |x| /   \  /"'  \
 |x|   __// \-"-_/
-|x| ´"   \  |           > Title : ws2812_strip
+|x| ´"   \  |           > Title : kc5_bp_matrix_alphanum
 |x| \     |  \  _.-"',
 |x| "^,-´\/\  '" ,--. \         > Src : Timers_Wait_Xms.h
 |x|  \|\| | | , /    | |        >           (One of my own first c file)
 |x|     '`'\|._ |   / /
-|x|         '\),/  / |          > Creation: 2019.11.21
+|x|         '\),/  / |          > Creation: 2019.11.CHAR_DIM_3X7
 |x|           |/.-"_/           > By :  KC5-BP
 |x| .__---+-_/'|--"
 |x|         _| |_--,            > Description :
@@ -34,17 +34,21 @@
 
 //===================================================
 //================================\Header's_Definitions/==================================>
-
-//-- GLOBAL VARIABLES	:------------------------------->
-// Dimension of a char is 5x7, so 28 pixels :
-// !! WARNING for next Time !!, 
-/*extern xdata char cBoard_A[28] = {\
-0, 1, 1, 1, 0\	=> Count as a command char and doesn't take it as 0.
-1, 0, 0, 0, 1\	=> Count as a command char and doesn't take it as number.
-..             => Be careful to the ' , ' before the ' \ '
-..}; */
-// V1 : Char Dim. : 5x7 : -------------------------------->
-extern xdata char cBoard_M[35] = {\
+#ifndef CHAR_DIM_3X7
+#define CHAR_DIM_3X7 21
+#endif
+#ifndef CHAR_DIM_4X6
+#define CHAR_DIM_4X6 24
+#endif
+#ifndef CHAR_DIM_4X7
+#define CHAR_DIM_4X7 28
+#endif
+#ifndef CHAR_DIM_5X7
+#define CHAR_DIM_5X7 35
+#endif
+//-- GLOBAL CHARACTERS ARRAYS	: ------------------------>
+// M-V-W : Char Dim. : 5x7 : ----------------------------->
+extern xdata char cBoard_M[CHAR_DIM_5X7] = {\
 1, 0, 0, 0, 1,\
 1, 1, 0, 1, 1,\
 1, 0, 1, 0, 1,\
@@ -53,7 +57,7 @@ extern xdata char cBoard_M[35] = {\
 1, 0, 0, 0, 1,\
 1, 0, 0, 0, 1};
 //-------------------->
-extern xdata char cBoard_V[35] = {
+extern xdata char cBoard_V[CHAR_DIM_5X7] = {
 1, 0, 0, 0, 1,
 1, 0, 0, 0, 1,
 1, 0, 0, 0, 1,
@@ -62,7 +66,7 @@ extern xdata char cBoard_V[35] = {
 0, 1, 0, 1, 0,
 0, 0, 1, 0, 0}; 
 //-------------------->
-extern xdata char cBoard_W[35] = {\
+extern xdata char cBoard_W[CHAR_DIM_5X7] = {\
 1, 0, 0, 0, 1,\
 1, 0, 0, 0, 1,\
 1, 0, 0, 0, 1,\
@@ -70,8 +74,8 @@ extern xdata char cBoard_W[35] = {\
 1, 0, 1, 0, 1,\
 0, 1, 0, 1, 0,\
 0, 1, 0, 1, 0};
-// V2 : Char Dim. : 4x7 : -------------------------------->
-extern xdata char cBoard_A[28] = {\
+// Other alphabet's letters : Char Dim. : 4x7 : ---------->
+extern xdata char cBoard_A[CHAR_DIM_4X7] = {\
 0, 1, 1, 0,\
 1, 0, 0, 1,\
 1, 0, 0, 1,\
@@ -80,7 +84,7 @@ extern xdata char cBoard_A[28] = {\
 1, 0, 0, 1,\
 1, 0, 0, 1}; 
 //------------------->
-extern xdata char cBoard_B[28] = {\
+extern xdata char cBoard_B[CHAR_DIM_4X7] = {\
 1, 1, 0, 0,\
 1, 0, 1, 0,\
 1, 1, 0, 0,\
@@ -89,7 +93,7 @@ extern xdata char cBoard_B[28] = {\
 1, 0, 0, 1,\
 1, 1, 1, 1,}; 
 //------------------->
-extern xdata char cBoard_C[28] = {\
+extern xdata char cBoard_C[CHAR_DIM_4X7] = {\
 0, 1, 1, 1,\
 1, 0, 0, 0,\
 1, 0, 0, 0,\
@@ -98,7 +102,7 @@ extern xdata char cBoard_C[28] = {\
 1, 0, 0, 0,\
 0, 1, 1, 1,}; 
 //------------------->
-extern xdata char cBoard_D[28] = {\
+extern xdata char cBoard_D[CHAR_DIM_4X7] = {\
 1, 1, 1, 0,\
 1, 0, 0, 1,\
 1, 0, 0, 1,\
@@ -107,7 +111,7 @@ extern xdata char cBoard_D[28] = {\
 1, 0, 0, 1,\
 1, 1, 1, 0}; 
 //------------------->
-extern xdata char cBoard_E[28] = {\
+extern xdata char cBoard_E[CHAR_DIM_4X7] = {\
 1, 1, 1, 1,\
 1, 0, 0, 0,\
 1, 0, 0, 0,\
@@ -116,7 +120,7 @@ extern xdata char cBoard_E[28] = {\
 1, 0, 0, 0,\
 1, 1, 1, 1}; 
 //------------------->
-extern xdata char cBoard_F[28] = {\
+extern xdata char cBoard_F[CHAR_DIM_4X7] = {\
 1, 1, 1, 1,\
 1, 0, 0, 0,\
 1, 0, 0, 0,\
@@ -125,7 +129,7 @@ extern xdata char cBoard_F[28] = {\
 1, 0, 0, 0,\
 1, 0, 0, 0}; 
 //------------------->
-extern xdata char cBoard_G[28] = {\
+extern xdata char cBoard_G[CHAR_DIM_4X7] = {\
 0, 1, 1, 0,\
 1, 0, 0, 1,\
 1, 0, 0, 0,\
@@ -134,7 +138,7 @@ extern xdata char cBoard_G[28] = {\
 1, 0, 0, 1,\
 0, 1, 1, 0}; 
 //------------------->
-extern xdata char cBoard_H[28] = {\
+extern xdata char cBoard_H[CHAR_DIM_4X7] = {\
 1, 0, 0, 1,\
 1, 0, 0, 1,\
 1, 0, 0, 1,\
@@ -143,7 +147,7 @@ extern xdata char cBoard_H[28] = {\
 1, 0, 0, 1,\
 1, 0, 0, 1}; 
 //------------------->
-extern xdata char cBoard_I[28] = {\
+extern xdata char cBoard_I[CHAR_DIM_4X7] = {\
 1, 1, 1, 1,\
 0, 1, 1, 0,\
 0, 1, 1, 0,\
@@ -152,7 +156,7 @@ extern xdata char cBoard_I[28] = {\
 0, 1, 1, 0,\
 1, 1, 1, 1}; 
 //------------------->
-extern xdata char cBoard_J[28] = {\
+extern xdata char cBoard_J[CHAR_DIM_4X7] = {\
 0, 1, 1, 1,\
 0, 0, 1, 0,\
 0, 0, 1, 0,\
@@ -161,7 +165,7 @@ extern xdata char cBoard_J[28] = {\
 1, 0, 1, 0,\
 0, 1, 1, 0}; 
 //------------------->
-extern xdata char cBoard_K[28] = {\
+extern xdata char cBoard_K[CHAR_DIM_4X7] = {\
 1, 0, 0, 1,\
 1, 0, 0, 1,\
 1, 0, 1, 0,\
@@ -170,7 +174,7 @@ extern xdata char cBoard_K[28] = {\
 1, 0, 0, 1,\
 1, 0, 0, 1}; 
 //------------------->
-extern xdata char cBoard_L[28] = {\
+extern xdata char cBoard_L[CHAR_DIM_4X7] = {\
 1, 0, 0, 0,\
 1, 0, 0, 0,\
 1, 0, 0, 0,\
@@ -179,7 +183,7 @@ extern xdata char cBoard_L[28] = {\
 1, 0, 0, 0,\
 1, 1, 1, 1}; 
 //------------------->
-extern xdata char cBoard_N[28] = {\
+extern xdata char cBoard_N[CHAR_DIM_4X7] = {\
 1, 0, 0, 1,\
 1, 1, 0, 1,\
 1, 1, 0, 1,\
@@ -188,7 +192,7 @@ extern xdata char cBoard_N[28] = {\
 1, 0, 1, 1,\
 1, 0, 0, 1}; 
 //------------------->
-extern xdata char cBoard_O[28] = {\
+extern xdata char cBoard_O[CHAR_DIM_4X7] = {\
 1, 1, 1, 1,\
 1, 0, 0, 1,\
 1, 0, 0, 1,\
@@ -197,7 +201,7 @@ extern xdata char cBoard_O[28] = {\
 1, 0, 0, 1,\
 1, 1, 1, 1}; 
 //------------------->
-extern xdata char cBoard_P[28] = {\
+extern xdata char cBoard_P[CHAR_DIM_4X7] = {\
 1, 1, 1, 0,\
 1, 0, 0, 1,\
 1, 0, 0, 1,\
@@ -206,7 +210,7 @@ extern xdata char cBoard_P[28] = {\
 1, 0, 0, 0,\
 1, 0, 0, 0}; 
 //------------------->
-extern xdata char cBoard_Q[28] = {\
+extern xdata char cBoard_Q[CHAR_DIM_4X7] = {\
 0, 1, 1, 0,\
 1, 0, 0, 1,\
 1, 0, 0, 1,\
@@ -215,7 +219,7 @@ extern xdata char cBoard_Q[28] = {\
 1, 0, 1, 0,\
 0, 1, 0, 1}; 
 //------------------->
-extern xdata char cBoard_R[28] = {\
+extern xdata char cBoard_R[CHAR_DIM_4X7] = {\
 1, 1, 1, 0,\
 1, 0, 0, 1,\
 1, 0, 0, 1,\
@@ -224,7 +228,7 @@ extern xdata char cBoard_R[28] = {\
 1, 0, 0, 1,\
 1, 0, 0, 1}; 
 //------------------->
-extern xdata char cBoard_S[28] = {\
+extern xdata char cBoard_S[CHAR_DIM_4X7] = {\
 0, 1, 1, 0,\
 1, 0, 0, 1,\
 1, 0, 0, 0,\
@@ -233,7 +237,7 @@ extern xdata char cBoard_S[28] = {\
 1, 0, 0, 1,\
 0, 1, 1, 0}; 
 //------------------->
-extern xdata char cBoard_T[28] = {\
+extern xdata char cBoard_T[CHAR_DIM_4X7] = {\
 1, 1, 1, 1,\
 0, 1, 1, 0,\
 0, 1, 1, 0,\
@@ -242,7 +246,7 @@ extern xdata char cBoard_T[28] = {\
 0, 1, 1, 0,\
 0, 1, 1, 0}; 
 //------------------->
-extern xdata char cBoard_U[28] = {\
+extern xdata char cBoard_U[CHAR_DIM_4X7] = {\
 1, 0, 0, 1,\
 1, 0, 0, 1,\
 1, 0, 0, 1,\
@@ -251,7 +255,7 @@ extern xdata char cBoard_U[28] = {\
 1, 0, 0, 1,\
 0, 1, 1, 0}; 
 //------------------->
-extern xdata char cBoard_X[28] = {\
+extern xdata char cBoard_X[CHAR_DIM_4X7] = {\
 1, 0, 0, 1,\
 1, 0, 0, 1,\
 0, 1, 1, 0,\
@@ -260,7 +264,7 @@ extern xdata char cBoard_X[28] = {\
 1, 0, 0, 1,\
 1, 0, 0, 1}; 
 //------------------->
-extern xdata char cBoard_Y[28] = {\
+extern xdata char cBoard_Y[CHAR_DIM_4X7] = {\
 1, 0, 0, 1,\
 1, 0, 0, 1,\
 0, 1, 1, 1,\
@@ -269,16 +273,18 @@ extern xdata char cBoard_Y[28] = {\
 0, 0, 1, 0,\
 0, 1, 0, 0}; 
 //------------------->
-extern xdata char cBoard_Z[28] = {\
+extern xdata char cBoard_Z[CHAR_DIM_4X7] = {\
 1, 1, 1, 1,\
 0, 0, 0, 1,\
 0, 0, 1, 0,\
 0, 1, 0, 0,\
 0, 1, 0, 0,\
 1, 0, 0, 0,\
-1, 1, 1, 1}; 
-// Numbers : -------------------------------------------->
-extern xdata char cBoard_0_Time[35] = {\
+1, 1, 1, 1};
+// M-V-W : Char Dim. : 5x7 : ----------------------------->
+// Numbers : Char. Dim. : -->
+// '-> Design : 5x7 : ------>
+extern xdata char cBoard_0_Time[CHAR_DIM_5X7] = {\
 0, 1, 1, 1, 0,\
 1, 0, 0, 1, 1,\
 1, 0, 1, 0, 1,\
@@ -287,7 +293,7 @@ extern xdata char cBoard_0_Time[35] = {\
 1, 1, 0, 0, 1,\
 0, 1, 1, 1, 0}; 
 //------------------->
-extern xdata char cBoard_1_Time[35] = {\
+extern xdata char cBoard_1_Time[CHAR_DIM_5X7] = {\
 0, 0, 1, 0, 0,\
 0, 1, 1, 0, 0,\
 0, 0, 1, 0, 0,\
@@ -296,7 +302,7 @@ extern xdata char cBoard_1_Time[35] = {\
 0, 0, 1, 0, 0,\
 0, 1, 1, 1, 0}; 
 //------------------->
-extern xdata char cBoard_2_Time[35] = {\
+extern xdata char cBoard_2_Time[CHAR_DIM_5X7] = {\
 0, 1, 1, 1, 0,\
 1, 0, 0, 0, 1,\
 1, 0, 1, 0, 1,\
@@ -305,7 +311,7 @@ extern xdata char cBoard_2_Time[35] = {\
 0, 1, 0, 0, 0,\
 1, 1, 1, 1, 1}; 
 //------------------->
-extern xdata char cBoard_3_Time[35] = {\
+extern xdata char cBoard_3_Time[CHAR_DIM_5X7] = {\
 0, 1, 1, 1, 0,\
 1, 0, 0, 0, 1,\
 0, 0, 1, 0, 1,\
@@ -314,7 +320,7 @@ extern xdata char cBoard_3_Time[35] = {\
 1, 0, 0, 0, 1,\
 0, 1, 1, 1, 0}; 
 //------------------->
-extern xdata char cBoard_4_Time[35] = {\
+extern xdata char cBoard_4_Time[CHAR_DIM_5X7] = {\
 1, 0, 0, 0, 1,\
 1, 0, 1, 0, 1,\
 1, 0, 0, 0, 1,\
@@ -323,7 +329,7 @@ extern xdata char cBoard_4_Time[35] = {\
 0, 0, 0, 0, 1,\
 0, 0, 0, 0, 1}; 
 //------------------->
-extern xdata char cBoard_5_Time[35] = {\
+extern xdata char cBoard_5_Time[CHAR_DIM_5X7] = {\
 1, 1, 1, 1, 1,\
 1, 0, 0, 0, 0,\
 1, 1, 1, 1, 0,\
@@ -332,7 +338,7 @@ extern xdata char cBoard_5_Time[35] = {\
 1, 0, 0, 0, 1,\
 0, 1, 1, 1, 0}; 
 //------------------->
-extern xdata char cBoard_6_Time[35] = {\
+extern xdata char cBoard_6_Time[CHAR_DIM_5X7] = {\
 0, 1, 1, 1, 0,\
 1, 0, 0, 0, 0,\
 1, 1, 1, 1, 0,\
@@ -341,7 +347,7 @@ extern xdata char cBoard_6_Time[35] = {\
 1, 0, 0, 0, 1,\
 0, 1, 1, 1, 0}; 
 //------------------->
-extern xdata char cBoard_7_Time[35] = {\
+extern xdata char cBoard_7_Time[CHAR_DIM_5X7] = {\
 1, 1, 1, 1, 1,\
 0, 0, 0, 0, 1,\
 0, 1, 0, 1, 0,\
@@ -350,7 +356,7 @@ extern xdata char cBoard_7_Time[35] = {\
 0, 0, 1, 0, 0,\
 0, 0, 1, 0, 0}; 
 //------------------->
-extern xdata char cBoard_8_Time[35] = {\
+extern xdata char cBoard_8_Time[CHAR_DIM_5X7] = {\
 0, 1, 1, 1, 0,\
 1, 0, 0, 0, 1,\
 0, 1, 1, 1, 0,\
@@ -359,7 +365,7 @@ extern xdata char cBoard_8_Time[35] = {\
 1, 0, 0, 0, 1,\
 0, 1, 1, 1, 0}; 
 //------------------->
-extern xdata char cBoard_9_Time[35] = {\
+extern xdata char cBoard_9_Time[CHAR_DIM_5X7] = {\
 0, 1, 1, 1, 0,\
 1, 0, 0, 0, 1,\
 1, 0, 1, 0, 1,\
@@ -367,8 +373,8 @@ extern xdata char cBoard_9_Time[35] = {\
 0, 1, 1, 1, 1,\
 0, 0, 0, 0, 1,\
 0, 1, 1, 1, 0};
-//------------------->
-extern xdata char cBoard_0_Val[28] = {\
+// '-> Classic : 4x7 : ----->
+extern xdata char cBoard_0_Val[CHAR_DIM_4X7] = {\
 0, 1, 1, 0,\
 1, 0, 0, 1,\
 1, 0, 0, 1,\
@@ -377,7 +383,7 @@ extern xdata char cBoard_0_Val[28] = {\
 1, 0, 0, 1,\
 0, 1, 1, 0}; 
 //------------------->
-extern xdata char cBoard_1_Val[28] = {\
+extern xdata char cBoard_1_Val[CHAR_DIM_4X7] = {\
 0, 0, 1, 0,\
 0, 1, 1, 0,\
 0, 0, 1, 0,\
@@ -386,7 +392,7 @@ extern xdata char cBoard_1_Val[28] = {\
 0, 0, 1, 0,\
 0, 1, 1, 1}; 
 //------------------->
-extern xdata char cBoard_2_Val[28] = {\
+extern xdata char cBoard_2_Val[CHAR_DIM_4X7] = {\
 0, 1, 1, 0,\
 1, 0, 0, 1,\
 0, 0, 0, 1,\
@@ -395,7 +401,7 @@ extern xdata char cBoard_2_Val[28] = {\
 1, 0, 0, 0,\
 1, 1, 1, 1}; 
 //------------------->
-extern xdata char cBoard_3_Val[28] = {\
+extern xdata char cBoard_3_Val[CHAR_DIM_4X7] = {\
 0, 1, 1, 0,\
 1, 0, 0, 1,\
 0, 0, 0, 1,\
@@ -404,7 +410,7 @@ extern xdata char cBoard_3_Val[28] = {\
 1, 0, 0, 1,\
 0, 1, 1, 0}; 
 //------------------->
-extern xdata char cBoard_4_Val[28] = {\
+extern xdata char cBoard_4_Val[CHAR_DIM_4X7] = {\
 1, 0, 0, 1,\
 1, 0, 0, 1,\
 1, 0, 0, 1,\
@@ -413,7 +419,7 @@ extern xdata char cBoard_4_Val[28] = {\
 0, 0, 0, 1,\
 0, 0, 0, 1}; 
 //------------------->
-extern xdata char cBoard_5_Val[28] = {\
+extern xdata char cBoard_5_Val[CHAR_DIM_4X7] = {\
 1, 1, 1, 1,\
 1, 0, 0, 0,\
 0, 1, 1, 0,\
@@ -422,7 +428,7 @@ extern xdata char cBoard_5_Val[28] = {\
 1, 0, 0, 1,\
 0, 1, 1, 0}; 
 //------------------->
-extern xdata char cBoard_6_Val[28] = {\
+extern xdata char cBoard_6_Val[CHAR_DIM_4X7] = {\
 0, 1, 1, 0,\
 1, 0, 0, 1,\
 1, 0, 0, 0,\
@@ -431,7 +437,7 @@ extern xdata char cBoard_6_Val[28] = {\
 1, 0, 0, 1,\
 0, 1, 1, 0}; 
 //------------------->
-extern xdata char cBoard_7_Val[28] = {\
+extern xdata char cBoard_7_Val[CHAR_DIM_4X7] = {\
 1, 1, 1, 1,\
 0, 0, 0, 1,\
 0, 0, 1, 0,\
@@ -440,7 +446,7 @@ extern xdata char cBoard_7_Val[28] = {\
 0, 1, 0, 0,\
 0, 1, 0, 0}; 
 //------------------->
-extern xdata char cBoard_8_Val[28] = {\
+extern xdata char cBoard_8_Val[CHAR_DIM_4X7] = {\
 0, 1, 1, 0,\
 1, 0, 0, 1,\
 0, 1, 1, 0,\
@@ -449,16 +455,16 @@ extern xdata char cBoard_8_Val[28] = {\
 1, 0, 0, 1,\
 0, 1, 1, 0}; 
 //------------------->
-extern xdata char cBoard_9_Val[28] = {\
+extern xdata char cBoard_9_Val[CHAR_DIM_4X7] = {\
 0, 1, 1, 0,\
 1, 0, 0, 1,\
 1, 0, 0, 1,\
 0, 1, 1, 1,\
 0, 0, 0, 1,\
 1, 0, 0, 1,\
-0, 1, 1, 0}; 
-//------------------->
-extern xdata char cBoard_0_Mob[24] = {\
+0, 1, 1, 0};
+// '-> MOB Style : 4x6 : --->
+extern xdata char cBoard_0_Mob[CHAR_DIM_4X6] = {\
 1, 1, 0, 1,\
 1, 0, 0, 1,\
 1, 0, 0, 1,\
@@ -466,7 +472,7 @@ extern xdata char cBoard_0_Mob[24] = {\
 1, 0, 0, 1,\
 1, 1, 0, 1}; 
 //------------------->
-extern xdata char cBoard_1_Mob[24] = {\
+extern xdata char cBoard_1_Mob[CHAR_DIM_4X6] = {\
 0, 1, 1, 0,\
 0, 0, 0, 0,\
 0, 0, 1, 0,\
@@ -474,7 +480,7 @@ extern xdata char cBoard_1_Mob[24] = {\
 0, 0, 1, 0,\
 0, 0, 1, 0}; 
 //------------------->
-extern xdata char cBoard_2_Mob[24] = {\
+extern xdata char cBoard_2_Mob[CHAR_DIM_4X6] = {\
 1, 1, 1, 1,\
 0, 0, 0, 1,\
 1, 1, 1, 1,\
@@ -482,7 +488,7 @@ extern xdata char cBoard_2_Mob[24] = {\
 0, 0, 0, 0,\
 1, 1, 1, 1}; 
 //------------------->
-extern xdata char cBoard_3_Mob[24] = {\
+extern xdata char cBoard_3_Mob[CHAR_DIM_4X6] = {\
 1, 1, 0, 1,\
 0, 0, 0, 1,\
 1, 1, 0, 1,\
@@ -490,7 +496,7 @@ extern xdata char cBoard_3_Mob[24] = {\
 0, 0, 0, 1,\
 1, 1, 0, 1}; 
 //------------------->
-extern xdata char cBoard_4_Mob[24] = {\
+extern xdata char cBoard_4_Mob[CHAR_DIM_4X6] = {\
 0, 0, 1, 0,\
 0, 1, 0, 0,\
 0, 1, 0, 1,\
@@ -498,7 +504,7 @@ extern xdata char cBoard_4_Mob[24] = {\
 1, 0, 1, 1,\
 0, 0, 0, 1}; 
 //------------------->
-extern xdata char cBoard_5_Mob[24] = {\
+extern xdata char cBoard_5_Mob[CHAR_DIM_4X6] = {\
 1, 1, 1, 1,\
 1, 0, 0, 0,\
 0, 0, 0, 0,\
@@ -506,7 +512,7 @@ extern xdata char cBoard_5_Mob[24] = {\
 0, 0, 0, 1,\
 1, 1, 1, 1}; 
 //------------------->
-extern xdata char cBoard_6_Mob[24] = {\
+extern xdata char cBoard_6_Mob[CHAR_DIM_4X6] = {\
 1, 1, 1, 1,\
 1, 0, 0, 0,\
 1, 1, 0, 1,\
@@ -514,7 +520,7 @@ extern xdata char cBoard_6_Mob[24] = {\
 1, 0, 0, 1,\
 1, 1, 0, 1}; 
 //------------------->
-extern xdata char cBoard_7_Mob[24] = {\
+extern xdata char cBoard_7_Mob[CHAR_DIM_4X6] = {\
 1, 1, 1, 1,\
 0, 0, 0, 0,\
 0, 0, 0, 1,\
@@ -522,7 +528,7 @@ extern xdata char cBoard_7_Mob[24] = {\
 0, 0, 1, 0,\
 0, 1, 0, 0}; 
 //------------------->
-extern xdata char cBoard_8_Mob[24] = {\
+extern xdata char cBoard_8_Mob[CHAR_DIM_4X6] = {\
 0, 1, 0, 1,\
 1, 0, 0, 1,\
 1, 1, 1, 1,\
@@ -530,7 +536,7 @@ extern xdata char cBoard_8_Mob[24] = {\
 1, 0, 0, 1,\
 1, 0, 1, 0}; 
 //------------------->
-extern xdata char cBoard_9_Mob[24] = {\
+extern xdata char cBoard_9_Mob[CHAR_DIM_4X6] = {\
 1, 1, 0, 1,\
 1, 0, 0, 1,\
 1, 1, 0, 1,\
@@ -539,7 +545,7 @@ extern xdata char cBoard_9_Mob[24] = {\
 0, 0, 0, 1};
 // Special Char., like ' ', ',', '.', '!', '?', ... ----->
 // ' ' : 3x7
-extern xdata char cBoard_Space[21] = {\
+extern xdata char cBoard_Space[CHAR_DIM_3X7] = {\
 0, 0, 0,\
 0, 0, 0,\
 0, 0, 0,\
@@ -549,7 +555,7 @@ extern xdata char cBoard_Space[21] = {\
 0, 0, 0};
 //------------------->
 // '.' : 3x7
-extern xdata char cBoard_Dot[21] = {\
+extern xdata char cBoard_Dot[CHAR_DIM_3X7] = {\
 0, 0, 0,\
 0, 0, 0,\
 0, 0, 0,\
@@ -559,7 +565,7 @@ extern xdata char cBoard_Dot[21] = {\
 0, 1, 0}; 
 //------------------->
 // ',' : 3x7
-extern xdata char cBoard_Comma[21] = {\
+extern xdata char cBoard_Comma[CHAR_DIM_3X7] = {\
 0, 0, 0,\
 0, 0, 0,\
 0, 0, 0,\
@@ -569,7 +575,7 @@ extern xdata char cBoard_Comma[21] = {\
 1, 0, 0}; 
 //------------------->
 // '!' : 3x7
-extern xdata char cBoard_ExclaMark[21] = {\
+extern xdata char cBoard_ExclaMark[CHAR_DIM_3X7] = {\
 1, 1, 1,\
 1, 0, 1,\
 1, 0, 1,\
@@ -579,7 +585,7 @@ extern xdata char cBoard_ExclaMark[21] = {\
 0, 1, 0};
 //------------------->
 // '?' : 4x7
-extern xdata char cBoard_QuestMark[28] = {\
+extern xdata char cBoard_QuestMark[CHAR_DIM_4X7] = {\
 0, 1, 1, 0,\
 1, 0, 0, 1,\
 1, 0, 0, 1,\
@@ -588,7 +594,7 @@ extern xdata char cBoard_QuestMark[28] = {\
 0, 0, 0, 0,\
 0, 1, 0, 0};
 // '?' : 5x7
-extern xdata char cBoard_QuestMark_Mob[35] = {\
+extern xdata char cBoard_QuestMark_Mob[CHAR_DIM_5X7] = {\
 1, 1, 1, 0, 1,\
 1, 0, 0, 0, 1,\
 0, 0, 0, 0, 1,\
@@ -598,7 +604,7 @@ extern xdata char cBoard_QuestMark_Mob[35] = {\
 0, 1, 0, 0, 0}; 
 //------------------->
 // ';' : 3x7
-extern xdata char cBoard_SemiColon[21] = {\
+extern xdata char cBoard_SemiColon[CHAR_DIM_3X7] = {\
 0, 0, 0,\
 1, 1, 0,\
 1, 1, 0,\
@@ -608,7 +614,7 @@ extern xdata char cBoard_SemiColon[21] = {\
 1, 0, 0};
 //------------------->
 // ':' : 3x7
-extern xdata char cBoard_Colon[21] = {\
+extern xdata char cBoard_Colon[CHAR_DIM_3X7] = {\
 0, 0, 0,\
 1, 1, 0,\
 1, 1, 0,\
@@ -618,7 +624,7 @@ extern xdata char cBoard_Colon[21] = {\
 0, 0, 0};
 //------------------->
 // '=' : 3x7
-extern xdata char cBoard_Equal[21] = {\
+extern xdata char cBoard_Equal[CHAR_DIM_3X7] = {\
 0, 0, 0,\
 0, 0, 0,\
 1, 1, 1,\
@@ -638,7 +644,7 @@ extern xdata char cBoard_Apost[14] = {\
 0, 0}; 
 //------------------->
 // '*' : 3x7
-extern xdata char cBoard_Asterisk[21] = {\
+extern xdata char cBoard_Asterisk[CHAR_DIM_3X7] = {\
 0, 0, 0,\
 0, 1, 0,\
 1, 1, 1,\
@@ -648,7 +654,7 @@ extern xdata char cBoard_Asterisk[21] = {\
 0, 0, 0};
 //------------------->
 // '(' : 5x7
-extern xdata char cBoard_OpenBracket[35] = {\
+extern xdata char cBoard_OpenBracket[CHAR_DIM_5X7] = {\
 0, 0, 1, 0, 0,\
 0, 1, 0, 0, 0,\
 0, 1, 0, 0, 0,\
@@ -658,7 +664,7 @@ extern xdata char cBoard_OpenBracket[35] = {\
 0, 0, 1, 0, 0};
 //------------------->
 // ')' : 5x7
-extern xdata char cBoard_CloseBracket[35] = {\
+extern xdata char cBoard_CloseBracket[CHAR_DIM_5X7] = {\
 0, 0, 1, 0, 0,\
 0, 0, 0, 1, 0,\
 0, 0, 0, 1, 0,\
@@ -668,7 +674,7 @@ extern xdata char cBoard_CloseBracket[35] = {\
 0, 0, 1, 0, 0}; 
 //------------------->
 // '{' : 5x7
-extern xdata char cBoard_OpenRoBracket[35] = {\
+extern xdata char cBoard_OpenRoBracket[CHAR_DIM_5X7] = {\
 0, 0, 1, 0, 0,\
 0, 1, 0, 0, 0,\
 0, 1, 0, 0, 0,\
@@ -678,7 +684,7 @@ extern xdata char cBoard_OpenRoBracket[35] = {\
 0, 0, 1, 0, 0}; 
 //------------------->
 // '}' : 5x7
-extern xdata char cBoard_CloseRoBracket[35] = {\
+extern xdata char cBoard_CloseRoBracket[CHAR_DIM_5X7] = {\
 0, 0, 1, 0, 0,\
 0, 0, 0, 1, 0,\
 0, 0, 0, 1, 0,\
@@ -688,7 +694,7 @@ extern xdata char cBoard_CloseRoBracket[35] = {\
 0, 0, 1, 0, 0}; 
 //------------------->
 // '[' : 5x7
-extern xdata char cBoard_OpenSqBracket[35] = {\
+extern xdata char cBoard_OpenSqBracket[CHAR_DIM_5X7] = {\
 0, 1, 1, 0, 0,\
 0, 1, 0, 0, 0,\
 0, 1, 0, 0, 0,\
@@ -698,7 +704,7 @@ extern xdata char cBoard_OpenSqBracket[35] = {\
 0, 1, 1, 0, 0}; 
 //------------------->
 // ']' : 5x7
-extern xdata char cBoard_CloseSqBracket[35] = {\
+extern xdata char cBoard_CloseSqBracket[CHAR_DIM_5X7] = {\
 0, 0, 1, 1, 0,\
 0, 0, 0, 1, 0,\
 0, 0, 0, 1, 0,\
@@ -708,7 +714,7 @@ extern xdata char cBoard_CloseSqBracket[35] = {\
 0, 0, 1, 1, 0}; 
 //------------------->
 // '-' : 3x7
-extern xdata char cBoard_Hyphen[21] = {\
+extern xdata char cBoard_Hyphen[CHAR_DIM_3X7] = {\
 0, 0, 0,\
 0, 0, 0,\
 0, 0, 0,\
@@ -718,7 +724,7 @@ extern xdata char cBoard_Hyphen[21] = {\
 0, 0, 0};
 //------------------->
 // '_' : 4x7
-extern xdata char cBoard_Underscore[28] = {\
+extern xdata char cBoard_Underscore[CHAR_DIM_4X7] = {\
 0, 0, 0, 0,\
 0, 0, 0, 0,\
 0, 0, 0, 0,\
@@ -728,7 +734,7 @@ extern xdata char cBoard_Underscore[28] = {\
 1, 1, 1, 1};
 //------------------->
 // '~' : 5x7
-extern xdata char cBoard_Tilda[35] = {\
+extern xdata char cBoard_Tilda[CHAR_DIM_5X7] = {\
 0, 0, 0, 0, 0,\
 0, 0, 0, 0, 0,\
 0, 1, 0, 0, 0,\
@@ -738,7 +744,7 @@ extern xdata char cBoard_Tilda[35] = {\
 0, 0, 0, 0, 0};  
 //------------------->
 // '+' : 3x7
-extern xdata char cBoard_Plus[21] = {\
+extern xdata char cBoard_Plus[CHAR_DIM_3X7] = {\
 0, 0, 0,\
 0, 0, 0,\
 0, 1, 0,\
@@ -748,7 +754,7 @@ extern xdata char cBoard_Plus[21] = {\
 0, 0, 0};  
 //------------------->
 // '%' for division : 3x7
-extern xdata char cBoard_xMult[21] = {\
+extern xdata char cBoard_xMult[CHAR_DIM_3X7] = {\
 0, 0, 0,\
 1, 0, 1,\
 0, 0, 1,\
@@ -758,7 +764,7 @@ extern xdata char cBoard_xMult[21] = {\
 0, 0, 0};
 //------------------->
 // '@' : 5x7
-extern xdata char cBoard_At[35] = {\
+extern xdata char cBoard_At[CHAR_DIM_5X7] = {\
 0, 1, 1, 1, 0,\
 1, 0, 0, 0, 1,\
 1, 0, 0, 1, 1,\
@@ -768,7 +774,7 @@ extern xdata char cBoard_At[35] = {\
 0, 1, 1, 1, 0};  
 //------------------->
 // '°' degree symbol : 3x7
-extern xdata char cBoard_Degree[21] = {\
+extern xdata char cBoard_Degree[CHAR_DIM_3X7] = {\
 0, 1, 0,\
 1, 0, 1,\
 0, 1, 0,\
@@ -778,7 +784,7 @@ extern xdata char cBoard_Degree[21] = {\
 0, 0, 0};  
 //------------------->
 // '#' : 5x7
-extern xdata char cBoard_HashtagV1[35] = {\
+extern xdata char cBoard_HashtagV1[CHAR_DIM_5X7] = {\
 0, 0, 1, 0, 1,\
 0, 0, 1, 0, 1,\
 1, 1, 1, 1, 1,\
@@ -787,7 +793,7 @@ extern xdata char cBoard_HashtagV1[35] = {\
 1, 0, 1, 0, 0,\
 1, 0, 1, 0, 0};
 // '#' : 5x7
-extern xdata char cBoard_HashtagV2[35] = {\
+extern xdata char cBoard_HashtagV2[CHAR_DIM_5X7] = {\
 0, 1, 0, 1, 0,\
 0, 1, 0, 1, 0,\
 1, 1, 1, 1, 1,\
@@ -797,7 +803,7 @@ extern xdata char cBoard_HashtagV2[35] = {\
 0, 1, 0, 1, 0};  
 //------------------->
 // '&' : 5x7
-extern xdata char cBoard_Ampersand[35] = {\
+extern xdata char cBoard_Ampersand[CHAR_DIM_5X7] = {\
 0, 1, 0, 0, 0,\
 1, 0, 1, 0, 0,\
 1, 0, 1, 0, 0,\
@@ -807,7 +813,7 @@ extern xdata char cBoard_Ampersand[35] = {\
 0, 1, 1, 0, 1};
 //------------------->
 // '/' : 3x7
-extern xdata char cBoard_Slash[21] = {\
+extern xdata char cBoard_Slash[CHAR_DIM_3X7] = {\
 0, 0, 1,\
 0, 0, 1,\
 0, 1, 0,\
@@ -825,9 +831,4 @@ extern xdata char cBoard_Heart[42] = {\
 0, 0, 1, 0, 1, 0, 0,\
 0, 0, 0, 1, 0, 0, 0,};
 
-//-- GLOBAL MACROS ..	:------------------------------->
-//---------------------------------------------------------------------------------------->
-// Function Prototypes :
-
-#endif
-// End of definition.
+#endif  // End of definition.
