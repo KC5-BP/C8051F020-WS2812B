@@ -91,7 +91,7 @@ extern xdata char cBoard_B[CHAR_DIM_4X7] = {\
 1, 0, 1, 0,\
 1, 0, 0, 1,\
 1, 0, 0, 1,\
-1, 1, 1, 1,}; 
+1, 1, 1, 1};
 //------------------->
 extern xdata char cBoard_C[CHAR_DIM_4X7] = {\
 0, 1, 1, 1,\
@@ -100,7 +100,7 @@ extern xdata char cBoard_C[CHAR_DIM_4X7] = {\
 1, 0, 0, 0,\
 1, 0, 0, 0,\
 1, 0, 0, 0,\
-0, 1, 1, 1,}; 
+0, 1, 1, 1};
 //------------------->
 extern xdata char cBoard_D[CHAR_DIM_4X7] = {\
 1, 1, 1, 0,\
@@ -829,6 +829,6 @@ extern xdata char cBoard_Heart[42] = {\
 1, 0, 0, 0, 0, 0, 1,\
 0, 1, 0, 0, 0, 1, 0,\
 0, 0, 1, 0, 1, 0, 0,\
-0, 0, 0, 1, 0, 0, 0,};
+0, 0, 0, 1, 0, 0, 0};
 
 #endif  // End of definition.

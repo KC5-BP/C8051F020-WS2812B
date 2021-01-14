@@ -33,6 +33,8 @@
 #include "ws2812_matrix.h"
 // .. character's definitions.
 #include "kc5_bp_matrix_alphanum.h"
+// .. character's BIG definitions (Letter's height : X14).
+//#include "kc5_bp_matrix_alpha_big.h"
 
 //-- GLOBAL VARIABLES INIT : ----------------------------->
 xdata pixel matrix[MAX_LEDS] = {{0, 0, 0}, 0, 0, 0};    // Initialize everything to 0.
@@ -361,99 +363,101 @@ void matrix_SetTextPosition(unsigned char  column, unsigned char line)
     Offset.line = line;
 }
 
+//#ifdef __kc5_bp_matrix_alpha_big__
 void matrix_Print(pixel* addressMatrix, color newColor, const char* _CharToWrite, ...)
 {	// Var. Dec. :
 	xdata unsigned int i;	// Y and Filling
 	xdata unsigned char j;	// X
+    xdata unsigned char Cnt_Col = 4;	// For Char with different : Column
 	xdata unsigned char Cnt_Lin = 7;	// For Char with different : Line
-	xdata unsigned char Cnt_Col = 0;	// For Char with different : Colu
 	const char* cP_CharToPrint;	// Recover the actual char to print.
 	xdata unsigned int NeoPix_Pos = 0;	// Position recovery from an int to
 	xdata unsigned int CharReadOrga = 0;	// Organisation about Reading the Char depending on the Matrix' Orientation.
 //
 	for(cP_CharToPrint = _CharToWrite; *cP_CharToPrint != '\0'; cP_CharToPrint++)
 	{
-		switch(*cP_CharToPrint)
-		{	// Height & Width of letters can be different so a first Switch..Case is necessary.
-			// Letters : --------------------------------------------------->
-			case 'A':	case 'B':	case 'C':	case 'D':	case 'E':   case 'F':
-			case 'G':	case 'H':	case 'I':	case 'J':   case 'K':   case 'L':
-			case 'N':	case 'O':	case 'P':   case 'Q':	case 'R':	case 'S':
-			case 'T':	case 'U':   case 'X':	case 'Y':	case 'Z':
-				Cnt_Col = 4;
-				//Cnt_Lin = 7;
-				break;
-			case 'M':	case 'V':	case 'W':
-				Cnt_Col = 5;
-                //Cnt_Lin = 7;
-				break;
-			// Numbers + Style : ------------------------------------------->
-			case '0':	case '1':	case '2':	case '3':	case '4':
-			case '5':	case '6':	case '7':	case '8':	case '9':
-				switch(matrixDisplay.txtFont)
-				{
- 					case numberClassic:
-						Cnt_Col = 4;
-                        //Cnt_Lin = 7;
-						break;
-					case numberTime:
-						Cnt_Col = 5;
-                        //Cnt_Lin = 7;
-						break;
-					case numberMob:
-						Cnt_Col = 4;
-						Cnt_Lin = 6;
-						break;
-					default :	/* State of every undefined case, so not supposed to come here. */	break;
-				}
-				break;
-			// Special Char. : --------------------------------------------->
-			case ' ':	case '.':   case ',':   case '!':
-			case ':':	case '=':   case '*':   case '-':
-			case '+':	case '%':   /*case '°':*/   case '/':
-				Cnt_Col = 3;
-                //Cnt_Lin = 7;
-				break;
+        //char_SetColumnAndLine(_CharToWrite, &Cnt_Col, &Cnt_Lin);
+        switch(*cP_CharToPrint)
+        {	// Height & Width of letters can be different so a first Switch..Case is necessary.
+            // Letters : --------------------------------------------------->
+            case 'A':	case 'B':	case 'C':	case 'D':	case 'E':   case 'F':
+            case 'G':	case 'H':	case 'I':	case 'J':   case 'K':   case 'L':
+            case 'N':	case 'O':	case 'P':   case 'Q':	case 'R':	case 'S':
+            case 'T':	case 'U':   case 'X':	case 'Y':	case 'Z':
+                Cnt_Col = 4;
+                Cnt_Lin = 7;
+                break;
+            case 'M':	case 'V':	case 'W':
+                Cnt_Col = 5;
+                Cnt_Lin = 7;
+                break;
+                // Numbers + Style : ------------------------------------------->
+            case '0':	case '1':	case '2':	case '3':	case '4':
+            case '5':	case '6':	case '7':	case '8':	case '9':
+                switch(matrixDisplay.txtFont)
+                {
+                    case numberClassic:
+                        Cnt_Col = 4;
+                        Cnt_Lin = 7;
+                        break;
+                    case numberTime:
+                        Cnt_Col = 5;
+                        Cnt_Lin = 7;
+                        break;
+                    case numberMob:
+                        Cnt_Col = 4;
+                        Cnt_Lin = 6;
+                        break;
+                    default :	/* State of every undefined case, so not supposed to come here. */	break;
+                }
+                break;
+                // Special Char. : --------------------------------------------->
+            case ' ':	case '.':   case ',':   case '!':
+            case ':':	case '=':   case '*':   case '-':
+            case '+':	case '%':   /*case '°':*/   case '/':
+                Cnt_Col = 3;
+                Cnt_Lin = 7;
+                break;
 
-         case '\'':
-				Cnt_Col = 2;
-                //Cnt_Lin = 7;
-				break;
+            case '\'':
+                Cnt_Col = 2;
+                Cnt_Lin = 7;
+                break;
 
-        case '(':	case ')':   case '{':   case '}':
-        case '[':	case ']':   case '~':   case '@':
-        case '#':	case '&':
-				Cnt_Col = 5;
-                //Cnt_Lin = 7;
-				break;
+            case '(':	case ')':   case '{':   case '}':
+            case '[':	case ']':   case '~':   case '@':
+            case '#':	case '&':
+                Cnt_Col = 5;
+                Cnt_Lin = 7;
+                break;
 
-        case '_':
-				Cnt_Col = 4;
-                //Cnt_Lin = 7;
-				break;
+            case '_':
+                Cnt_Col = 4;
+                Cnt_Lin = 7;
+                break;
 
-			case '^':
-				Cnt_Col = 7;
-				Cnt_Lin = 6;
-				break;
+            case '^':
+                Cnt_Col = 7;
+                Cnt_Lin = 6;
+                break;
 
-			case '?':
-				switch(matrixDisplay.txtFont)
-				{
-					case numberClassic:
-						Cnt_Col = 4;
-                        //Cnt_Lin = 7;
-						break;
-					case numberMob:
-						Cnt_Col = 5;
-                        //Cnt_Lin = 7;
-						break;
-					default :	/* State of every undefined case, so not supposed to come here. */	break;
-				}
-				break;
+            case '?':
+                switch(matrixDisplay.txtFont)
+                {
+                    case numberClassic:
+                        Cnt_Col = 4;
+                        Cnt_Lin = 7;
+                        break;
+                    case numberMob:
+                        Cnt_Col = 5;
+                        Cnt_Lin = 7;
+                        break;
+                    default :	/* State of every undefined case, so not supposed to come here. */	break;
+                }
+                break;
 
-			default :	/* State of every undefined case, so not supposed to come here. */	break;
-		}
+            default :	/* State of every undefined case, so not supposed to come here. */	break;
+        }
 
 		for(i = 0; i < Cnt_Lin; i++)
 		{
@@ -857,3 +861,89 @@ void matrix_Print(pixel* addressMatrix, color newColor, const char* _CharToWrite
 		{ /* Nothin', avoid increase Col. after a \n. */ }
 	}
 }
+/*
+void char_SetColumnAndLine(const char* charToPrint, unsigned char* column, unsigned char* line)
+{
+    *column = 4; *line = 7;
+    switch(*charToPrint)
+    {	// Height & Width of letters can be different so a first Switch..Case is necessary.
+        // Letters : --------------------------------------------------->
+        case 'A':	case 'B':	case 'C':	case 'D':	case 'E':   case 'F':
+        case 'G':	case 'H':	case 'I':	case 'J':   case 'K':   case 'L':
+        case 'N':	case 'O':	case 'P':   case 'Q':	case 'R':	case 'S':
+        case 'T':	case 'U':   case 'X':	case 'Y':	case 'Z':
+            *column = 4;
+            *line = 7;
+            break;
+        case 'M':	case 'V':	case 'W':
+            *column = 5;
+            *line = 7;
+            break;
+            // Numbers + Style : ------------------------------------------->
+        case '0':	case '1':	case '2':	case '3':	case '4':
+        case '5':	case '6':	case '7':	case '8':	case '9':
+            switch(matrixDisplay.txtFont)
+            {
+                case numberClassic:
+                    *column = 4;
+                    *line = 7;
+                    break;
+                case numberTime:
+                    *column = 5;
+                    *line = 7;
+                    break;
+                case numberMob:
+                    *column = 4;
+                    *line = 6;
+                    break;
+                default :	/* State of every undefined case, so not supposed to come here. *\\/	break;
+            }
+            break;
+            // Special Char. : --------------------------------------------->
+        case ' ':	case '.':   case ',':   case '!':
+        case ':':	case '=':   case '*':   case '-':
+        case '+':	case '%':   /*case '°':*\\/   case '/':
+            *column = 3;
+            *line = 7;
+            break;
+
+        case '\'':
+            *column = 2;
+            *line = 7;
+            break;
+
+        case '(':	case ')':   case '{':   case '}':
+        case '[':	case ']':   case '~':   case '@':
+        case '#':	case '&':
+            *column = 5;
+            *line = 7;
+            break;
+
+        case '_':
+            *column = 4;
+            *line = 7;
+            break;
+
+        case '^':
+            *column = 7;
+            *line = 6;
+            break;
+
+        case '?':
+            switch(matrixDisplay.txtFont)
+            {
+                case numberClassic:
+                    *column = 4;
+                    *line = 7;
+                    break;
+                case numberMob:
+                    *column = 5;
+                    *line = 7;
+                    break;
+                default :	/* State of every undefined case, so not supposed to come here. *\\/	break;
+            }
+            break;
+
+        default :	/* State of every undefined case, so not supposed to come here. *\\/	break;
+    }
+}*/

@@ -244,5 +244,7 @@ extern void matrix_SetTextPosition(unsigned char column, unsigned char line);
 extern void matrix_Print(pixel* addressMatrix, color newColor, \
 												 const char* _CharToWrite, ...);
 
+//void char_SetColumnAndLine(const char* charToPrint, unsigned char* column, unsigned char* line);
+
 #endif
 // End of definition.
