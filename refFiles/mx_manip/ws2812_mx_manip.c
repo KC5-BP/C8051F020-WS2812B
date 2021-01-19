@@ -5,17 +5,17 @@
 |x|  ,__  -'""`;
 |x| /   \  /"'  \
 |x|   __// \-"-_/
-|x| ´"   \  |           > Title : ws2812_matrix
+|x| ´"   \  |           > Title : ws2812_mx_manip
 |x| \     |  \  _.-"',
-|x| "^,-´\/\  '" ,--. \         > Src : Timers_Wait_Xms.c
-|x|  \|\| | | , /    | |        >           (One of my own first c file)
+|x| "^,-´\/\  '" ,--. \         > Src : ws2812_matrix.c
+|x|  \|\| | | , /    | |            >   (first version of the actual header)
 |x|     '`'\|._ |   / /
 |x|         '\),/  / |          > Creation : 2019.11.21 (Initial creation date)
 |x|           |/.-"_/           > By :  KC5-BP
 |x| .__---+-_/'|--"
 |x|         _| |_--,            > Description :
 |x|        ',/ |   /                Declarations of RGB's ws2812b LEDs usage funct. .
-|x|        /|| |  /
+|x|        /|| |  /                 as a matrix purpose.
 |x|     |\| |/ |- |
 |x| .-,-/ | /  '/-"
 |x| -\|/-/\/ ^,'|

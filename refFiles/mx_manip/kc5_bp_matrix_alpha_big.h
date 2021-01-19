@@ -14,8 +14,8 @@
 |x|           |/.-"_/           > By :  KC5-BP
 |x| .__---+-_/'|--"
 |x|         _| |_--,            > Description :
-|x|        ',/ |   /                Letters declaration for Matrix display.
-|x|        /|| |  /
+|x|        ',/ |   /                >   Letters declaration for
+|x|        /|| |  /                 >   Matrix display (BIG Char. ).
 |x|     |\| |/ |- |
 |x| .-,-/ | /  '/-"
 |x| -\|/-/\/ ^,'|
