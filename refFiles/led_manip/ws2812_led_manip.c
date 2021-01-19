@@ -33,10 +33,10 @@
 #include "ws2812_led_manip.h"
 
 //-- GLOBAL VARIABLES INIT : ----------------------------->
-#ifdef __LED_ARRANGEMENT == __LED_ARRANGEMENT_STRIP
+#if __LED_ARRANGEMENT == __LED_ARRANGEMENT_STRIP
     xdata pixel strip[MAX_LEDS] = {{0, 0, 0}, 0};   // Initialize everything to 0.
 #endif
-#ifdef __LED_ARRANGEMENT == __LED_ARRANGEMENT_MATRX
+#if __LED_ARRANGEMENT == __LED_ARRANGEMENT_MATRX
     xdata pixel matrix[MAX_LEDS] = {{0, 0, 0}, 0, 0, 0};    // Initialize everything to 0.
     xdata offsetText Offset = {0, 0};                   // Init. column + line to 0.
     xdata matrixFormat matrixDisplay = {0, 0};      // Init. matrixView + txtFont to 0.

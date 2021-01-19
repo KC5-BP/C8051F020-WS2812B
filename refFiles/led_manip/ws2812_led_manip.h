@@ -80,13 +80,13 @@ typedef struct {
 }color; // Creation of a color type based R-G-B named << color >>.
 
 //-- LED / PIXEL (STRIP) : ->
-#ifdef __LED_ARRANGEMENT == __LED_ARRANGEMENT_STRIP
+#if __LED_ARRANGEMENT == __LED_ARRANGEMENT_STRIP
     typedef struct {
         color colorPix;         // A color  (see structure above)
         unsigned char status;   // A status (OFF : 0 / ON : 1).
     }pixel; // Creation of the definition of one LED (WS281x) named << pixel >>.
 #endif
-#ifdef __LED_ARRANGEMENT == __LED_ARRANGEMENT_MATRX
+#if __LED_ARRANGEMENT == __LED_ARRANGEMENT_MATRX
     typedef struct {
         color colorPix;         // A color  (see structure above)
         unsigned char status;   // A status (OFF : 0 / ON : 1).
@@ -96,11 +96,11 @@ typedef struct {
 #endif
 
 //-- GLOBAL VARIABLES	: -------------------------------->
-#ifdef __LED_ARRANGEMENT == __LED_ARRANGEMENT_STRIP
+#if __LED_ARRANGEMENT == __LED_ARRANGEMENT_STRIP
     // Declare an array of << pixel >> defining the LED's strip. Init. in the 'C' file.
     extern xdata pixel strip[MAX_LEDS];
 #endif
-#ifdef __LED_ARRANGEMENT == __LED_ARRANGEMENT_MATRX
+#if __LED_ARRANGEMENT == __LED_ARRANGEMENT_MATRX
     // Declare an array of << pixel >> defining the LED's matrix. Init. in the 'C' file.
     extern xdata pixel matrix[MAX_LEDS];
 #endif
