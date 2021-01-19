@@ -10,7 +10,7 @@
 |x| "^,-´\/\  '" ,--. \         > Src : Timers_Wait_Xms.c
 |x|  \|\| | | , /    | |        >           (One of my own first c file)
 |x|     '`'\|._ |   / /
-|x|         '\),/  / |          > Creation: 2019.11.21
+|x|         '\),/  / |          > Creation : 2019.11.21 (Initial creation date)
 |x|           |/.-"_/           > By :  KC5-BP
 |x| .__---+-_/'|--"
 |x|         _| |_--,            > Description :
