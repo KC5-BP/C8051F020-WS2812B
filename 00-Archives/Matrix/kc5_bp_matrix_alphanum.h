@@ -560,9 +560,9 @@ extern xdata char cBoard_Dot[CHAR_DIM_3X7] = {\
 0, 0, 0,\
 0, 0, 0,\
 0, 0, 0,\
-0, 0, 0,\
-0, 0, 0,\
-0, 1, 0}; 
+1, 1, 0,\
+1, 1, 0,\
+0, 0, 0};
 //------------------->
 // ',' : 3x7
 extern xdata char cBoard_Comma[CHAR_DIM_3X7] = {\
