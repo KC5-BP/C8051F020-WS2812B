@@ -34,7 +34,7 @@
 // .. created header for ws2812b matrix usage.
 #include "ws2812_mx_manip.h"
 // .. character's definitions.
-#include "kc5_bp_matrix_alphanum.h"
+//#include "kc5_bp_matrix_alphanum.h"
 // .. character's BIG definitions (Letter's height : X14).
 //#include "kc5_bp_matrix_alpha_big.h"
 

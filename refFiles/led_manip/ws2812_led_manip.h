@@ -30,7 +30,7 @@
 // .. C51/C166 routines that instructs the compiler to generate intrinsic code | _nop_():
 #include <intrins.h>
 // .. Base (SFR, sbit, define, var. type, etc...)
-#include "../F11-NeoPix_StripPrButt/base_sfr.h"
+#include "../../../F14-ws2812_Fusion/base_sfr.h"
 
 // Header's Definition :
 // Beginning of definition...
@@ -38,6 +38,19 @@
 #define __ws2812_led_manip__
 //===================================================
 //================================\HEADER'S_Definitions/================================>
+
+//----------------------------------\GLOBAL_Definition/---------------------------------.
+// '-> BIT Definition : Security in case of omitted "base_sfr.h".
+#ifndef BIT0
+#define BIT0 (1 << 0)
+#define BIT1 (1 << 1)
+#define BIT2 (1 << 2)
+#define BIT3 (1 << 3)
+#define BIT4 (1 << 4)
+#define BIT5 (1 << 5)
+#define BIT6 (1 << 6)
+#define BIT7 (1 << 7)
+#endif
 
 //----------------------------------\OUTPUT_Definition/---------------------------------.
 // '-> PORT Definition : Strip dedicated pin on port P2 ..
@@ -49,11 +62,11 @@
 #define __LED_ARRANGEMENT_STRIP 0
 #define __LED_ARRANGEMENT_MATRX 1
 // '-> Select the type of display that will free to use some functions :
-//#define __LED_ARRANGEMENT __LED_ARRANGEMENT_STRIP
-#define __LED_ARRANGEMENT __LED_ARRANGEMENT_MATRX
+#define __LED_ARRANGEMENT __LED_ARRANGEMENT_STRIP
+//#define __LED_ARRANGEMENT __LED_ARRANGEMENT_MATRX
 //---------------------------------\DSIPLAY_Definitions/--------------------------------.
 // '-> NUMBER of LEDs presents on the strip :
-#define MAX_LEDS 300
+#define MAX_LEDS 256
 #if MAX_LEDS < 256
     typedef unsigned char posType;  // 8bits value.
 #elif MAX_LEDS < 65536
