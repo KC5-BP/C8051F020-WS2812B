@@ -121,7 +121,7 @@ typedef struct {
 //-- GLOBAL MACROS ..   : -------------------------------->
 // .. sending DATA '0' in Manchester  / Timing : 0 > 0.4[us] | 1 > 0.8[us] +- 150[ns] :
 // _nop_() is in <intrins.h> and waste a time machine, like a delay but scaling
-// on the CPU Clock.
+// on the CPU Clock* <= Number of _nop_() needs to be adjusted !
 #define SEND0() {\
                     SBIT_OUT_STRIP = 1;\
 	                _nop_(); _nop_(); _nop_();\
@@ -132,6 +132,7 @@ typedef struct {
 					_nop_(); _nop_(); _nop_();\
 				}
 // .. sending DATA '1' in Manchester  / Timing : 0 > 0.85[us] | 1 > 0.45[us] +- 150[ns] :
+// Same remark as before* <= Number of _nop_() needs to be adjusted !
 #define SEND1()	{\
                     SBIT_OUT_STRIP = 1;\
 					_nop_(); _nop_(); _nop_();\
