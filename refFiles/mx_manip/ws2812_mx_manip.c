@@ -296,7 +296,7 @@ void matrix_Print(pixel* addressMatrix, color newColor, const char* _CharToWrite
 			{	// Same Line :
 				NeoPix_Pos = pixel_RecoverPosition((j+Offset.column), i+Offset.line);
 				// Condition about possible value for displaying or not.
-				if(NeoPix_Pos >= ((MAX_COLU * MAX_LINE) * MATRIX_NBR))
+				if(NeoPix_Pos >= ((MAX_COLU * MAX_LINE) * NBR_OF_MATRIX))
 				{
 					break;
 				}
