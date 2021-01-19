@@ -38,8 +38,6 @@
 #endif
 #if __LED_ARRANGEMENT == __LED_ARRANGEMENT_MATRX
     xdata pixel matrix[MAX_LEDS] = {{0, 0, 0}, 0, 0, 0};    // Initialize everything to 0.
-    xdata offsetText Offset = {0, 0};                   // Init. column + line to 0.
-    xdata matrixFormat matrixDisplay = {0, 0};      // Init. matrixView + txtFont to 0.
 #endif
 
 //-------------------------------------------------------------------------------------->
@@ -128,7 +126,7 @@ void pixel_Show(unsigned char red, unsigned char green, unsigned char blue)
 }
 
 //-------------------------------------------------------------------------------------->
-void strip_Show(pixel* addressStrip)
+void leds_Show(pixel* addressStrip)
 {   // Var. Dec. :
     xdata unsigned int i;
 
@@ -151,7 +149,7 @@ void strip_Show(pixel* addressStrip)
     TR0 = 1;
 }
 
-void strip_Off(pixel* addressStrip)
+void leds_Off(pixel* addressStrip)
 {   // Var. Dec. :
     unsigned int i;
 
@@ -159,10 +157,10 @@ void strip_Off(pixel* addressStrip)
     {	// Clear ALL color at the original address ...
         pixel_Reset(addressStrip, i);
     }
-    strip_Show(addressStrip);
+    leds_Show(addressStrip);
 }
 
-void strip_ResetStatus(pixel* addressStrip)
+void leds_ResetStatus(pixel* addressStrip)
 {   // Var. Dec. :
     unsigned int i;
 
@@ -173,7 +171,7 @@ void strip_ResetStatus(pixel* addressStrip)
     }
 }
 
-void strip_Inverter(pixel* addressStrip)
+void leds_Inverter(pixel* addressStrip)
 {   // Var. Dec. :
     unsigned int i; // LED Position for filling Board of strip.
     color tmpColor; // Color recovered to invert the actual strip's color.
@@ -199,7 +197,7 @@ void strip_Inverter(pixel* addressStrip)
     }
 }
 
-void strip_ChainedLeds(pixel* addressStrip, color newColor, \
+void leds_ChainedLeds(pixel* addressStrip, color newColor, \
                                                posType begin, posType end)
 {	// Var. Dec. :
 	unsigned int i; // LED Position for filling Board of strip.

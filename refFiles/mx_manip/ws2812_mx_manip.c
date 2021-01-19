@@ -39,6 +39,8 @@
 //#include "kc5_bp_matrix_alpha_big.h"
 
 //-- GLOBAL VARIABLES INIT : ----------------------------->
+xdata offsetText Offset = {0, 0};                   // Init. column + line to 0.
+xdata matrixFormat matrixDisplay = {0, 0};      // Init. matrixView + txtFont to 0.
 
 //-------------------------------------------------------------------------------------->
 /*	Initial : 0/+-360 degrees :

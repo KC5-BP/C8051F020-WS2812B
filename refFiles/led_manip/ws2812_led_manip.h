@@ -179,23 +179,23 @@ void pixel_Show(unsigned char red, unsigned char green, unsigned char blue);
  * Last_Update  :   2021.01.06
  * Input		:   addressStrip, 6bytes - address of the strip
  * Output	 	:	Nothin'                                                            */
-extern void strip_Show(pixel* addressStrip);
+extern void leds_Show(pixel* addressStrip);
 /* Description  :   Clear COLOR & STATUS on the strip + display it (shut down).
  * Last_Update  :   2021.01.07
  * Input		:   addressStrip, 6bytes - address of the strip
  * Output	 	:	Nothin'                                                            */
-extern void strip_Off(pixel* addressStrip);
+extern void leds_Off(pixel* addressStrip);
 /* Description  :   Clear ONLY status on the strip, to keep the color in memory.
  * Last_Update  :   2021.01.07
  * Input	    :   addressStrip, 6bytes - address of the strip
  * Output	 	:	Nothin'                                                            */
-extern void strip_ResetStatus(pixel* addressStrip);
+extern void leds_ResetStatus(pixel* addressStrip);
 /* Description  :   Reverse every LED status on all the strip, but keep the colors
  *                  in memory.
  * Last_Update  :   2021.01.06
  * Input	    :   addressStrip, 6bytes - address of the strip
  * Output	 	:	Nothin'                                                            */
-extern void strip_Inverter(pixel* addressStrip);
+extern void leds_Inverter(pixel* addressStrip);
 /* Description  :   Set a chain of LEDs to a specific color.
  * Last_Update  :   2021.01.06
  * Input		:   addressStrip, 6bytes - address of the strip
@@ -203,7 +203,7 @@ extern void strip_Inverter(pixel* addressStrip);
  *					begin, 2bytes - FIRST position of the chain to light up.
  *					end, 2bytes - LAST position of the chain to light up.
  * Output	 	:	Nothin'                                                            */
-extern void strip_ChainedLeds(pixel* addressStrip, color newColor, \
+extern void leds_ChainedLeds(pixel* addressStrip, color newColor, \
                                                 posType begin, posType end);
 
 #endif
