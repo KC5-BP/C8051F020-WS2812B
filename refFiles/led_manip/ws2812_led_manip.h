@@ -27,6 +27,8 @@
 ========================================================================================>
 =======================================================================================*/
 // Linker to : ..
+// .. definition folder SFR (Like Port Definition "P5", "P6", "TR0", etc...)
+//#include <c8051f020.h>    // <= Would add it for P2 definition.
 // .. C51/C166 routines that instructs the compiler to generate intrinsic code | _nop_():
 #include <intrins.h>
 // .. Base (SFR, sbit, define, var. type, etc...)

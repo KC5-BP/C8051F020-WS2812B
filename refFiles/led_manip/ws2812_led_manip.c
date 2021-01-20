@@ -27,7 +27,7 @@
 ========================================================================================>
 =======================================================================================*/
 // Linker to : ..
-// .. definition folder SFR (Like Port Definition "P5", "P6", TR0, etc...)
+// .. definition folder SFR (Like Port Definition "P5", "P6", "TR0", etc...)
 #include <c8051f020.h>
 // .. created header for ws2812b led usage.
 #include "ws2812_led_manip.h"

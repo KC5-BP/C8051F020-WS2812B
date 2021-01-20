@@ -27,10 +27,8 @@
 ========================================================================================>
 =======================================================================================*/
 // Linker to : ..
-// .. C51/C166 routines that instructs the compiler to generate intrinsic code | _nop_():
-#include <intrins.h>
-// .. Base (SFR, sbit, define, var. type, etc...)
-#include "../F11-NeoPix_StripPrButt/base_sfr.h"
+// .. created header for ws2812b led usage.
+#include "../led_manip/ws2812_led_manip.h"  // For the << pixel >> struct.
 
 // Header's Definition :
 // Beginning of definition...

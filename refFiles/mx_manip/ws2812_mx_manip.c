@@ -27,10 +27,10 @@
 ========================================================================================>
 =======================================================================================*/
 // Linker to : ..
-// .. definition folder SFR (Like Port Definition "P5", "P6", TR0, etc...)
-#include <c8051f020.h>
+// .. definition folder SFR (Like Port Definition "P5", "P6", "TR0", etc...)
+#include <c8051f020.h> // <= Would delete it ...
 // .. created header for ws2812b led usage.
-#include "../led_manip/ws2812_led_manip.h"
+#include "../led_manip/ws2812_led_manip.h"  // For the << pixel >> struct.
 // .. created header for ws2812b matrix usage.
 #include "ws2812_mx_manip.h"
 // .. character's definitions.
