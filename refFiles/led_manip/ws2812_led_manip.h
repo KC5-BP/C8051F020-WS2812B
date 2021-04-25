@@ -68,7 +68,7 @@
 //#define __LED_ARRANGEMENT __LED_ARRANGEMENT_MATRX
 //---------------------------------\DSIPLAY_Definitions/--------------------------------.
 // '-> NUMBER of LEDs presents on the strip :
-#define MAX_LEDS 256
+#define MAX_LEDS 300
 #if MAX_LEDS < 256
     typedef unsigned char posType;  // 8bits value.
 #elif MAX_LEDS < 65536
@@ -124,30 +124,37 @@ typedef struct {
 // .. sending DATA '0' in Manchester  / Timing : 0 > 0.4[us] | 1 > 0.8[us] +- 150[ns] :
 // _nop_() is in <intrins.h> and waste a time machine, like a delay but scaling
 // on the CPU Clock* <= Number of _nop_() needs to be adjusted !
-#define SEND0() {\
-                    SBIT_OUT_STRIP = 1;\
-	                _nop_(); _nop_(); _nop_();\
-					_nop_(); _nop_(); _nop_();\
-					SBIT_OUT_STRIP = 0;\
-					_nop_(); _nop_(); _nop_();\
-					_nop_(); _nop_(); _nop_();\
-					_nop_(); _nop_(); _nop_();\
-				}
+#define SEND0()                 \
+do {                            \
+    SBIT_OUT_STRIP = 1;         \
+    _nop_(); _nop_(); _nop_();  \
+    _nop_(); _nop_(); _nop_();  \
+    SBIT_OUT_STRIP = 0;         \
+    _nop_(); _nop_(); _nop_();  \
+    _nop_(); _nop_(); _nop_();  \
+    _nop_(); _nop_(); _nop_();  \
+} while(0)
 // .. sending DATA '1' in Manchester  / Timing : 0 > 0.85[us] | 1 > 0.45[us] +- 150[ns] :
 // Same remark as before* <= Number of _nop_() needs to be adjusted !
-#define SEND1()	{\
-                    SBIT_OUT_STRIP = 1;\
-					_nop_(); _nop_(); _nop_();\
-					_nop_(); _nop_(); _nop_();\
-					_nop_(); _nop_(); _nop_();\
-					_nop_(); _nop_(); _nop_();\
-					_nop_(); _nop_(); _nop_();\
-					_nop_();\
-					SBIT_OUT_STRIP = 0;\
-					_nop_(); _nop_(); _nop_();\
-				}
+#define SEND1()                 \
+do {                            \
+    SBIT_OUT_STRIP = 1;         \
+    _nop_(); _nop_(); _nop_();  \
+    _nop_(); _nop_(); _nop_();  \
+    _nop_(); _nop_(); _nop_();  \
+    _nop_(); _nop_(); _nop_();  \
+    _nop_(); _nop_(); _nop_();  \
+    _nop_();                    \
+    SBIT_OUT_STRIP = 0;         \
+    _nop_(); _nop_(); _nop_();  \
+} while(0)
 // .. sending ONE bit of A specific color.
-#define SEND_COLOR_BIT(COLOR, MASK) { if((COLOR & MASK) != 0) {SEND1();} else{SEND0();} }
+#define SEND_COLOR_BIT(COLOR, MASK) {   \
+if ((COLOR & MASK) != 0)                \
+    SEND1();                            \
+else                                    \
+    SEND0();                            \
+}
 
 //===================================================
 //===============================\FUNCTIONS'_Prototypes/================================>
@@ -158,30 +165,35 @@ typedef struct {
  *					position, xbytes - position in the strip to set the color.
  * Output	 	:	Nothin'                                                            */
 extern void pixel_Set(pixel* addressStrip, color newColor, posType position);
+//======================================================================================>
 /* Description  :   Resetting color & status to the specific LED position.
  * Last_Update  :   2021.01.07
  * Input		:   addressStrip, 6bytes - address of the strip
  *					position, xbytes - position in the strip to set the color.
  * Output	 	:	Nothin'                                                            */
 extern void pixel_Reset(pixel* addressStrip, posType position);
+//======================================================================================>
 /* Description  :   Recovering << color >> of a specific LED.
  * Last_Update  :   2021.01.07
  * Input		:   addressStrip, 6bytes - address of the strip
  *					position, xbytes - position in the strip to set the color.
  * Output	 	:	Nothin'                                                            */
 extern color pixel_GetColor(pixel* addressStrip, posType position);
+//======================================================================================>
 /* Description  :   Recovering << status >> of a specific LED.
  * Last_Update  :   2021.01.07
  * Input		:   addressStrip, 6bytes - address of the strip
  *					position, xbytes - position in the strip to set the color.
  * Output	 	:	Nothin'                                                            */
 extern unsigned char pixel_GetStatus(pixel* addressStrip, posType position);
+//======================================================================================>
 /* Description  :   Toggling status into the specific strip position.
  * Last_Update  :   2021.01.07
  * Input		:   addressStrip, 6bytes - address of the strip
  *					position, xbytes - position in the strip to set the color.
  * Output	 	:	Nothin'                                                            */
 extern void pixel_ToggleStatus(pixel* addressStrip, posType position);
+//======================================================================================>
 /* Description  :   Send the 24bits color (one by one) of a pixel.
  * Last_Update  :   2021.01.07
  * Input		:   red, 1byte.
@@ -196,22 +208,26 @@ void pixel_Show(unsigned char red, unsigned char green, unsigned char blue);
  * Input		:   addressStrip, 6bytes - address of the strip
  * Output	 	:	Nothin'                                                            */
 extern void leds_Show(pixel* addressStrip);
+//======================================================================================>
 /* Description  :   Clear COLOR & STATUS on the strip + display it (shut down).
  * Last_Update  :   2021.01.07
  * Input		:   addressStrip, 6bytes - address of the strip
  * Output	 	:	Nothin'                                                            */
 extern void leds_Off(pixel* addressStrip);
+//======================================================================================>
 /* Description  :   Clear ONLY status on the strip, to keep the color in memory.
  * Last_Update  :   2021.01.07
  * Input	    :   addressStrip, 6bytes - address of the strip
  * Output	 	:	Nothin'                                                            */
 extern void leds_ResetStatus(pixel* addressStrip);
+//======================================================================================>
 /* Description  :   Reverse every LED status on all the strip, but keep the colors
  *                  in memory.
  * Last_Update  :   2021.01.06
  * Input	    :   addressStrip, 6bytes - address of the strip
  * Output	 	:	Nothin'                                                            */
 extern void leds_Inverter(pixel* addressStrip);
+//======================================================================================>
 /* Description  :   Set a chain of LEDs to a specific color.
  * Last_Update  :   2021.01.06
  * Input		:   addressStrip, 6bytes - address of the strip

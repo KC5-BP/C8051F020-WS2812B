@@ -50,7 +50,7 @@ void pixel_Set(pixel* addressStrip, color newColor, posType position)
         // Set "color" values :
         addressStrip->colorPix = newColor;
 
-        // Set the status to ON if color different of "black" :
+        // Set the status to ON if color different of "black" {0, 0, 0} :
         if ( (newColor.Red == BRIGHT_MIN)
                 && (newColor.Green == BRIGHT_MIN)
                     && (newColor.Blue == BRIGHT_MIN) )
@@ -93,36 +93,29 @@ void pixel_ToggleStatus(pixel* addressStrip, posType position)
 {   // "position" validity ..
     if(position < MAX_LEDS)
     {   // Go to the wanted LED position.
+        // & Reverse status (ON->OFF / OFF->ON)
         addressStrip += position;
-
-        if (addressStrip->status != 0)
-        {   // Set the status to OFF if status was ON.
-            addressStrip->status = 0;
-        }
-        else
-        {   // Set the status to ON if status was OFF.
-            addressStrip->status = 1;
-        }
+        addressStrip->status = !addressStrip->status;
     }
 }
 
 void pixel_Show(unsigned char red, unsigned char green, unsigned char blue)
 {   // For the WS2812b, the order is High bit to low AND Green - Red - Blue.
     // Sending GREEN.
-    SEND_COLOR_BIT(green, BIT7); SEND_COLOR_BIT(green, BIT6);
-    SEND_COLOR_BIT(green, BIT5); SEND_COLOR_BIT(green, BIT4);
-    SEND_COLOR_BIT(green, BIT3); SEND_COLOR_BIT(green, BIT2);
-    SEND_COLOR_BIT(green, BIT1); SEND_COLOR_BIT(green, BIT0);
+    SEND_COLOR_BIT(green, BIT7) /*   */ SEND_COLOR_BIT(green, BIT6)
+    SEND_COLOR_BIT(green, BIT5) /*   */ SEND_COLOR_BIT(green, BIT4)
+    SEND_COLOR_BIT(green, BIT3) /*   */ SEND_COLOR_BIT(green, BIT2)
+    SEND_COLOR_BIT(green, BIT1) /*   */ SEND_COLOR_BIT(green, BIT0)
     // Sending RED.
-    SEND_COLOR_BIT(red, BIT7); SEND_COLOR_BIT(red, BIT6);
-    SEND_COLOR_BIT(red, BIT5); SEND_COLOR_BIT(red, BIT4);
-    SEND_COLOR_BIT(red, BIT3); SEND_COLOR_BIT(red, BIT2);
-    SEND_COLOR_BIT(red, BIT1); SEND_COLOR_BIT(red, BIT0);
+    SEND_COLOR_BIT(red, BIT7) /*   */ SEND_COLOR_BIT(red, BIT6)
+    SEND_COLOR_BIT(red, BIT5) /*   */ SEND_COLOR_BIT(red, BIT4)
+    SEND_COLOR_BIT(red, BIT3) /*   */ SEND_COLOR_BIT(red, BIT2)
+    SEND_COLOR_BIT(red, BIT1) /*   */ SEND_COLOR_BIT(red, BIT0)
     // Sending BLUE.
-    SEND_COLOR_BIT(blue, BIT7); SEND_COLOR_BIT(blue, BIT6);
-    SEND_COLOR_BIT(blue, BIT5); SEND_COLOR_BIT(blue, BIT4);
-    SEND_COLOR_BIT(blue, BIT3); SEND_COLOR_BIT(blue, BIT2);
-    SEND_COLOR_BIT(blue, BIT1); SEND_COLOR_BIT(blue, BIT0);
+    SEND_COLOR_BIT(blue, BIT7) /*   */ SEND_COLOR_BIT(blue, BIT6)
+    SEND_COLOR_BIT(blue, BIT5) /*   */ SEND_COLOR_BIT(blue, BIT4)
+    SEND_COLOR_BIT(blue, BIT3) /*   */ SEND_COLOR_BIT(blue, BIT2)
+    SEND_COLOR_BIT(blue, BIT1) /*   */ SEND_COLOR_BIT(blue, BIT0)
 }
 
 //-------------------------------------------------------------------------------------->
@@ -135,14 +128,11 @@ void leds_Show(pixel* addressStrip)
     for(i = 0; i < MAX_LEDS; i++)
     {
         if(addressStrip->status != 0)
-        {
             pixel_Show(addressStrip->colorPix.Red, addressStrip->colorPix.Green, \
-                        addressStrip->colorPix.Blue);
-        }
+                                                            addressStrip->colorPix.Blue);
         else
-        {
             pixel_Show(BRIGHT_MIN, BRIGHT_MIN, BRIGHT_MIN);
-        }
+
         addressStrip++; // Increase address for next position changes ..
     }
     // Enable / Re-activate Timer after "Packets" Sent :
@@ -154,9 +144,8 @@ void leds_Off(pixel* addressStrip)
     unsigned int i;
 
     for(i = 0; i < MAX_LEDS; i++)
-    {	// Clear ALL color at the original address ...
+        // Clear ALL color at the original address ...
         pixel_Reset(addressStrip, i);
-    }
     leds_Show(addressStrip);
 }
 
@@ -187,13 +176,9 @@ void leds_Inverter(pixel* addressStrip)
     for(i = 0; i < MAX_LEDS; i++)   // Second loop to toggle LEDs status.
     {
         if(pixel_GetStatus(addressStrip, i) == 0)
-        {
             pixel_Set(addressStrip, tmpColor, i);
-        }
         else
-        {
             pixel_Reset(addressStrip, i);
-        }
     }
 }
 
@@ -205,9 +190,7 @@ void leds_ChainedLeds(pixel* addressStrip, color newColor, \
 	for(i = 0; i < MAX_LEDS; i++)
 	{
 		if((i >= begin) && (i <= end))
-		{
 		    pixel_Set(addressStrip, newColor, i);
-		}
 		else { /* Before first use, don't forget to clear strip's status. */ }
 	}
 }
