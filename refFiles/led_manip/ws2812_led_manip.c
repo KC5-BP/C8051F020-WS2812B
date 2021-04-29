@@ -34,68 +34,68 @@
 
 //-- GLOBAL VARIABLES INIT : ----------------------------->
 #if __LED_ARRANGEMENT == __LED_ARRANGEMENT_STRIP
-    xdata pixel strip[MAX_LEDS] = {{0, 0, 0}, 0};   // Initialize everything to 0.
+    xdata pixel display[MAX_LEDS] = {{0, 0, 0}, 0};   // Initialize everything to 0.
 #endif
 #if __LED_ARRANGEMENT == __LED_ARRANGEMENT_MATRX
-    xdata pixel matrix[MAX_LEDS] = {{0, 0, 0}, 0, 0, 0};    // Initialize everything to 0.
+    xdata pixel display[MAX_LEDS] = {{0, 0, 0}, 0, 0, 0};    // Initialize everything to 0.
 #endif
 
 //-------------------------------------------------------------------------------------->
-void pixel_Set(pixel* addressStrip, color newColor, posType position)
+void pixel_Set(pixel* addressDisplay, color newColor, posType position)
 {   // "position" validity ..
     if(position < MAX_LEDS)
     {   // Go to the wanted LED position.
-        addressStrip += position;
+        addressDisplay += position;
 
         // Set "color" values :
-        addressStrip->colorPix = newColor;
+        addressDisplay->colorPix = newColor;
 
         // Set the status to ON if color different of "black" {0, 0, 0} :
         if ( (newColor.Red == BRIGHT_MIN)
                 && (newColor.Green == BRIGHT_MIN)
                     && (newColor.Blue == BRIGHT_MIN) )
         {   // Complement : " == " operator not possible on a complete struct in C.
-            addressStrip->status = 0;
+            addressDisplay->status = 0;
         }
         else
         {
-            addressStrip->status = 1;
+            addressDisplay->status = 1;
         }
     }
 }
 
-void pixel_Reset(pixel* addressStrip, posType position)
+void pixel_Reset(pixel* addressDisplay, posType position)
 {   // Var. Dec. :
     const color BLACK = {0, 0, 0};
 
     // "position" validity ..
     if(position < MAX_LEDS)
     {   // Go to the wanted LED position.
-        addressStrip += position;
+        addressDisplay += position;
         // Set "color" values to black.
-        addressStrip->colorPix = BLACK;
+        addressDisplay->colorPix = BLACK;
         // Set status to '0' (OFF).
-        addressStrip->status = 0;
+        addressDisplay->status = 0;
     }
 }
 
-color pixel_GetColor(pixel* addressStrip, posType position)
+color pixel_GetColor(pixel* addressDisplay, posType position)
 {
-    return (addressStrip + position)->colorPix;
+    return (addressDisplay + position)->colorPix;
 }
 
-unsigned char pixel_GetStatus(pixel* addressStrip, posType position)
+unsigned char pixel_GetStatus(pixel* addressDisplay, posType position)
 {
-    return (addressStrip + position)->status;
+    return (addressDisplay + position)->status;
 }
 
-void pixel_ToggleStatus(pixel* addressStrip, posType position)
+void pixel_ToggleStatus(pixel* addressDisplay, posType position)
 {   // "position" validity ..
     if(position < MAX_LEDS)
     {   // Go to the wanted LED position.
         // & Reverse status (ON->OFF / OFF->ON)
-        addressStrip += position;
-        addressStrip->status = !addressStrip->status;
+        addressDisplay += position;
+        addressDisplay->status = !addressDisplay->status;
     }
 }
 
@@ -119,7 +119,7 @@ void pixel_Show(unsigned char red, unsigned char green, unsigned char blue)
 }
 
 //-------------------------------------------------------------------------------------->
-void leds_Show(pixel* addressStrip)
+void leds_Show(pixel* addressDisplay)
 {   // Var. Dec. :
     xdata unsigned int i;
 
@@ -127,62 +127,62 @@ void leds_Show(pixel* addressStrip)
     TR0 = 0;
     for(i = 0; i < MAX_LEDS; i++)
     {
-        if(addressStrip->status != 0)
-            pixel_Show(addressStrip->colorPix.Red, addressStrip->colorPix.Green, \
-                                                            addressStrip->colorPix.Blue);
+        if(addressDisplay->status != 0)
+            pixel_Show(addressDisplay->colorPix.Red, addressDisplay->colorPix.Green, \
+                                                            addressDisplay->colorPix.Blue);
         else
             pixel_Show(BRIGHT_MIN, BRIGHT_MIN, BRIGHT_MIN);
 
-        addressStrip++; // Increase address for next position changes ..
+        addressDisplay++; // Increase address for next position changes ..
     }
     // Enable / Re-activate Timer after "Packets" Sent :
     TR0 = 1;
 }
 
-void leds_Off(pixel* addressStrip)
+void leds_Off(pixel* addressDisplay)
 {   // Var. Dec. :
     unsigned int i;
 
     for(i = 0; i < MAX_LEDS; i++)
         // Clear ALL color at the original address ...
-        pixel_Reset(addressStrip, i);
-    leds_Show(addressStrip);
+        pixel_Reset(addressDisplay, i);
+    leds_Show(addressDisplay);
 }
 
-void leds_ResetStatus(pixel* addressStrip)
+void leds_ResetStatus(pixel* addressDisplay)
 {   // Var. Dec. :
     unsigned int i;
 
     for(i = 0; i < MAX_LEDS; i++)
     {   // Clear Status to keep color in the original address ...
-        addressStrip->status = 0;
-        addressStrip++; // Increase address for clearing next position.
+        addressDisplay->status = 0;
+        addressDisplay++; // Increase address for clearing next position.
     }
 }
 
-void leds_Inverter(pixel* addressStrip)
+void leds_Inverter(pixel* addressDisplay)
 {   // Var. Dec. :
     unsigned int i; // LED Position for filling Board of strip.
     color tmpColor; // Color recovered to invert the actual strip's color.
 
     for(i = 0; i < MAX_LEDS; i++)   // First loop to find the first LED alight that
     {                                   // will give the colour to set for the
-        if(pixel_GetStatus(addressStrip, i) != 0)       // reversed status ..
+        if(pixel_GetStatus(addressDisplay, i) != 0)       // reversed status ..
         {   // color found => recovering and ending loop.
-            tmpColor = pixel_GetColor(addressStrip, i);
+            tmpColor = pixel_GetColor(addressDisplay, i);
             break;
         }
     }
     for(i = 0; i < MAX_LEDS; i++)   // Second loop to toggle LEDs status.
     {
-        if(pixel_GetStatus(addressStrip, i) == 0)
-            pixel_Set(addressStrip, tmpColor, i);
+        if(pixel_GetStatus(addressDisplay, i) == 0)
+            pixel_Set(addressDisplay, tmpColor, i);
         else
-            pixel_Reset(addressStrip, i);
+            pixel_Reset(addressDisplay, i);
     }
 }
 
-void leds_ChainedLeds(pixel* addressStrip, color newColor, \
+void leds_ChainedLeds(pixel* addressDisplay, color newColor, \
                                                posType begin, posType end)
 {	// Var. Dec. :
 	unsigned int i; // LED Position for filling Board of strip.
@@ -190,7 +190,7 @@ void leds_ChainedLeds(pixel* addressStrip, color newColor, \
 	for(i = 0; i < MAX_LEDS; i++)
 	{
 		if((i >= begin) && (i <= end))
-		    pixel_Set(addressStrip, newColor, i);
+		    pixel_Set(addressDisplay, newColor, i);
 		else { /* Before first use, don't forget to clear strip's status. */ }
 	}
 }

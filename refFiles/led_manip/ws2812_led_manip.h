@@ -66,9 +66,10 @@
 // '-> Select the type of display that will free to use some functions :
 #define __LED_ARRANGEMENT __LED_ARRANGEMENT_STRIP
 //#define __LED_ARRANGEMENT __LED_ARRANGEMENT_MATRX
+
 //---------------------------------\DSIPLAY_Definitions/--------------------------------.
 // '-> NUMBER of LEDs presents on the strip :
-#define MAX_LEDS 300
+#define MAX_LEDS 256
 #if MAX_LEDS < 256
     typedef unsigned char posType;  // 8bits value.
 #elif MAX_LEDS < 65536
@@ -92,14 +93,14 @@ typedef struct {
     unsigned char Red;
     unsigned char Green;
     unsigned char Blue;
-}color; // Creation of a color type based R-G-B named << color >>.
+} color; // Creation of a color type based R-G-B named << color >>.
 
 //-- LED / PIXEL (STRIP) : ->
 #if __LED_ARRANGEMENT == __LED_ARRANGEMENT_STRIP
     typedef struct {
         color colorPix;         // A color  (see structure above)
         unsigned char status;   // A status (OFF : 0 / ON : 1).
-    }pixel; // Creation of the definition of one LED (WS281x) named << pixel >>.
+    } pixel; // Creation of the definition of one LED (WS281x) named << pixel >>.
 #endif
 #if __LED_ARRANGEMENT == __LED_ARRANGEMENT_MATRX
     typedef struct {
@@ -107,18 +108,12 @@ typedef struct {
         unsigned char status;   // A status (OFF : 0 / ON : 1).
         unsigned char x;    // X value about the matrix.
         unsigned char y;    // Y value about the matrix.
-    }pixel; // Creation of the definition of one LED (WS281x) named << pixel >>.
+    } pixel; // Creation of the definition of one LED (WS281x) named << pixel >>.
 #endif
 
 //-- GLOBAL VARIABLES	: -------------------------------->
-#if __LED_ARRANGEMENT == __LED_ARRANGEMENT_STRIP
-    // Declare an array of << pixel >> defining the LED's strip. Init. in the 'C' file.
-    extern xdata pixel strip[MAX_LEDS];
-#endif
-#if __LED_ARRANGEMENT == __LED_ARRANGEMENT_MATRX
-    // Declare an array of << pixel >> defining the LED's matrix. Init. in the 'C' file.
-    extern xdata pixel matrix[MAX_LEDS];
-#endif
+// Declare an array of << pixel >> defining the LED's strip. Init. in the 'C' file.
+extern xdata pixel display[MAX_LEDS];
 
 //-- GLOBAL MACROS ..   : -------------------------------->
 // .. sending DATA '0' in Manchester  / Timing : 0 > 0.4[us] | 1 > 0.8[us] +- 150[ns] :
@@ -160,39 +155,39 @@ else                                    \
 //===============================\FUNCTIONS'_Prototypes/================================>
 /* Description  :   Filling color and setting status to the specific LED position.
  * Last_Update  :   2021.01.07
- * Input		:   addressStrip, 6bytes - address of the strip
+ * Input		:   addressDisplay, 6bytes - address of the strip
  *					newColor, 3bytes - color to set
  *					position, xbytes - position in the strip to set the color.
  * Output	 	:	Nothin'                                                            */
-extern void pixel_Set(pixel* addressStrip, color newColor, posType position);
+extern void pixel_Set(pixel* addressDisplay, color newColor, posType position);
 //======================================================================================>
 /* Description  :   Resetting color & status to the specific LED position.
  * Last_Update  :   2021.01.07
- * Input		:   addressStrip, 6bytes - address of the strip
+ * Input		:   addressDisplay, 6bytes - address of the strip
  *					position, xbytes - position in the strip to set the color.
  * Output	 	:	Nothin'                                                            */
-extern void pixel_Reset(pixel* addressStrip, posType position);
+extern void pixel_Reset(pixel* addressDisplay, posType position);
 //======================================================================================>
 /* Description  :   Recovering << color >> of a specific LED.
  * Last_Update  :   2021.01.07
- * Input		:   addressStrip, 6bytes - address of the strip
+ * Input		:   addressDisplay, 6bytes - address of the strip
  *					position, xbytes - position in the strip to set the color.
  * Output	 	:	Nothin'                                                            */
-extern color pixel_GetColor(pixel* addressStrip, posType position);
+extern color pixel_GetColor(pixel* addressDisplay, posType position);
 //======================================================================================>
 /* Description  :   Recovering << status >> of a specific LED.
  * Last_Update  :   2021.01.07
- * Input		:   addressStrip, 6bytes - address of the strip
+ * Input		:   addressDisplay, 6bytes - address of the strip
  *					position, xbytes - position in the strip to set the color.
  * Output	 	:	Nothin'                                                            */
-extern unsigned char pixel_GetStatus(pixel* addressStrip, posType position);
+extern unsigned char pixel_GetStatus(pixel* addressDisplay, posType position);
 //======================================================================================>
 /* Description  :   Toggling status into the specific strip position.
  * Last_Update  :   2021.01.07
- * Input		:   addressStrip, 6bytes - address of the strip
+ * Input		:   addressDisplay, 6bytes - address of the strip
  *					position, xbytes - position in the strip to set the color.
  * Output	 	:	Nothin'                                                            */
-extern void pixel_ToggleStatus(pixel* addressStrip, posType position);
+extern void pixel_ToggleStatus(pixel* addressDisplay, posType position);
 //======================================================================================>
 /* Description  :   Send the 24bits color (one by one) of a pixel.
  * Last_Update  :   2021.01.07
@@ -205,37 +200,37 @@ void pixel_Show(unsigned char red, unsigned char green, unsigned char blue);
 //-------------------------------------------------------------------------------------->
 /* Description  :   Show the entire strip through dedicated output pin.
  * Last_Update  :   2021.01.06
- * Input		:   addressStrip, 6bytes - address of the strip
+ * Input		:   addressDisplay, 6bytes - address of the strip
  * Output	 	:	Nothin'                                                            */
-extern void leds_Show(pixel* addressStrip);
+extern void leds_Show(pixel* addressDisplay);
 //======================================================================================>
 /* Description  :   Clear COLOR & STATUS on the strip + display it (shut down).
  * Last_Update  :   2021.01.07
- * Input		:   addressStrip, 6bytes - address of the strip
+ * Input		:   addressDisplay, 6bytes - address of the strip
  * Output	 	:	Nothin'                                                            */
-extern void leds_Off(pixel* addressStrip);
+extern void leds_Off(pixel* addressDisplay);
 //======================================================================================>
 /* Description  :   Clear ONLY status on the strip, to keep the color in memory.
  * Last_Update  :   2021.01.07
- * Input	    :   addressStrip, 6bytes - address of the strip
+ * Input	    :   addressDisplay, 6bytes - address of the strip
  * Output	 	:	Nothin'                                                            */
-extern void leds_ResetStatus(pixel* addressStrip);
+extern void leds_ResetStatus(pixel* addressDisplay);
 //======================================================================================>
 /* Description  :   Reverse every LED status on all the strip, but keep the colors
  *                  in memory.
  * Last_Update  :   2021.01.06
- * Input	    :   addressStrip, 6bytes - address of the strip
+ * Input	    :   addressDisplay, 6bytes - address of the strip
  * Output	 	:	Nothin'                                                            */
-extern void leds_Inverter(pixel* addressStrip);
+extern void leds_Inverter(pixel* addressDisplay);
 //======================================================================================>
 /* Description  :   Set a chain of LEDs to a specific color.
  * Last_Update  :   2021.01.06
- * Input		:   addressStrip, 6bytes - address of the strip
+ * Input		:   addressDisplay, 6bytes - address of the strip
  *					position, 2bytes - position in the strip to set the color.
  *					begin, 2bytes - FIRST position of the chain to light up.
  *					end, 2bytes - LAST position of the chain to light up.
  * Output	 	:	Nothin'                                                            */
-extern void leds_ChainedLeds(pixel* addressStrip, color newColor, \
+extern void leds_ChainedLeds(pixel* addressDisplay, color newColor, \
                                                 posType begin, posType end);
 
 #endif
