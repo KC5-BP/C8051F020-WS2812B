@@ -78,22 +78,17 @@ unsigned int pixel_RecoverPosition(unsigned char posX, unsigned char posY)
         case 360:
         case (-360):
             if( !(posY % 2) )   // Even lines on the matrix physical view.
-                ui16_returnPos = (posX / (MAX_COLU + 1)) * MAX_LEDS + \
-                                                (MAX_COLU - (posX % (MAX_COLU + 1))) \
-                                                                + (posY - 1) * MAX_COLU;
+                ui16_returnPos = (MAX_COLU - posX) + (posY - 1) * MAX_COLU;
             else
-                ui16_returnPos = (posX / (MAX_COLU + 1)) * MAX_LEDS + \
-                                                    ((posX % (MAX_COLU + 1)) - 1) \
-                                                                + (posY - 1) * MAX_COLU;
+                ui16_returnPos = (posX - 1) + (posY - 1) * MAX_COLU;
             break;
-
 
         case 90:
         case (-270):
             if( !(posX % 2) )   // Even columns on the matrix physical view.
-                ui16_returnPos = (MAX_LEDS - posX * MAX_LINE) + (posY - 1);
+                ui16_returnPos = (MAX_LEDS - posX * MAX_LINE) + posY - 1;
             else
-                ui16_returnPos = (MAX_LEDS - posY) - (posX - 1) * MAX_LINE;
+                ui16_returnPos = MAX_LEDS - posY - (posX - 1) * MAX_LINE;
             break;
 
         case 180:
@@ -101,23 +96,15 @@ unsigned int pixel_RecoverPosition(unsigned char posX, unsigned char posY)
             if((posY % 2) == 0) // Even reverted lines on the matrix physical view.
                 ui16_returnPos = MAX_LEDS - posX - (posY - 1) * MAX_COLU;
             else
-                ui16_returnPos = MAX_LEDS - (MAX_COLU - (posX - 1)) - (posY - 1) * MAX_COLU;
+                ui16_returnPos = MAX_LEDS - MAX_COLU + posX - 1 - (posY - 1) * MAX_COLU;
             break;
-
 
         case 270:
         case (-90):
-            // Condition about the Line being Even or not.
-            // Then, by the Matrix routing, define how the WS281x must be adressed.
-            if((posX % 2) == 0)
-            {
-                ui8_newY = (MAX_LINE - 1) - posY;
-            }
+            if( !(posX % 2) )   // Even reverted columns on the matrix physical view.
+                ui16_returnPos = (posX - 1) * MAX_LINE + posY - 1;
             else
-            {
-                ui8_newY = posY;
-            }
-            ui16_returnPos = (((posX - 1) * MAX_COLU) + ui8_newY); // Checker les PosRecov en rotation.
+                ui16_returnPos = (posX * MAX_LINE - 1) - posY + 1;
             break;
 
         /* State of every undefined case, so not supposed to come here. */
