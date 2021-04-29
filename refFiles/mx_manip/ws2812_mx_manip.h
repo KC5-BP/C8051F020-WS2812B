@@ -75,14 +75,14 @@ enum enum_nbrFont
 
 //-- GLOBAL VARIABLES	: -------------------------------->
 // Declare a structure about the Orientation and Txt that'll be displayed on the matrix.
-extern xdata matrixFormat matrixDisplay;
+extern xdata matrixFormat formatDisplay;
 
 //-- GLOBAL MACROS ..   : -------------------------------->
 
 //===================================================
 //===============================\FUNCTIONS'_Prototypes/================================>
 /* Description :  Recovered the position of a LED depending of the Line and Column given.
- *	               + the Matrix orientation take in count through cst (matrixDisplay).
+ *	               + the Matrix orientation take in count through cst (formatDisplay).
  * Last_Update :  2021.01.11
  * Input       :  posX,	1byte - Column (from 1 instead of 0)
  *             :  posY,	1byte - Line (from 1 instead of 0)

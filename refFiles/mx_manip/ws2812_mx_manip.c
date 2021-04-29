@@ -39,8 +39,8 @@
 //#include "kc5_bp_matrix_alpha_big.h"
 
 //-- GLOBAL VARIABLES INIT : ----------------------------->
-xdata offsetText Offset = {0, 0};                   // Init. column + line to 0.
-xdata matrixFormat matrixDisplay = {0, 0};      // Init. matrixView + txtFont to 0.
+xdata offsetText Offset = {0, 0};           // Init. column + line to 0.
+xdata matrixFormat formatDisplay = {0, 0};  // Init. matrixView + txtFont to 0.
 
 //-------------------------------------------------------------------------------------->
 /*	Initial : 0/+-360 degrees :
@@ -65,14 +65,13 @@ xdata matrixFormat matrixDisplay = {0, 0};      // Init. matrixView + txtFont to
  *      16 17 48 49 80 81 112 113 144 145 176 177 208 209 240 241                      */
 unsigned int pixel_RecoverPosition(unsigned char posX, unsigned char posY)
 {	// Var. Dec. :
-    xdata unsigned char ui8_newX = 0, ui8_newY = 0;
-    xdata posType ui16_returnPos = 0;
+    posType ui16_returnPos = 0;
 
     // Condition about starting from 1, instead of 0.
     if (posX == 0)  posX = 1;
     if (posY == 0)  posY = 1;
 
-    switch(matrixDisplay.matrixView)
+    switch(formatDisplay.matrixView)
     {
         case 0:
         case 360:
@@ -160,7 +159,7 @@ void matrix_Print(pixel* addressMatrix, color newColor, const char* _CharToWrite
                 // Numbers + Style : ------------------------------------------->
             case '0':	case '1':	case '2':	case '3':	case '4':
             case '5':	case '6':	case '7':	case '8':	case '9':
-                switch(matrixDisplay.txtFont)
+                switch(formatDisplay.txtFont)
                 {
                     case numberClassic:
                         Cnt_Col = 4;
@@ -208,7 +207,7 @@ void matrix_Print(pixel* addressMatrix, color newColor, const char* _CharToWrite
                 break;
 
             case '?':
-                switch(matrixDisplay.txtFont)
+                switch(formatDisplay.txtFont)
                 {
                     case numberClassic:
                         Cnt_Col = 4;
@@ -237,7 +236,7 @@ void matrix_Print(pixel* addressMatrix, color newColor, const char* _CharToWrite
 				}
 				else { /* Nothing. */ }
 				// Switch about definning how the char Board must be read.
-				switch(matrixDisplay.matrixView)
+				switch(formatDisplay.matrixView)
 				{
 					case 0:
 					case 180:
@@ -305,7 +304,7 @@ void matrix_Print(pixel* addressMatrix, color newColor, const char* _CharToWrite
                         break;
 
                     case '0':
-                        switch(matrixDisplay.txtFont)
+                        switch(formatDisplay.txtFont)
                         {
                             case numberClassic:
                                 addressMatrix[NeoPix_Pos].status = cBoard_0_Val[OFF_CHAR_DIM_4X7 - CharReadOrga];
@@ -320,7 +319,7 @@ void matrix_Print(pixel* addressMatrix, color newColor, const char* _CharToWrite
                         }
                         break;
                     case '1':
-                        switch(matrixDisplay.txtFont)
+                        switch(formatDisplay.txtFont)
                         {
                             case numberClassic:
                                 addressMatrix[NeoPix_Pos].status = cBoard_1_Val[OFF_CHAR_DIM_4X7 - CharReadOrga];
@@ -335,7 +334,7 @@ void matrix_Print(pixel* addressMatrix, color newColor, const char* _CharToWrite
                         }
                         break;
                     case '2':
-                        switch(matrixDisplay.txtFont)
+                        switch(formatDisplay.txtFont)
                         {
                             case numberClassic:
                                 addressMatrix[NeoPix_Pos].status = cBoard_2_Val[OFF_CHAR_DIM_4X7 - CharReadOrga];
@@ -350,7 +349,7 @@ void matrix_Print(pixel* addressMatrix, color newColor, const char* _CharToWrite
                         }
                         break;
                     case '3':
-                        switch(matrixDisplay.txtFont)
+                        switch(formatDisplay.txtFont)
                         {
                             case numberClassic:
                                 addressMatrix[NeoPix_Pos].status = cBoard_3_Val[OFF_CHAR_DIM_4X7 - CharReadOrga];
@@ -365,7 +364,7 @@ void matrix_Print(pixel* addressMatrix, color newColor, const char* _CharToWrite
                         }
                         break;
                     case '4':
-                        switch(matrixDisplay.txtFont)
+                        switch(formatDisplay.txtFont)
                         {
                             case numberClassic:
                                 addressMatrix[NeoPix_Pos].status = cBoard_4_Val[OFF_CHAR_DIM_4X7 - CharReadOrga];
@@ -380,7 +379,7 @@ void matrix_Print(pixel* addressMatrix, color newColor, const char* _CharToWrite
                         }
                         break;
                     case '5':
-                        switch(matrixDisplay.txtFont)
+                        switch(formatDisplay.txtFont)
                         {
                             case numberClassic:
                                 addressMatrix[NeoPix_Pos].status = cBoard_5_Val[OFF_CHAR_DIM_4X7 - CharReadOrga];
@@ -395,7 +394,7 @@ void matrix_Print(pixel* addressMatrix, color newColor, const char* _CharToWrite
                         }
                         break;
                     case '6':
-                        switch(matrixDisplay.txtFont)
+                        switch(formatDisplay.txtFont)
                         {
                             case numberClassic:
                                 addressMatrix[NeoPix_Pos].status = cBoard_6_Val[OFF_CHAR_DIM_4X7 - CharReadOrga];
@@ -410,7 +409,7 @@ void matrix_Print(pixel* addressMatrix, color newColor, const char* _CharToWrite
                         }
                         break;
                     case '7':
-                        switch(matrixDisplay.txtFont)
+                        switch(formatDisplay.txtFont)
                         {
                             case numberClassic:
                                 addressMatrix[NeoPix_Pos].status = cBoard_7_Val[OFF_CHAR_DIM_4X7 - CharReadOrga];
@@ -425,7 +424,7 @@ void matrix_Print(pixel* addressMatrix, color newColor, const char* _CharToWrite
                         }
                         break;
                     case '8':
-                        switch(matrixDisplay.txtFont)
+                        switch(formatDisplay.txtFont)
                         {
                             case numberClassic:
                                 addressMatrix[NeoPix_Pos].status = cBoard_8_Val[OFF_CHAR_DIM_4X7 - CharReadOrga];
@@ -440,7 +439,7 @@ void matrix_Print(pixel* addressMatrix, color newColor, const char* _CharToWrite
                         }
                         break;
                     case '9':
-                        switch(matrixDisplay.txtFont)
+                        switch(formatDisplay.txtFont)
                         {
                             case numberClassic:
                                 addressMatrix[NeoPix_Pos].status = cBoard_9_Val[OFF_CHAR_DIM_4X7 - CharReadOrga];
@@ -471,7 +470,7 @@ void matrix_Print(pixel* addressMatrix, color newColor, const char* _CharToWrite
                     //  addressMatrix[NeoPix_Pos].status = ;
                     //  break;
                     case '?':
-                        switch(matrixDisplay.txtFont)
+                        switch(formatDisplay.txtFont)
                         {
                             case numberClassic:
                                 addressMatrix[NeoPix_Pos].status = cBoard_QuestMark[OFF_CHAR_DIM_4X7 - CharReadOrga];
@@ -649,7 +648,7 @@ void char_SetColumnAndLine(const char* charToPrint, unsigned char* column, unsig
             // Numbers + Style : ------------------------------------------->
         case '0':	case '1':	case '2':	case '3':	case '4':
         case '5':	case '6':	case '7':	case '8':	case '9':
-            switch(matrixDisplay.txtFont)
+            switch(formatDisplay.txtFont)
             {
                 case numberClassic:
                     *column = 4;
@@ -697,7 +696,7 @@ void char_SetColumnAndLine(const char* charToPrint, unsigned char* column, unsig
             break;
 
         case '?':
-            switch(matrixDisplay.txtFont)
+            switch(formatDisplay.txtFont)
             {
                 case numberClassic:
                     *column = 4;
