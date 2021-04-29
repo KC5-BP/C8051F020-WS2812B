@@ -66,95 +66,42 @@ xdata matrixFormat matrixDisplay = {0, 0};      // Init. matrixView + txtFont to
 unsigned int pixel_RecoverPosition(unsigned char posX, unsigned char posY)
 {	// Var. Dec. :
     xdata unsigned char ui8_newX = 0, ui8_newY = 0;
-    xdata unsigned char ui8_X = 0, ui8_Y = 0;
-    xdata unsigned int ui16_matOffset = 0;
-    xdata unsigned int ui16_returnPos = 0;
+    xdata posType ui16_returnPos = 0;
 
     // Condition about starting from 1, instead of 0.
-    if(posX == 0) { ui8_X = 1; } else { ui8_X = posX;}
-    if(posY == 0) { ui8_Y = 1; } else { ui8_Y = posY;}
+    if (posX == 0)  posX = 1;
+    if (posY == 0)  posY = 1;
 
     switch(matrixDisplay.matrixView)
     {
         case 0:
         case 360:
         case (-360):
-            // Condition about the Line being Even or not.
-            // Then, by the Matrix routing, define how the WS281x must be adressed.
-            if((posY % 2) == 0)
-            {
-                if(ui8_X <= MAX_COLU)
-                {
-                    ui8_newX = MAX_COLU - ui8_X;
-                    ui16_matOffset = 0;
-                }
-                else
-                {
-                    if(ui8_X <= (2 * MAX_COLU))
-                    {
-                        ui8_newX = (2 * MAX_COLU) - ui8_X;
-                        ui16_matOffset = MAX_COLU * MAX_LINE;
-                    }
-                    else
-                    {
-                        ui8_newX = (3 * MAX_COLU) - ui8_X;
-                        ui16_matOffset = 2 * MAX_COLU * MAX_LINE;
-                    }
-                }
-            }
+            if( !(posY % 2) )   // Even lines on the matrix physical view.
+                ui16_returnPos = (posX / (MAX_COLU + 1)) * MAX_LEDS + \
+                                                (MAX_COLU - (posX % (MAX_COLU + 1))) \
+                                                                + (posY - 1) * MAX_COLU;
             else
-            {
-                if(ui8_X <= MAX_COLU)
-                {
-                    ui8_newX = (ui8_X - 1);
-                    ui16_matOffset = 0;
-                }
-                else
-                {
-                    if(ui8_X <= (2 * MAX_COLU))
-                    {
-                        ui8_newX = (ui8_X - MAX_COLU - 1);
-                        ui16_matOffset = MAX_COLU * MAX_LINE;
-                    }
-                    else
-                    {
-                        ui8_newX = (ui8_X - (2 * MAX_COLU) - 1);
-                        ui16_matOffset = 2 * MAX_COLU * MAX_LINE;
-                    }
-                }
-            }
-            ui16_returnPos = (((ui8_Y - 1) * MAX_COLU) + ui8_newX) + ui16_matOffset;
+                ui16_returnPos = (posX / (MAX_COLU + 1)) * MAX_LEDS + \
+                                                    ((posX % (MAX_COLU + 1)) - 1) \
+                                                                + (posY - 1) * MAX_COLU;
             break;
 
 
         case 90:
         case (-270):
-            // Condition about the Line being Even or not.
-            // Then, by the Matrix routing, define how the WS281x must be adressed.
-            if((posX % 2) == 0)
-            {
-                ui8_newY = (MAX_LINE - 1) - posY;
-            }
+            if( !(posX % 2) )   // Even columns on the matrix physical view.
+                ui16_returnPos = (MAX_LEDS - posX * MAX_LINE) + (posY - 1);
             else
-            {
-                ui8_newY = posY;
-            }
-            ui16_returnPos = (((posX - 1) * MAX_COLU) + ui8_newY);
+                ui16_returnPos = (MAX_LEDS - posY) - (posX - 1) * MAX_LINE;
             break;
 
         case 180:
         case (-180):
-            // Condition about the Line being Even or not.
-            // Then, by the Matrix routing, define how the WS281x must be adressed.
-            if((posY % 2) == 0)
-            {
-                ui8_newX = MAX_COLU - ui8_X;
-            }
+            if((posY % 2) == 0) // Even reverted lines on the matrix physical view.
+                ui16_returnPos = MAX_LEDS - posX - (posY - 1) * MAX_COLU;
             else
-            {
-                ui8_newX = (ui8_X - 1);
-            }
-            ui16_returnPos = (((ui8_Y - 1) * MAX_COLU) + ui8_newX);
+                ui16_returnPos = MAX_LEDS - (MAX_COLU - (posX - 1)) - (posY - 1) * MAX_COLU;
             break;
 
 
@@ -173,7 +120,8 @@ unsigned int pixel_RecoverPosition(unsigned char posX, unsigned char posY)
             ui16_returnPos = (((posX - 1) * MAX_COLU) + ui8_newY); // Checker les PosRecov en rotation.
             break;
 
-        default :	/* State of every undefined case, so not supposed to come here. */	break;
+        /* State of every undefined case, so not supposed to come here. */
+        default :   break;
     }
     return ui16_returnPos; // Return Pos.
 }
