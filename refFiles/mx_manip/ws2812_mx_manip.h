@@ -114,7 +114,7 @@ extern void matrix_Print(pixel* addressMatrix, color newColor, \
  *					line, unsigned char* - To modify the actual value instead
  *					                                of copying it and returning it.
  * Output       :   Nothin'                                                            */
-//void char_SetColumnAndLine(const char* charToPrint, unsigned char* column, unsigned char* line);
+void retrieveHeightWidthOf(const char* character, posType* width, posType* height);
 
 #endif
 // End of definition.
