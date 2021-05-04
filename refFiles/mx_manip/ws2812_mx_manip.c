@@ -67,17 +67,17 @@ posType pixel_RecoverPosition(unsigned char posX, unsigned char posY)
     posType ui16_returnPos = 0;
 
     // Condition about exceeding/equaling the MAX_COLU or MAX_LINE.
-    if (MAX_COLU < posX)  posX = MAX_COLU - 1;
-    if (MAX_LINE < posY)  posY = MAX_LINE - 1;
+    /*if (MAX_COLU < posX)  posX = MAX_COLU - 1;
+    if (MAX_LINE < posY)  posY = MAX_LINE - 1;*/
 
     switch(formatDisplay.matrixView)
     {
         case 0:         case 360:
         case (-360):    default :
             if( !(posY % 2) )   // Even lines on the matrix physical view.
-                ui16_returnPos = posX + posY * MAX_COLU;
+                ui16_returnPos = posX / MAX_COLU * MAX_LEDS + posX % MAX_COLU + posY * MAX_COLU;
             else
-                ui16_returnPos = (posY + 1) * MAX_COLU - posX - 1;
+                ui16_returnPos = posX / MAX_COLU * MAX_LEDS + (posY + 1) * MAX_COLU - posX % MAX_COLU - 1;
             break;
 
         case 90:
@@ -151,6 +151,7 @@ void matrix_Print(pixel* addressMatrix, color newColor, const char* _CharToWrite
                     //case '\"':
                     case '#':
                         addressMatrix[NeoPix_Pos].status = cBoard_HashtagV1[j + i * Cnt_Col];
+                        //addressMatrix[NeoPix_Pos].status = cBoard_HashtagV2[j + i * Cnt_Col];
                         break;
                     //case '$':
                     //  addressMatrix[NeoPix_Pos].status = ;
