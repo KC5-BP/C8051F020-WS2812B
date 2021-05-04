@@ -137,7 +137,7 @@ extern xdata char cBoard_J[CHAR_DIM_4X7] = {\
 0, 0, 1, 0,\
 0, 0, 1, 0,\
 0, 0, 1, 0,\
-1, 0, 1, 0,\
+0, 0, 1, 0,\
 0, 1, 1, 1};
 //-------------------->
 extern xdata char cBoard_K[CHAR_DIM_4X7] = {\
@@ -361,9 +361,9 @@ extern xdata char cBoard_7_Time[CHAR_DIM_5X7] = {\
 extern xdata char cBoard_8_Time[CHAR_DIM_5X7] = {\
 0, 1, 1, 1, 0,\
 1, 0, 0, 0, 1,\
-0, 0, 1, 0, 0,\
+1, 0, 1, 0, 1,\
 1, 0, 0, 0, 1,\
-1, 1, 1, 1, 1,\
+0, 1, 1, 1, 0,\
 1, 0, 0, 0, 1,\
 0, 1, 1, 1, 0}; 
 //-------------------->
