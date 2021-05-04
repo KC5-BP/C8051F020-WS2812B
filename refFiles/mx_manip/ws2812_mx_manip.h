@@ -84,10 +84,10 @@ extern xdata matrixFormat formatDisplay;
 /* Description :  Recovered the position of a LED depending of the Line and Column given.
  *	               + the Matrix orientation take in count through cst (formatDisplay).
  * Last_Update :  2021.01.11
- * Input       :  posX,	1byte - Column (from 1 instead of 0)
- *             :  posY,	1byte - Line (from 1 instead of 0)
- * Output      :      , xbytes - Position from 1 to MAX_LEDS                           */
-extern unsigned int pixel_RecoverPosition(unsigned char posX, unsigned char posY);
+ * Input       :  posX,	1byte - Column
+ *             :  posY,	1byte - Line
+ * Output      :      , xbytes - Position from 0 to MAX_LEDS - 1                       */
+extern posType pixel_RecoverPosition(unsigned char posX, unsigned char posY);
 
 //-------------------------------------------------------------------------------------->
 /* Description  :   Set position where to start displaying text.
@@ -104,7 +104,7 @@ extern void matrix_SetTextPosition(unsigned char column, unsigned char line);
  *					                        will be analyzed to fill the array.
  * Output       :   Nothin'                                                            */
 extern void matrix_Print(pixel* addressMatrix, color newColor, \
-												 const char* _CharToWrite, ...);
+												 const char* _CharToWrite);
 /* Description  :   Replace switch{} case{} to light up the "matrix_Print()" Fn.
  * Last_Update  :   2021.01.19
  * Input        :   charToPrint, const char* - Actual character that
