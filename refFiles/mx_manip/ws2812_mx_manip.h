@@ -43,35 +43,25 @@
 #define MAX_LINE 16
 #define MAX_COLU 16
 
-// '-> Characters displaying (Starting point in the char array
-//                                          '-> look in kc5_bp_matrix_alphanum) :
-#define OFF_CHAR_DIM_5X7	30
-#define OFF_CHAR_DIM_4X7	24
-#define OFF_CHAR_DIM_3X7	18
-#define OFF_CHAR_DIM_2X7	12
-
-#define OFF_CHAR_DIM_4X6	20
-
-#define OFF_CHAR_DIM_7X6	35
-
 //-- GLOBAL TYPE		: -------------------------------->
 //-- TEXT Offset    : ------>
 typedef struct {
     unsigned char column;   // X val. for Column.
     unsigned char line;     // Y val. for Line.
-}offsetText; // Creation of the definition of the text's offset named << offsetText >>.
+} offsetText; // Creation of the definition of the text's offset named << offsetText >>.
 
 //-- MATRIX Format  : ------>
 typedef struct {
     unsigned int matrixView;    // (16b) Matrix orientation : 0-90-... in degrees.
     unsigned char txtFont;      // Font used like, Classic, Time Number or Mob style.
-}matrixFormat; // Creation of the definition of the MATX param. named << matrixFormat >>.
+} matrixFormat;// Creation of the definition of the MATX param. named << matrixFormat >>.
 
 //-- ENUM Type          : -------------------------------->
-enum enum_nbrFont
-{	numberClassic = 0,
+enum enum_nbrFont {
+    numberClassic = 0,
     numberTime,
-    numberMob };
+    numberMob
+};
 
 //-- GLOBAL VARIABLES	: -------------------------------->
 // Declare a structure about the Orientation and Txt that'll be displayed on the matrix.
@@ -82,8 +72,8 @@ extern xdata matrixFormat formatDisplay;
 //===================================================
 //===============================\FUNCTIONS'_Prototypes/================================>
 /* Description :  Recovered the position of a LED depending of the Line and Column given.
- *	               + the Matrix orientation take in count through cst (formatDisplay).
- * Last_Update :  2021.01.11
+ *	                + the Matrix orientation take in count through cst (formatDisplay).
+ * Creation     :   To be retrieved ...
  * Input       :  posX,	1byte - Column
  *             :  posY,	1byte - Line
  * Output      :      , xbytes - Position from 0 to MAX_LEDS - 1                       */
@@ -91,13 +81,13 @@ extern posType pixel_RecoverPosition(unsigned char posX, unsigned char posY);
 
 //-------------------------------------------------------------------------------------->
 /* Description  :   Set position where to start displaying text.
- * Last_Update  :   2021.01.11
- * Input        :   column, 1byte - Column (from 1 instead of 0)
- *              :   line, 1byte - Line (from 1 instead of 0)
+ * Creation     :   To be retrieved ...
+ * Input        :   column, 1byte
+ *              :   line, 1byte
  * Output       :   Nothin'                                                            */
 extern void matrix_SetTextPosition(unsigned char column, unsigned char line);
 /* Description  :   Filling status of addressMatrix to be displayed.
- * Last_Update  :   2021.01.11
+ * Creation     :   To be retrieved ...
  * Input        :   addressMatrix, 6bytes - address of the matrix
  *					newColor, 3bytes - color to set
  *					_CharToWrite, const char* - Chain of characters that
@@ -106,7 +96,7 @@ extern void matrix_SetTextPosition(unsigned char column, unsigned char line);
 extern void matrix_Print(pixel* addressMatrix, color newColor, \
 												 const char* _CharToWrite);
 /* Description  :   Replace switch{} case{} to light up the "matrix_Print()" Fn.
- * Last_Update  :   2021.01.19
+ * Creation     :   To be retrieved ...
  * Input        :   charToPrint, const char* - Actual character that
  *					                                will be analyzed to fill the array.
  *					column, unsigned char* - To modify the actual value instead
@@ -114,7 +104,8 @@ extern void matrix_Print(pixel* addressMatrix, color newColor, \
  *					line, unsigned char* - To modify the actual value instead
  *					                                of copying it and returning it.
  * Output       :   Nothin'                                                            */
-void retrieveHeightWidthOf(const char* character, posType* width, posType* height);
+void retrieveHeightWidthOf(const char* character, \
+                                            unsigned char* width, unsigned char* height);
 
 #endif
 // End of definition.

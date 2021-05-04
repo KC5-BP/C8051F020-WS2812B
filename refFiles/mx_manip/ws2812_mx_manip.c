@@ -111,19 +111,22 @@ posType pixel_RecoverPosition(unsigned char posX, unsigned char posY)
 #ifdef __kc5_bp_matrix_alphanum__
 void matrix_SetTextPosition(unsigned char column, unsigned char line) {
     // COLUMN validity ..
-    if(column >= MAX_COLU) Offset.column = MAX_COLU - 1;
+    /*if(column >= MAX_COLU) Offset.column = MAX_COLU - 1;
     else Offset.column = column;
 
     // LINE validity ..
     if(line >= MAX_LINE) Offset.line = MAX_LINE - 1;
-    else Offset.line = line;
+    else Offset.line = line;*/  // Problem with sliding if condition lept because force to MAX.
+
+    Offset.column = column;
+    Offset.line = line;
 }
 
 void matrix_Print(pixel* addressMatrix, color newColor, const char* _CharToWrite) {
     // Var. Dec. :
 	xdata unsigned int j, i;	// X, Y and Filling
-    xdata posType Cnt_Col, Cnt_Lin; // For Char with different : Column size.
-	                                // For Char with different : Line size.
+    xdata unsigned char Cnt_Col, Cnt_Lin;  // For Char with different : Column size.
+	                                        // For Char with different : Line size.
 	const char* cP_CharToPrint; // Recover the actual char to print.
 	xdata posType NeoPix_Pos = 0;
 
@@ -140,64 +143,64 @@ void matrix_Print(pixel* addressMatrix, color newColor, const char* _CharToWrite
 				switch(*cP_CharToPrint)
 				{
                     case ' ':
-                        addressMatrix[NeoPix_Pos].status = cBoard_Space[OFF_CHAR_DIM_3X7 + j - i * Cnt_Col];
+                        addressMatrix[NeoPix_Pos].status = cBoard_Space[j + i * Cnt_Col];
                         break;
                     case '!':
-                        addressMatrix[NeoPix_Pos].status = cBoard_ExclaMark[OFF_CHAR_DIM_3X7 + j - i * Cnt_Col];
+                        addressMatrix[NeoPix_Pos].status = cBoard_ExclaMark[j + i * Cnt_Col];
                         break;
                     //case '\"':
                     case '#':
-                        addressMatrix[NeoPix_Pos].status = cBoard_HashtagV1[OFF_CHAR_DIM_5X7 + j - i * Cnt_Col];
+                        addressMatrix[NeoPix_Pos].status = cBoard_HashtagV1[j + i * Cnt_Col];
                         break;
                     //case '$':
                     //  addressMatrix[NeoPix_Pos].status = ;
                     //  break;
                     case '%':
-                        addressMatrix[NeoPix_Pos].status = cBoard_xMult[OFF_CHAR_DIM_3X7 + j - i * Cnt_Col];
+                        addressMatrix[NeoPix_Pos].status = cBoard_xMult[j + i * Cnt_Col];
                         break;
                     case '&':
-                        addressMatrix[NeoPix_Pos].status = cBoard_Ampersand[OFF_CHAR_DIM_5X7 + j - i * Cnt_Col];
+                        addressMatrix[NeoPix_Pos].status = cBoard_Ampersand[j + i * Cnt_Col];
                         break;
                     case '\'':
-                        addressMatrix[NeoPix_Pos].status = cBoard_Apost[OFF_CHAR_DIM_2X7 + j - i * Cnt_Col];
+                        addressMatrix[NeoPix_Pos].status = cBoard_Apost[j + i * Cnt_Col];
                         break;
                     case '(':
-                        addressMatrix[NeoPix_Pos].status = cBoard_OpenBracket[OFF_CHAR_DIM_5X7 + j - i * Cnt_Col];
+                        addressMatrix[NeoPix_Pos].status = cBoard_OpenBracket[j + i * Cnt_Col];
                         break;
                     case ')':
-                        addressMatrix[NeoPix_Pos].status = cBoard_CloseBracket[OFF_CHAR_DIM_5X7 + j - i * Cnt_Col];
+                        addressMatrix[NeoPix_Pos].status = cBoard_CloseBracket[j + i * Cnt_Col];
                         break;
                     case '*':
-                        addressMatrix[NeoPix_Pos].status = cBoard_Asterisk[OFF_CHAR_DIM_3X7 + j - i * Cnt_Col];
+                        addressMatrix[NeoPix_Pos].status = cBoard_Asterisk[j + i * Cnt_Col];
                         break;
                     case '+':
-                        addressMatrix[NeoPix_Pos].status = cBoard_Plus[OFF_CHAR_DIM_3X7 + j - i * Cnt_Col];
+                        addressMatrix[NeoPix_Pos].status = cBoard_Plus[j + i * Cnt_Col];
                         break;
                     case ',':
-                        addressMatrix[NeoPix_Pos].status = cBoard_Comma[OFF_CHAR_DIM_3X7 + j - i * Cnt_Col];
+                        addressMatrix[NeoPix_Pos].status = cBoard_Comma[j + i * Cnt_Col];
                         break;
                     case '-':
-                        addressMatrix[NeoPix_Pos].status = cBoard_Hyphen[OFF_CHAR_DIM_3X7 + j - i * Cnt_Col];
+                        addressMatrix[NeoPix_Pos].status = cBoard_Hyphen[j + i * Cnt_Col];
                         break;
                     case '.':
-                        addressMatrix[NeoPix_Pos].status = cBoard_Dot[OFF_CHAR_DIM_3X7 + j - i * Cnt_Col];
+                        addressMatrix[NeoPix_Pos].status = cBoard_Dot[j + i * Cnt_Col];
                         break;
                     case '/':
-                        addressMatrix[NeoPix_Pos].status = cBoard_Slash[OFF_CHAR_DIM_3X7 + j - i * Cnt_Col];
+                        addressMatrix[NeoPix_Pos].status = cBoard_Slash[j + i * Cnt_Col];
                         break;
 
                     case '0':
                         switch(formatDisplay.txtFont)
                         {
                             case numberClassic:
-                                addressMatrix[NeoPix_Pos].status = cBoard_0_Val[OFF_CHAR_DIM_4X7 + j - i * Cnt_Col];
+                                addressMatrix[NeoPix_Pos].status = cBoard_0_Val[j + i * Cnt_Col];
                                 break;
                             case numberTime:
-                                addressMatrix[NeoPix_Pos].status = cBoard_0_Time[OFF_CHAR_DIM_5X7 + j - i * Cnt_Col];
+                                addressMatrix[NeoPix_Pos].status = cBoard_0_Time[j + i * Cnt_Col];
                                 break;
                             case numberMob:
                             default :
-                                addressMatrix[NeoPix_Pos].status = cBoard_0_Mob[OFF_CHAR_DIM_4X6 + j - i * Cnt_Col];
+                                addressMatrix[NeoPix_Pos].status = cBoard_0_Mob[j + i * Cnt_Col];
                                 break;
                         }
                         break;
@@ -205,14 +208,14 @@ void matrix_Print(pixel* addressMatrix, color newColor, const char* _CharToWrite
                         switch(formatDisplay.txtFont)
                         {
                             case numberClassic:
-                                addressMatrix[NeoPix_Pos].status = cBoard_1_Val[OFF_CHAR_DIM_4X7 + j - i * Cnt_Col];
+                                addressMatrix[NeoPix_Pos].status = cBoard_1_Val[j + i * Cnt_Col];
                                 break;
                             case numberTime:
-                                addressMatrix[NeoPix_Pos].status = cBoard_1_Time[OFF_CHAR_DIM_5X7 + j - i * Cnt_Col];
+                                addressMatrix[NeoPix_Pos].status = cBoard_1_Time[j + i * Cnt_Col];
                                 break;
                             case numberMob:
                             default :
-                                addressMatrix[NeoPix_Pos].status = cBoard_1_Mob[OFF_CHAR_DIM_4X6 + j - i * Cnt_Col];
+                                addressMatrix[NeoPix_Pos].status = cBoard_1_Mob[j + i * Cnt_Col];
                                 break;
                         }
                         break;
@@ -220,14 +223,14 @@ void matrix_Print(pixel* addressMatrix, color newColor, const char* _CharToWrite
                         switch(formatDisplay.txtFont)
                         {
                             case numberClassic:
-                                addressMatrix[NeoPix_Pos].status = cBoard_2_Val[OFF_CHAR_DIM_4X7 + j - i * Cnt_Col];
+                                addressMatrix[NeoPix_Pos].status = cBoard_2_Val[j + i * Cnt_Col];
                                 break;
                             case numberTime:
-                                addressMatrix[NeoPix_Pos].status = cBoard_2_Time[OFF_CHAR_DIM_5X7 + j - i * Cnt_Col];
+                                addressMatrix[NeoPix_Pos].status = cBoard_2_Time[j + i * Cnt_Col];
                                 break;
                             case numberMob:
                             default :
-                                addressMatrix[NeoPix_Pos].status = cBoard_2_Mob[OFF_CHAR_DIM_4X6 + j - i * Cnt_Col];
+                                addressMatrix[NeoPix_Pos].status = cBoard_2_Mob[j + i * Cnt_Col];
                                 break;
                         }
                         break;
@@ -235,14 +238,14 @@ void matrix_Print(pixel* addressMatrix, color newColor, const char* _CharToWrite
                         switch(formatDisplay.txtFont)
                         {
                             case numberClassic:
-                                addressMatrix[NeoPix_Pos].status = cBoard_3_Val[OFF_CHAR_DIM_4X7 + j - i * Cnt_Col];
+                                addressMatrix[NeoPix_Pos].status = cBoard_3_Val[j + i * Cnt_Col];
                                 break;
                             case numberTime:
-                                addressMatrix[NeoPix_Pos].status = cBoard_3_Time[OFF_CHAR_DIM_5X7 + j - i * Cnt_Col];
+                                addressMatrix[NeoPix_Pos].status = cBoard_3_Time[j + i * Cnt_Col];
                                 break;
                             case numberMob:
                             default :
-                                addressMatrix[NeoPix_Pos].status = cBoard_3_Mob[OFF_CHAR_DIM_4X6 + j - i * Cnt_Col];
+                                addressMatrix[NeoPix_Pos].status = cBoard_3_Mob[j + i * Cnt_Col];
                                 break;
                         }
                         break;
@@ -250,14 +253,14 @@ void matrix_Print(pixel* addressMatrix, color newColor, const char* _CharToWrite
                         switch(formatDisplay.txtFont)
                         {
                             case numberClassic:
-                                addressMatrix[NeoPix_Pos].status = cBoard_4_Val[OFF_CHAR_DIM_4X7 + j - i * Cnt_Col];
+                                addressMatrix[NeoPix_Pos].status = cBoard_4_Val[j + i * Cnt_Col];
                                 break;
                             case numberTime:
-                                addressMatrix[NeoPix_Pos].status = cBoard_4_Time[OFF_CHAR_DIM_5X7 + j - i * Cnt_Col];
+                                addressMatrix[NeoPix_Pos].status = cBoard_4_Time[j + i * Cnt_Col];
                                 break;
                             case numberMob:
                             default :
-                                addressMatrix[NeoPix_Pos].status = cBoard_4_Mob[OFF_CHAR_DIM_4X6 + j - i * Cnt_Col];
+                                addressMatrix[NeoPix_Pos].status = cBoard_4_Mob[j + i * Cnt_Col];
                                 break;
                         }
                         break;
@@ -265,14 +268,14 @@ void matrix_Print(pixel* addressMatrix, color newColor, const char* _CharToWrite
                         switch(formatDisplay.txtFont)
                         {
                             case numberClassic:
-                                addressMatrix[NeoPix_Pos].status = cBoard_5_Val[OFF_CHAR_DIM_4X7 + j - i * Cnt_Col];
+                                addressMatrix[NeoPix_Pos].status = cBoard_5_Val[j + i * Cnt_Col];
                                 break;
                             case numberTime:
-                                addressMatrix[NeoPix_Pos].status = cBoard_5_Time[OFF_CHAR_DIM_5X7 + j - i * Cnt_Col];
+                                addressMatrix[NeoPix_Pos].status = cBoard_5_Time[j + i * Cnt_Col];
                                 break;
                             case numberMob:
                             default :
-                                addressMatrix[NeoPix_Pos].status = cBoard_5_Mob[OFF_CHAR_DIM_4X6 + j - i * Cnt_Col];
+                                addressMatrix[NeoPix_Pos].status = cBoard_5_Mob[j + i * Cnt_Col];
                                 break;
                         }
                         break;
@@ -280,14 +283,14 @@ void matrix_Print(pixel* addressMatrix, color newColor, const char* _CharToWrite
                         switch(formatDisplay.txtFont)
                         {
                             case numberClassic:
-                                addressMatrix[NeoPix_Pos].status = cBoard_6_Val[OFF_CHAR_DIM_4X7 + j - i * Cnt_Col];
+                                addressMatrix[NeoPix_Pos].status = cBoard_6_Val[j + i * Cnt_Col];
                                 break;
                             case numberTime:
-                                addressMatrix[NeoPix_Pos].status = cBoard_6_Time[OFF_CHAR_DIM_5X7 + j - i * Cnt_Col];
+                                addressMatrix[NeoPix_Pos].status = cBoard_6_Time[j + i * Cnt_Col];
                                 break;
                             case numberMob:
                             default :
-                                addressMatrix[NeoPix_Pos].status = cBoard_6_Mob[OFF_CHAR_DIM_4X6 + j - i * Cnt_Col];
+                                addressMatrix[NeoPix_Pos].status = cBoard_6_Mob[j + i * Cnt_Col];
                                 break;
                         }
                         break;
@@ -295,14 +298,14 @@ void matrix_Print(pixel* addressMatrix, color newColor, const char* _CharToWrite
                         switch(formatDisplay.txtFont)
                         {
                             case numberClassic:
-                                addressMatrix[NeoPix_Pos].status = cBoard_7_Val[OFF_CHAR_DIM_4X7 + j - i * Cnt_Col];
+                                addressMatrix[NeoPix_Pos].status = cBoard_7_Val[j + i * Cnt_Col];
                                 break;
                             case numberTime:
-                                addressMatrix[NeoPix_Pos].status = cBoard_7_Time[OFF_CHAR_DIM_5X7 + j - i * Cnt_Col];
+                                addressMatrix[NeoPix_Pos].status = cBoard_7_Time[j + i * Cnt_Col];
                                 break;
                             case numberMob:
                             default :
-                                addressMatrix[NeoPix_Pos].status = cBoard_7_Mob[OFF_CHAR_DIM_4X6 + j - i * Cnt_Col];
+                                addressMatrix[NeoPix_Pos].status = cBoard_7_Mob[j + i * Cnt_Col];
                                 break;
                         }
                         break;
@@ -310,14 +313,14 @@ void matrix_Print(pixel* addressMatrix, color newColor, const char* _CharToWrite
                         switch(formatDisplay.txtFont)
                         {
                             case numberClassic:
-                                addressMatrix[NeoPix_Pos].status = cBoard_8_Val[OFF_CHAR_DIM_4X7 + j - i * Cnt_Col];
+                                addressMatrix[NeoPix_Pos].status = cBoard_8_Val[j + i * Cnt_Col];
                                 break;
                             case numberTime:
-                                addressMatrix[NeoPix_Pos].status = cBoard_8_Time[OFF_CHAR_DIM_5X7 + j - i * Cnt_Col];
+                                addressMatrix[NeoPix_Pos].status = cBoard_8_Time[j + i * Cnt_Col];
                                 break;
                             case numberMob:
                             default :
-                                addressMatrix[NeoPix_Pos].status = cBoard_8_Mob[OFF_CHAR_DIM_4X6 + j - i * Cnt_Col];
+                                addressMatrix[NeoPix_Pos].status = cBoard_8_Mob[j + i * Cnt_Col];
                                 break;
                         }
                         break;
@@ -325,29 +328,29 @@ void matrix_Print(pixel* addressMatrix, color newColor, const char* _CharToWrite
                         switch(formatDisplay.txtFont)
                         {
                             case numberClassic:
-                                addressMatrix[NeoPix_Pos].status = cBoard_9_Val[OFF_CHAR_DIM_4X7 + j - i * Cnt_Col];
+                                addressMatrix[NeoPix_Pos].status = cBoard_9_Val[j + i * Cnt_Col];
                                 break;
                             case numberTime:
-                                addressMatrix[NeoPix_Pos].status = cBoard_9_Time[OFF_CHAR_DIM_5X7 + j - i * Cnt_Col];
+                                addressMatrix[NeoPix_Pos].status = cBoard_9_Time[j + i * Cnt_Col];
                                 break;
                             case numberMob:
                             default :
-                                addressMatrix[NeoPix_Pos].status = cBoard_9_Mob[OFF_CHAR_DIM_4X6 + j - i * Cnt_Col];
+                                addressMatrix[NeoPix_Pos].status = cBoard_9_Mob[j + i * Cnt_Col];
                                 break;
                         }
                         break;
 
                     case ':':
-                        addressMatrix[NeoPix_Pos].status = cBoard_Colon[OFF_CHAR_DIM_3X7 + j - i * Cnt_Col];
+                        addressMatrix[NeoPix_Pos].status = cBoard_Colon[j + i * Cnt_Col];
                         break;
                     case ';':
-                        addressMatrix[NeoPix_Pos].status = cBoard_SemiColon[OFF_CHAR_DIM_3X7 + j - i * Cnt_Col];
+                        addressMatrix[NeoPix_Pos].status = cBoard_SemiColon[j + i * Cnt_Col];
                         break;
                     //case '<':
                     //  addressMatrix[NeoPix_Pos].status = ;
                     //  break;
                     case '=':
-                        addressMatrix[NeoPix_Pos].status = cBoard_Equal[OFF_CHAR_DIM_3X7 + j - i * Cnt_Col];
+                        addressMatrix[NeoPix_Pos].status = cBoard_Equal[j + i * Cnt_Col];
                         break;
                     //case '>':
                     //  addressMatrix[NeoPix_Pos].status = ;
@@ -356,80 +359,80 @@ void matrix_Print(pixel* addressMatrix, color newColor, const char* _CharToWrite
                         switch(formatDisplay.txtFont)
                         {
                             case numberClassic:
-                                addressMatrix[NeoPix_Pos].status = cBoard_QuestMark[OFF_CHAR_DIM_4X7 + j - i * Cnt_Col];
+                                addressMatrix[NeoPix_Pos].status = cBoard_QuestMark[j + i * Cnt_Col];
                                 break;
                             case numberMob:
                             default :
-                                addressMatrix[NeoPix_Pos].status = cBoard_QuestMark_Mob[OFF_CHAR_DIM_5X7 + j - i * Cnt_Col];
+                                addressMatrix[NeoPix_Pos].status = cBoard_QuestMark_Mob[j + i * Cnt_Col];
                                 break;
                         }
                         break;
                     case '@':
-                        addressMatrix[NeoPix_Pos].status = cBoard_At[OFF_CHAR_DIM_5X7 + j - i * Cnt_Col];
+                        addressMatrix[NeoPix_Pos].status = cBoard_At[j + i * Cnt_Col];
                         break;
 
                     case 'A':
 						addressMatrix[NeoPix_Pos].status = cBoard_A[j + i * Cnt_Col];
 						break;
 					case 'B':
-						addressMatrix[NeoPix_Pos].status = cBoard_B[OFF_CHAR_DIM_4X7 + j - i * Cnt_Col];
+						addressMatrix[NeoPix_Pos].status = cBoard_B[j + i * Cnt_Col];
 						break;
 					case 'C':
-						addressMatrix[NeoPix_Pos].status = cBoard_C[OFF_CHAR_DIM_4X7 + j - i * Cnt_Col];
+						addressMatrix[NeoPix_Pos].status = cBoard_C[j + i * Cnt_Col];
 						break;
 					case 'D':
-						addressMatrix[NeoPix_Pos].status = cBoard_D[OFF_CHAR_DIM_4X7 + j - i * Cnt_Col];
+						addressMatrix[NeoPix_Pos].status = cBoard_D[j + i * Cnt_Col];
 						break;
 					case 'E':
-						addressMatrix[NeoPix_Pos].status = cBoard_E[OFF_CHAR_DIM_4X7 + j - i * Cnt_Col];
+						addressMatrix[NeoPix_Pos].status = cBoard_E[j + i * Cnt_Col];
 						break;
 					case 'F':
-						addressMatrix[NeoPix_Pos].status = cBoard_F[OFF_CHAR_DIM_4X7 + j - i * Cnt_Col];
+						addressMatrix[NeoPix_Pos].status = cBoard_F[j + i * Cnt_Col];
 						break;
 					case 'G':
-						addressMatrix[NeoPix_Pos].status = cBoard_G[OFF_CHAR_DIM_4X7 + j - i * Cnt_Col];
+						addressMatrix[NeoPix_Pos].status = cBoard_G[j + i * Cnt_Col];
 						break;
 					case 'H':
-						addressMatrix[NeoPix_Pos].status = cBoard_H[OFF_CHAR_DIM_4X7 + j - i * Cnt_Col];
+						addressMatrix[NeoPix_Pos].status = cBoard_H[j + i * Cnt_Col];
 						break;
 					case 'I':
-						addressMatrix[NeoPix_Pos].status = cBoard_I[OFF_CHAR_DIM_4X7 + j - i * Cnt_Col];
+						addressMatrix[NeoPix_Pos].status = cBoard_I[j + i * Cnt_Col];
 						break;
 					case 'J':
-						addressMatrix[NeoPix_Pos].status = cBoard_J[OFF_CHAR_DIM_4X7 + j - i * Cnt_Col];
+						addressMatrix[NeoPix_Pos].status = cBoard_J[j + i * Cnt_Col];
 						break;
 					case 'K':
-						addressMatrix[NeoPix_Pos].status = cBoard_K[OFF_CHAR_DIM_4X7 + j - i * Cnt_Col];
+						addressMatrix[NeoPix_Pos].status = cBoard_K[j + i * Cnt_Col];
 						break;
 					case 'L':
-						addressMatrix[NeoPix_Pos].status = cBoard_L[OFF_CHAR_DIM_4X7 + j - i * Cnt_Col];
+						addressMatrix[NeoPix_Pos].status = cBoard_L[j + i * Cnt_Col];
 						break;
 					case 'M':
 						addressMatrix[NeoPix_Pos].status = cBoard_M[j + i * Cnt_Col];
 						break;
 					case 'N':
-						addressMatrix[NeoPix_Pos].status = cBoard_N[OFF_CHAR_DIM_4X7 + j - i * Cnt_Col];
+						addressMatrix[NeoPix_Pos].status = cBoard_N[j + i * Cnt_Col];
 						break;
 					case 'O':
-						addressMatrix[NeoPix_Pos].status = cBoard_O[OFF_CHAR_DIM_4X7 + j - i * Cnt_Col];
+						addressMatrix[NeoPix_Pos].status = cBoard_O[j + i * Cnt_Col];
 						break;
 					case 'P': //
-						addressMatrix[NeoPix_Pos].status = cBoard_P[OFF_CHAR_DIM_4X7 + j - i * Cnt_Col];
+						addressMatrix[NeoPix_Pos].status = cBoard_P[j + i * Cnt_Col];
 						break;
 					case 'Q':
-						addressMatrix[NeoPix_Pos].status = cBoard_Q[OFF_CHAR_DIM_4X7 + j - i * Cnt_Col];
+						addressMatrix[NeoPix_Pos].status = cBoard_Q[j + i * Cnt_Col];
 						break;
 					case 'R':
-						addressMatrix[NeoPix_Pos].status = cBoard_R[OFF_CHAR_DIM_4X7 + j - i * Cnt_Col];
+						addressMatrix[NeoPix_Pos].status = cBoard_R[j + i * Cnt_Col];
 						break;
 					case 'S':
-						addressMatrix[NeoPix_Pos].status = cBoard_S[OFF_CHAR_DIM_4X7 + j - i * Cnt_Col];
+						addressMatrix[NeoPix_Pos].status = cBoard_S[j + i * Cnt_Col];
 						break;
 					case 'T':
-						addressMatrix[NeoPix_Pos].status = cBoard_T[OFF_CHAR_DIM_4X7 + j - i * Cnt_Col];
+						addressMatrix[NeoPix_Pos].status = cBoard_T[j + i * Cnt_Col];
 						break;
 					case 'U':
-						addressMatrix[NeoPix_Pos].status = cBoard_U[OFF_CHAR_DIM_4X7 + j - i * Cnt_Col];
+						addressMatrix[NeoPix_Pos].status = cBoard_U[j + i * Cnt_Col];
 						break;
 					case 'V':
 						addressMatrix[NeoPix_Pos].status = cBoard_V[j + i * Cnt_Col];
@@ -438,55 +441,56 @@ void matrix_Print(pixel* addressMatrix, color newColor, const char* _CharToWrite
 						addressMatrix[NeoPix_Pos].status = cBoard_W[j + i * Cnt_Col];
 						break;
 					case 'X':
-						addressMatrix[NeoPix_Pos].status = cBoard_X[OFF_CHAR_DIM_4X7 + j - i * Cnt_Col];
+						addressMatrix[NeoPix_Pos].status = cBoard_X[j + i * Cnt_Col];
 						break;
 					case 'Y':
-						addressMatrix[NeoPix_Pos].status = cBoard_Y[OFF_CHAR_DIM_4X7 + j - i * Cnt_Col];
+						addressMatrix[NeoPix_Pos].status = cBoard_Y[j + i * Cnt_Col];
 						break;
 					case 'Z':
-						addressMatrix[NeoPix_Pos].status = cBoard_Z[OFF_CHAR_DIM_4X7 + j - i * Cnt_Col];
+						addressMatrix[NeoPix_Pos].status = cBoard_Z[j + i * Cnt_Col];
 						break;
 
                     case '[':
-                        addressMatrix[NeoPix_Pos].status = cBoard_OpenSqBracket[OFF_CHAR_DIM_5X7 + j - i * Cnt_Col];
+                        addressMatrix[NeoPix_Pos].status = cBoard_OpenSqBracket[j + i * Cnt_Col];
                         break;
                     //case '\\':
                     //  addressMatrix[NeoPix_Pos].status = ;
                     //  break;
                     case ']':
-                        addressMatrix[NeoPix_Pos].status = cBoard_CloseSqBracket[OFF_CHAR_DIM_5X7 + j - i * Cnt_Col];
+                        addressMatrix[NeoPix_Pos].status = cBoard_CloseSqBracket[j + i * Cnt_Col];
                         break;
 					case '^':
-						addressMatrix[NeoPix_Pos].status = cBoard_Heart[OFF_CHAR_DIM_7X6 + j - i * Cnt_Col];
+						addressMatrix[NeoPix_Pos].status = cBoard_Heart[j + i * Cnt_Col];
 						break;
                     case '_':
-                        addressMatrix[NeoPix_Pos].status = cBoard_Underscore[OFF_CHAR_DIM_4X7 + j - i * Cnt_Col];
+                        addressMatrix[NeoPix_Pos].status = cBoard_Underscore[j + i * Cnt_Col];
                         break;
                     //case '`':
                     //  addressMatrix[NeoPix_Pos].status = ;
                     //  break;
                     case '{':
-                        addressMatrix[NeoPix_Pos].status = cBoard_OpenRoBracket[OFF_CHAR_DIM_5X7 + j - i * Cnt_Col];
+                        addressMatrix[NeoPix_Pos].status = cBoard_OpenRoBracket[j + i * Cnt_Col];
                         break;
                     //case '|':
                     //  addressMatrix[NeoPix_Pos].status = ;
                     //  break;
                     case '}':
-                        addressMatrix[NeoPix_Pos].status = cBoard_CloseRoBracket[OFF_CHAR_DIM_5X7 + j - i * Cnt_Col];
+                        addressMatrix[NeoPix_Pos].status = cBoard_CloseRoBracket[j + i * Cnt_Col];
                         break;
                     case '~':
-                        addressMatrix[NeoPix_Pos].status = cBoard_Tilda[OFF_CHAR_DIM_5X7 + j - i * Cnt_Col];
+                        addressMatrix[NeoPix_Pos].status = cBoard_Tilda[j + i * Cnt_Col];
                         break;
 
 					case '\n':
-						Offset.column = 1;
-						Offset.line -= 8;	// Decrease Line of Height + 1 line to make a space.
+					    // Reset X
+						Offset.column = 0;
+                        // Decrease Line of Height + 1 line to make a space.
+						Offset.line -= 8;
 						break;
 
 					/* State of every undefined case, so not supposed to come here. */
 					default :   break;
 				}
-				
 				// Coloring only One char at a Time :
 				if(addressMatrix[NeoPix_Pos].status != 0)
 				{
@@ -494,9 +498,11 @@ void matrix_Print(pixel* addressMatrix, color newColor, const char* _CharToWrite
 				}
 				else
 				{
-					addressMatrix[NeoPix_Pos].colorPix.Red = BRIGHT_MIN;
-					addressMatrix[NeoPix_Pos].colorPix.Green = BRIGHT_MIN;
-					addressMatrix[NeoPix_Pos].colorPix.Blue = BRIGHT_MIN;
+                    /*addressMatrix[NeoPix_Pos].colorPix = \
+                                                (color){BRIGHT_MIN,BRIGHT_MIN,BRIGHT_MIN};*/
+                    addressMatrix[NeoPix_Pos].colorPix.Red = BRIGHT_MIN;
+                    addressMatrix[NeoPix_Pos].colorPix.Green = BRIGHT_MIN;
+                    addressMatrix[NeoPix_Pos].colorPix.Blue = BRIGHT_MIN;
 				}
 			}
 		}
@@ -509,29 +515,44 @@ void matrix_Print(pixel* addressMatrix, color newColor, const char* _CharToWrite
 		else
 		{ /* Nothin', avoid increase Col. after a '\n'. */ }
 	}
+
+	//leds_Show(addressMatrix);
 }
 
-void retrieveHeightWidthOf(const char* character, posType* width, posType* height) {
+void retrieveHeightWidthOf(const char* character, \
+                                        unsigned char* width, unsigned char* height) {
     // Retrieve the Height & Width of a letter through addresses :
     switch(*character) {
-        // Letters : --------------------------------------------------->
-        case 'A':	case 'B':	case 'C':	case 'D':	case 'E':   case 'F':
-        case 'G':	case 'H':	case 'I':	case 'J':   case 'K':   case 'L':
-        case 'N':	case 'O':	case 'P':   case 'Q':	case 'R':	case 'S':
-        case 'T':	case 'U':   case 'X':	case 'Y':	case 'Z':
+        // Letters : ---------------------------------------------------->
+        case 'A':	case 'B':	case 'C':   case 'D':	case 'E':   case 'F':   case 'G':
+        case 'H':	case 'J':   case 'K':   case 'L':   case 'N':   case 'O':	case 'P':
+        case 'Q':	case 'R':	case 'S':   case 'U':   case 'X':	case 'Y':	case 'Z':
+        case '_':
             *width = 4;
             *height = 7;
             break;
+        case 'I':case 'T':
+        case ' ':	case '.':   case ',':   case '!':
+        case ':':	case '=':   case '*':   case '-':
+        case '+':	case '%':   /*case '°':*/   case '/':
+            *width = 3;
+            *height = 7;
+            break;
         case 'M':	case 'V':	case 'W':
+        case '(':	case ')':   case '{':   case '}':
+        case '[':	case ']':   case '~':   case '@':
+        case '#':	case '&':
             *width = 5;
             *height = 7;
             break;
-            // Numbers + Style : ------------------------------------------->
+
+        // Numbers + Style : -------------------------------------------->
         case '0':	case '1':	case '2':	case '3':	case '4':
         case '5':	case '6':	case '7':	case '8':	case '9':
             switch(formatDisplay.txtFont)
             {
                 case numberClassic:
+                default:
                     *width = 4;
                     *height = 7;
                     break;
@@ -543,31 +564,11 @@ void retrieveHeightWidthOf(const char* character, posType* width, posType* heigh
                     *width = 4;
                     *height = 6;
                     break;
-                default :	/* State of every undefined case, so not supposed to come here. */	break;
             }
             break;
-            // Special Char. : --------------------------------------------->
-        case ' ':	case '.':   case ',':   case '!':
-        case ':':	case '=':   case '*':   case '-':
-        case '+':	case '%':   /*case '°':*/   case '/':
-            *width = 3;
-            *height = 7;
-            break;
-
+        // Special Char. : ---------------------------------------------->
         case '\'':
             *width = 2;
-            *height = 7;
-            break;
-
-        case '(':	case ')':   case '{':   case '}':
-        case '[':	case ']':   case '~':   case '@':
-        case '#':	case '&':
-            *width = 5;
-            *height = 7;
-            break;
-
-        case '_':
-            *width = 4;
             *height = 7;
             break;
 
