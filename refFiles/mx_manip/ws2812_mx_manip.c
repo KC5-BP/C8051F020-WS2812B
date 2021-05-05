@@ -34,7 +34,7 @@
 // .. created header for ws2812b matrix usage.
 #include "ws2812_mx_manip.h"
 // .. character's definitions.
-#include "characters/kc5_bp_matrix_alphanum.h"
+//#include "characters/kc5_bp_matrix_alphanum.h"
 // .. character's BIG definitions (Letter's height : X14).
 //#include "characters/kc5_bp_matrix_alpha_big.h"
 
@@ -151,8 +151,8 @@ void matrix_Print(pixel* addressMatrix, color newColor, const char* _CharToWrite
                         break;
                     //case '\"':
                     case '#':
-                        addressMatrix[NeoPix_Pos].status = cBoard_HashtagV1[j + i * Cnt_Col];
-                        //addressMatrix[NeoPix_Pos].status = cBoard_HashtagV2[j + i * Cnt_Col];
+                        //addressMatrix[NeoPix_Pos].status = cBoard_HashtagV1[j + i * Cnt_Col];
+                        addressMatrix[NeoPix_Pos].status = cBoard_HashtagV2[j + i * Cnt_Col];
                         break;
                     //case '$':
                     //  addressMatrix[NeoPix_Pos].status = ;
