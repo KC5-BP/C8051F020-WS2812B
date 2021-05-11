@@ -55,9 +55,9 @@ void pixel_Set(pixel* addressDisplay, color newColor, posType position) {
             && (newColor.Green == BRIGHT_MIN)
             && (newColor.Blue == BRIGHT_MIN)) {
             // Complement : " == " operator not possible on a complete struct in C.
-            addressDisplay->status = OFF;
+            addressDisplay->status = (char)OFF;
         } else {
-            addressDisplay->status = ON;
+            addressDisplay->status = (char)ON;
         }
     }
 }
@@ -69,7 +69,7 @@ void pixel_Reset(pixel* addressDisplay, posType position) {
     if(position < MAX_LEDS) {
         addressDisplay += position;
         addressDisplay->colorPix = BLACK;
-        addressDisplay->status = OFF;
+        addressDisplay->status = (char)OFF;
     }
 }
 
@@ -78,7 +78,7 @@ color pixel_GetColor(pixel* addressDisplay, posType position) {
     return (addressDisplay + position)->colorPix;
 }
 
-unsigned char pixel_GetStatus(pixel* addressDisplay, posType position) {
+ledStatus pixel_GetStatus(pixel* addressDisplay, posType position) {
     //assert(position < MAX_LEDS);    // Check << position >> validity.
     return (addressDisplay + position)->status;
 }
@@ -118,7 +118,7 @@ void leds_Show(pixel* addressDisplay) {
     // Disable Timer to avoid interrupting Sending "Packets".
     TR0 = 0;
     for(i = 0; i < MAX_LEDS; i++) {
-        if(addressDisplay->status == ON)
+        if(addressDisplay->status == (char)ON)
             pixel_Show(addressDisplay->colorPix.Red, addressDisplay->colorPix.Green, \
                                                             addressDisplay->colorPix.Blue);
         else
@@ -143,7 +143,7 @@ void leds_ResetStatus(pixel* addressDisplay) {
 
     for(i = 0; i < MAX_LEDS; i++)
     {   // Clear Status to keep color in the original address ...
-        addressDisplay->status = OFF;
+        addressDisplay->status = (char)OFF;
         addressDisplay++; // Increase address for clearing next position.
     }
 }
@@ -154,14 +154,14 @@ void leds_InvertMono(pixel* addressDisplay) {
 
     for(i = 0; i < MAX_LEDS; i++) { // First loop to find the first LED alight that
                                     // will give the colour to set for the invert.
-        if(pixel_GetStatus(addressDisplay, i) == ON) {
+        if(pixel_GetStatus(addressDisplay, i) == (char)ON) {
             // color found => recovering and ending loop.
             tmpColor = pixel_GetColor(addressDisplay, i);
             break;
         }
     }
     for(i = 0; i < MAX_LEDS; i++) { // Second loop to toggle LEDs status.
-        if(pixel_GetStatus(addressDisplay, i) == OFF)
+        if(pixel_GetStatus(addressDisplay, i) == (char)OFF)
             pixel_Set(addressDisplay, tmpColor, i);
         else
             pixel_Reset(addressDisplay, i);

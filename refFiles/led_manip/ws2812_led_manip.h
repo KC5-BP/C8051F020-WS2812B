@@ -68,6 +68,7 @@
 //#define __LED_ARRANGEMENT __LED_ARRANGEMENT_MATRX
 
 //---------------------------------\DSIPLAY_Definitions/--------------------------------.
+//-- SYNONYM TYPE       : -------------------------------->
 // '-> NUMBER of LEDs presents on the strip :
 #define MAX_LEDS 256
 #if MAX_LEDS < 256
@@ -77,6 +78,9 @@
 #else
     typedef unsigned long posType;  // 32bits value.
 #endif
+// 8bits value. << char >> because bool isn't define by default in C.
+// And despite that, 1 bool take the same size to be stocked than a char.
+typedef char ledStatus;
 
 // '-> COLORS Intensities values :
 #define BRIGHT_MAX 0xFF // MAX Intensity : 60mA for 1 LED at "TRUE" white (R-G-B to 255).
@@ -99,7 +103,7 @@ typedef struct {
 typedef enum {
     OFF = 0,
     ON
-} ledStatus;
+} myBool;
 
 //-- LED / PIXEL (STRIP) : ->
 #if __LED_ARRANGEMENT == __LED_ARRANGEMENT_STRIP
@@ -186,7 +190,7 @@ extern color pixel_GetColor(pixel* addressDisplay, posType position);
  * Input		:   addressDisplay, 6bytes - address of the strip
  *					position, xbytes - position in the strip to set the color.
  * Output	 	:	Nothin'                                                            */
-extern unsigned char pixel_GetStatus(pixel* addressDisplay, posType position);
+extern ledStatus pixel_GetStatus(pixel* addressDisplay, posType position);
 //======================================================================================>
 /* Description  :   Toggling status into the specific strip position.
  * Creation     :   To be retrieved ...
