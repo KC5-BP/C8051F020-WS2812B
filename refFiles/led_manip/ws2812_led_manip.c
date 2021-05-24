@@ -175,6 +175,6 @@ void leds_ChainedLeds(pixel* addressDisplay, color newColor, \
     posType i;
 	
 	for(i = 0; i < MAX_LEDS; i++)
-		if((i >= begin) && (i < end))
+		if((i >= begin) && (i <= end))
 		    pixel_Set(addressDisplay, newColor, i);
 }
