@@ -1,17 +1,35 @@
-# Ws2812
-Examples Header and C files for Ws2812b monitoring with a Silabs C8051F020
+# Ws2812b monitoring + Issues
+Examples of Headers and C files for monitoring Ws2812b neopixels with a Silabs C8051F020.
 
 ![Kaiminus (french name) : Pic made the 8th Mai 2018](https://pbs.twimg.com/media/DcrguXRWsAAZQeq?format=jpg&name=large)
 
 
-## Last comment :
-This is the first comment and I created my files back in 2018 and I decided to put it here as a back up.
-
-Plus the versionning will be pretty useful too.
-
-I found some incoherences in my thought and must give a massive review on my files.
+## Actual Issues :
+1. I try to optimize as much as I can ! *"CAN"* because Keil uVision is a good IDE, but the 
+free version is very limited to a certain point. \
+For example :
+    * I want to improve the reading of a struct initialisation such as :
+      * **xdata offsetText Offset = {0, 0};** \
+  And I want to make it clearer by writing :
+      * xdata offsetText Offset = {**.column = 0**, **.line = 0**}; \
+  But Keil takes the dot before one struct member as an error syntax. 
+  So lots of little details like this blocks me to improve my code.
+1. led_Show() : Error when using it in matrix_Print().
+1. getPixelStatusFromChar() : Can't implement my function without getting 
+   error about space overflow.
 
 ## Formats
-* I did 2 folders ;
-    * Matrix    :   Where usage will be mostly for Characters displaying or image (like the example shown above).
-    * Strip     :   Where usage will be coloring a room, for example.
+- 00-Archives ;
+    - Represents the first version/first throw of the process. With usage either with a
+      leds strip or a matrix. They work, but they are not as completed as files 
+      in refFiles folder.
+- 00-Pics ;
+    - For the moment, it only contains differences between structure format. In a future, 
+      I will add some pics that I'd take from resulting display, like a showcase 
+      (as show for example, with upper picture).
+- refFiles ;
+    - Separated into led_manip and mx_manip sub-folders (mx_manip using led_manip).\
+      At first, mx_ and led_ were fused (as said before) because it was the beginning.\
+      Then, I made a massive clean up and split this file into one 
+      containing the LEDs control and the other will use the led monitoring, 
+      but with a specific arrangement.
