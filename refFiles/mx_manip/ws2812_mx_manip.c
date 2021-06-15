@@ -34,7 +34,7 @@
 // .. created header for ws2812b matrix usage.
 #include "ws2812_mx_manip.h"
 // .. character's definitions.
-//#include "characters/kc5_bp_matrix_alphanum.h"
+#include "characters/kc5_bp_matrix_alphanum.h"
 // .. character's BIG definitions (Letter's height : X14).
 //#include "characters/kc5_bp_matrix_alpha_big.h"
 
@@ -50,7 +50,7 @@ xdata matrixFormat formatDisplay = {0, CLASSIC};
 void retrieveWidthAndHeightOf(const char* character, \
                                             unsigned char* width, unsigned char* height);
 //======================================================================================>
-//void setStatusToPixelFromChar(pixel* addressMatrix, const char* character, posType pixelPos, unsigned int x, unsigned int y, unsigned char width);
+unsigned char getPixelStatusFromChar(const char* character, unsigned int x, unsigned int y, unsigned char width);
 #endif
 //===================================================
 //===============================\FUNCTIONS'_Definition/================================>
@@ -488,7 +488,8 @@ void matrix_Print(pixel* addressMatrix, color newColor, const char* _CharToWrite
 					default :   break;
 				}
 
-				//setStatusToPixelFromChar(&addressMatrix[0], character, pixelPos, _x, _y, charWidth);
+				//addressMatrix[pixelPos].status = getPixelStatusFromChar(character, _x, _y, charWidth);
+
 				// Coloring only One char at a Time :
 				if(addressMatrix[pixelPos].status != 0)
 					addressMatrix[pixelPos].colorPix = newColor;
@@ -580,335 +581,336 @@ void retrieveWidthAndHeightOf(const char* character, \
 	}
 }
 /*
-void setStatusToPixelFromChar(pixel* addressMatrix, const char* character, posType pixelPos, unsigned int x, unsigned int y, unsigned char width) {
+unsigned char getPixelStatusFromChar(const char* character, unsigned int x, unsigned int y, unsigned char width) {
+ 	unsigned char status = 0;
 	switch(*character) {
 		case ' ':
-			addressMatrix[pixelPos].status = cBoard_Space[x + y * width];
+			status = cBoard_Space[x + y * width];
 			break;
 		case '!':
-			addressMatrix[pixelPos].status = cBoard_ExclaMark[x + y * width];
+			status = cBoard_ExclaMark[x + y * width];
 			break;
 		//case '\"':
 		case '#':
-			//addressMatrix[pixelPos].status = cBoard_HashtagV1[x + y * width];
-			addressMatrix[pixelPos].status = cBoard_HashtagV2[x + y * width];
+			//status = cBoard_HashtagV1[x + y * width];
+			status = cBoard_HashtagV2[x + y * width];
 			break;
 		//case '$':
-		//  addressMatrix[pixelPos].status = ;
+		//  status = ;
 		//  break;
 		case '%':
-			addressMatrix[pixelPos].status = cBoard_xMult[x + y * width];
+			status = cBoard_xMult[x + y * width];
 			break;
 		case '&':
-			addressMatrix[pixelPos].status = cBoard_Ampersand[x + y * width];
+			status = cBoard_Ampersand[x + y * width];
 			break;
 		case '\'':
-			addressMatrix[pixelPos].status = cBoard_Apost[x + y * width];
+			status = cBoard_Apost[x + y * width];
 			break;
 		case '(':
-			addressMatrix[pixelPos].status = cBoard_OpenBracket[x + y * width];
+			status = cBoard_OpenBracket[x + y * width];
 			break;
 		case ')':
-			addressMatrix[pixelPos].status = cBoard_CloseBracket[x + y * width];
+			status = cBoard_CloseBracket[x + y * width];
 			break;
 		case '*':
-			addressMatrix[pixelPos].status = cBoard_Asterisk[x + y * width];
+			status = cBoard_Asterisk[x + y * width];
 			break;
 		case '+':
-			addressMatrix[pixelPos].status = cBoard_Plus[x + y * width];
+			status = cBoard_Plus[x + y * width];
 			break;
 		case ',':
-			addressMatrix[pixelPos].status = cBoard_Comma[x + y * width];
+			status = cBoard_Comma[x + y * width];
 			break;
 		case '-':
-			addressMatrix[pixelPos].status = cBoard_Hyphen[x + y * width];
+			status = cBoard_Hyphen[x + y * width];
 			break;
 		case '.':
-			addressMatrix[pixelPos].status = cBoard_Dot[x + y * width];
+			status = cBoard_Dot[x + y * width];
 			break;
 		case '/':
-			addressMatrix[pixelPos].status = cBoard_Slash[x + y * width];
+			status = cBoard_Slash[x + y * width];
 			break;
 
 		case '0':
 			switch(formatDisplay.font) {
 				case CLASSIC:
-					addressMatrix[pixelPos].status = cBoard_0_Val[x + y * width];
+					status = cBoard_0_Val[x + y * width];
 					break;
 				case TIME:
-					addressMatrix[pixelPos].status = cBoard_0_Time[x + y * width];
+					status = cBoard_0_Time[x + y * width];
 					break;
 				case MOB:
 				default :
-					addressMatrix[pixelPos].status = cBoard_0_Mob[x + y * width];
+					status = cBoard_0_Mob[x + y * width];
 					break;
 			}
 			break;
 		case '1':
 			switch(formatDisplay.font) {
 				case CLASSIC:
-					addressMatrix[pixelPos].status = cBoard_1_Val[x + y * width];
+					status = cBoard_1_Val[x + y * width];
 					break;
 				case TIME:
-					addressMatrix[pixelPos].status = cBoard_1_Time[x + y * width];
+					status = cBoard_1_Time[x + y * width];
 					break;
 				case MOB:
 				default :
-					addressMatrix[pixelPos].status = cBoard_1_Mob[x + y * width];
+					status = cBoard_1_Mob[x + y * width];
 					break;
 			}
 			break;
 		case '2':
 			switch(formatDisplay.font) {
 				case CLASSIC:
-					addressMatrix[pixelPos].status = cBoard_2_Val[x + y * width];
+					status = cBoard_2_Val[x + y * width];
 					break;
 				case TIME:
-					addressMatrix[pixelPos].status = cBoard_2_Time[x + y * width];
+					status = cBoard_2_Time[x + y * width];
 					break;
 				case MOB:
 				default :
-					addressMatrix[pixelPos].status = cBoard_2_Mob[x + y * width];
+					status = cBoard_2_Mob[x + y * width];
 					break;
 			}
 			break;
 		case '3':
 			switch(formatDisplay.font) {
 				case CLASSIC:
-					addressMatrix[pixelPos].status = cBoard_3_Val[x + y * width];
+					status = cBoard_3_Val[x + y * width];
 					break;
 				case TIME:
-					addressMatrix[pixelPos].status = cBoard_3_Time[x + y * width];
+					status = cBoard_3_Time[x + y * width];
 					break;
 				case MOB:
 				default :
-					addressMatrix[pixelPos].status = cBoard_3_Mob[x + y * width];
+					status = cBoard_3_Mob[x + y * width];
 					break;
 			}
 			break;
 		case '4':
 			switch(formatDisplay.font) {
 				case CLASSIC:
-					addressMatrix[pixelPos].status = cBoard_4_Val[x + y * width];
+					status = cBoard_4_Val[x + y * width];
 					break;
 				case TIME:
-					addressMatrix[pixelPos].status = cBoard_4_Time[x + y * width];
+					status = cBoard_4_Time[x + y * width];
 					break;
 				case MOB:
 				default :
-					addressMatrix[pixelPos].status = cBoard_4_Mob[x + y * width];
+					status = cBoard_4_Mob[x + y * width];
 					break;
 			}
 			break;
 		case '5':
 			switch(formatDisplay.font) {
 				case CLASSIC:
-					addressMatrix[pixelPos].status = cBoard_5_Val[x + y * width];
+					status = cBoard_5_Val[x + y * width];
 					break;
 				case TIME:
-					addressMatrix[pixelPos].status = cBoard_5_Time[x + y * width];
+					status = cBoard_5_Time[x + y * width];
 					break;
 				case MOB:
 				default :
-					addressMatrix[pixelPos].status = cBoard_5_Mob[x + y * width];
+					status = cBoard_5_Mob[x + y * width];
 					break;
 			}
 			break;
 		case '6':
 			switch(formatDisplay.font) {
 				case CLASSIC:
-					addressMatrix[pixelPos].status = cBoard_6_Val[x + y * width];
+					status = cBoard_6_Val[x + y * width];
 					break;
 				case TIME:
-					addressMatrix[pixelPos].status = cBoard_6_Time[x + y * width];
+					status = cBoard_6_Time[x + y * width];
 					break;
 				case MOB:
 				default :
-					addressMatrix[pixelPos].status = cBoard_6_Mob[x + y * width];
+					status = cBoard_6_Mob[x + y * width];
 					break;
 			}
 			break;
 		case '7':
 			switch(formatDisplay.font) {
 				case CLASSIC:
-					addressMatrix[pixelPos].status = cBoard_7_Val[x + y * width];
+					status = cBoard_7_Val[x + y * width];
 					break;
 				case TIME:
-					addressMatrix[pixelPos].status = cBoard_7_Time[x + y * width];
+					status = cBoard_7_Time[x + y * width];
 					break;
 				case MOB:
 				default :
-					addressMatrix[pixelPos].status = cBoard_7_Mob[x + y * width];
+					status = cBoard_7_Mob[x + y * width];
 					break;
 			}
 			break;
 		case '8':
 			switch(formatDisplay.font) {
 				case CLASSIC:
-					addressMatrix[pixelPos].status = cBoard_8_Val[x + y * width];
+					status = cBoard_8_Val[x + y * width];
 					break;
 				case TIME:
-					addressMatrix[pixelPos].status = cBoard_8_Time[x + y * width];
+					status = cBoard_8_Time[x + y * width];
 					break;
 				case MOB:
 				default :
-					addressMatrix[pixelPos].status = cBoard_8_Mob[x + y * width];
+					status = cBoard_8_Mob[x + y * width];
 					break;
 			}
 			break;
 		case '9':
 			switch(formatDisplay.font) {
 				case CLASSIC:
-					addressMatrix[pixelPos].status = cBoard_9_Val[x + y * width];
+					status = cBoard_9_Val[x + y * width];
 					break;
 				case TIME:
-					addressMatrix[pixelPos].status = cBoard_9_Time[x + y * width];
+					status = cBoard_9_Time[x + y * width];
 					break;
 				case MOB:
 				default :
-					addressMatrix[pixelPos].status = cBoard_9_Mob[x + y * width];
+					status = cBoard_9_Mob[x + y * width];
 					break;
 			}
 			break;
 
 		case ':':
-			addressMatrix[pixelPos].status = cBoard_Colon[x + y * width];
+			status = cBoard_Colon[x + y * width];
 			break;
 		case ';':
-			addressMatrix[pixelPos].status = cBoard_SemiColon[x + y * width];
+			status = cBoard_SemiColon[x + y * width];
 			break;
 		//case '<':
-		//  addressMatrix[pixelPos].status = ;
+		//  status = ;
 		//  break;
 		case '=':
-			addressMatrix[pixelPos].status = cBoard_Equal[x + y * width];
+			status = cBoard_Equal[x + y * width];
 			break;
 		//case '>':
-		//  addressMatrix[pixelPos].status = ;
+		//  status = ;
 		//  break;
 		case '?':
 			switch(formatDisplay.font) {
 				case CLASSIC:
-					addressMatrix[pixelPos].status = cBoard_QuestMark[x + y * width];
+					status = cBoard_QuestMark[x + y * width];
 					break;
 				case MOB:
 				default :
-					addressMatrix[pixelPos].status = cBoard_QuestMark_Mob[x + y * width];
+					status = cBoard_QuestMark_Mob[x + y * width];
 					break;
 			}
 			break;
 		case '@':
-			addressMatrix[pixelPos].status = cBoard_At[x + y * width];
+			status = cBoard_At[x + y * width];
 			break;
 
 		case 'A':
-			addressMatrix[pixelPos].status = cBoard_A[x + y * width];
+			status = cBoard_A[x + y * width];
 			break;
 		case 'B':
-			addressMatrix[pixelPos].status = cBoard_B[x + y * width];
+			status = cBoard_B[x + y * width];
 			break;
 		case 'C':
-			addressMatrix[pixelPos].status = cBoard_C[x + y * width];
+			status = cBoard_C[x + y * width];
 			break;
 		case 'D':
-			addressMatrix[pixelPos].status = cBoard_D[x + y * width];
+			status = cBoard_D[x + y * width];
 			break;
 		case 'E':
-			addressMatrix[pixelPos].status = cBoard_E[x + y * width];
+			status = cBoard_E[x + y * width];
 			break;
 		case 'F':
-			addressMatrix[pixelPos].status = cBoard_F[x + y * width];
+			status = cBoard_F[x + y * width];
 			break;
 		case 'G':
-			addressMatrix[pixelPos].status = cBoard_G[x + y * width];
+			status = cBoard_G[x + y * width];
 			break;
 		case 'H':
-			addressMatrix[pixelPos].status = cBoard_H[x + y * width];
+			status = cBoard_H[x + y * width];
 			break;
 		case 'I':
-			addressMatrix[pixelPos].status = cBoard_I[x + y * width];
+			status = cBoard_I[x + y * width];
 			break;
 		case 'J':
-			addressMatrix[pixelPos].status = cBoard_J[x + y * width];
+			status = cBoard_J[x + y * width];
 			break;
 		case 'K':
-			addressMatrix[pixelPos].status = cBoard_K[x + y * width];
+			status = cBoard_K[x + y * width];
 			break;
 		case 'L':
-			addressMatrix[pixelPos].status = cBoard_L[x + y * width];
+			status = cBoard_L[x + y * width];
 			break;
 		case 'M':
-			addressMatrix[pixelPos].status = cBoard_M[x + y * width];
+			status = cBoard_M[x + y * width];
 			break;
 		case 'N':
-			addressMatrix[pixelPos].status = cBoard_N[x + y * width];
+			status = cBoard_N[x + y * width];
 			break;
 		case 'O':
-			addressMatrix[pixelPos].status = cBoard_O[x + y * width];
+			status = cBoard_O[x + y * width];
 			break;
 		case 'P':
-			addressMatrix[pixelPos].status = cBoard_P[x + y * width];
+			status = cBoard_P[x + y * width];
 			break;
 		case 'Q':
-			addressMatrix[pixelPos].status = cBoard_Q[x + y * width];
+			status = cBoard_Q[x + y * width];
 			break;
 		case 'R':
-			addressMatrix[pixelPos].status = cBoard_R[x + y * width];
+			status = cBoard_R[x + y * width];
 			break;
 		case 'S':
-			addressMatrix[pixelPos].status = cBoard_S[x + y * width];
+			status = cBoard_S[x + y * width];
 			break;
 		case 'T':
-			addressMatrix[pixelPos].status = cBoard_T[x + y * width];
+			status = cBoard_T[x + y * width];
 			break;
 		case 'U':
-			addressMatrix[pixelPos].status = cBoard_U[x + y * width];
+			status = cBoard_U[x + y * width];
 			break;
 		case 'V':
-			addressMatrix[pixelPos].status = cBoard_V[x + y * width];
+			status = cBoard_V[x + y * width];
 			break;
 		case 'W':
-			addressMatrix[pixelPos].status = cBoard_W[x + y * width];
+			status = cBoard_W[x + y * width];
 			break;
 		case 'X':
-			addressMatrix[pixelPos].status = cBoard_X[x + y * width];
+			status = cBoard_X[x + y * width];
 			break;
 		case 'Y':
-			addressMatrix[pixelPos].status = cBoard_Y[x + y * width];
+			status = cBoard_Y[x + y * width];
 			break;
 		case 'Z':
-			addressMatrix[pixelPos].status = cBoard_Z[x + y * width];
+			status = cBoard_Z[x + y * width];
 			break;
 
 		case '[':
-			addressMatrix[pixelPos].status = cBoard_OpenSqBracket[x + y * width];
+			status = cBoard_OpenSqBracket[x + y * width];
 			break;
 		//case '\\':
-		//  addressMatrix[pixelPos].status = ;
+		//  status = ;
 		//  break;
 		case ']':
-			addressMatrix[pixelPos].status = cBoard_CloseSqBracket[x + y * width];
+			status = cBoard_CloseSqBracket[x + y * width];
 			break;
 		case '^':
-			addressMatrix[pixelPos].status = cBoard_Heart[x + y * width];
+			status = cBoard_Heart[x + y * width];
 			break;
 		case '_':
-			addressMatrix[pixelPos].status = cBoard_Underscore[x + y * width];
+			status = cBoard_Underscore[x + y * width];
 			break;
 		//case '`':
-		//  addressMatrix[pixelPos].status = ;
+		//  status = ;
 		//  break;
 		case '{':
-			addressMatrix[pixelPos].status = cBoard_OpenRoBracket[x + y * width];
+			status = cBoard_OpenRoBracket[x + y * width];
 			break;
 		//case '|':
-		//  addressMatrix[pixelPos].status = ;
+		//  status = ;
 		//  break;
 		case '}':
-			addressMatrix[pixelPos].status = cBoard_CloseRoBracket[x + y * width];
+			status = cBoard_CloseRoBracket[x + y * width];
 			break;
 		case '~':
-			addressMatrix[pixelPos].status = cBoard_Tilda[x + y * width];
+			status = cBoard_Tilda[x + y * width];
 			break;
 
 		case '\n':
@@ -920,5 +922,6 @@ void setStatusToPixelFromChar(pixel* addressMatrix, const char* character, posTy
 
 		default :   break;
 	}
+	return status;
 }*/
 #endif
