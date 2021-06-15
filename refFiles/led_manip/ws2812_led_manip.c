@@ -37,9 +37,9 @@
 //-- GLOBAL VARIABLES INIT : ----------------------------->
 xdata const color BLACK = {0, 0, 0};
 #if __LED_ARRANGEMENT == __LED_ARRANGEMENT_STRIP
-	xdata pixel display[MAX_LEDS] = { BLACK, OFF };
+	xdata pixel display[MAX_LEDS] = { {0, 0, 0}, OFF };
 #elif __LED_ARRANGEMENT == __LED_ARRANGEMENT_MATRX
-	xdata pixel display[MAX_LEDS] = { BLACK, OFF, 0, 0 };
+	xdata pixel display[MAX_LEDS] = { {0, 0, 0}, OFF, 0, 0 };
 #else
 	// WRONG __LED_ARRANGEMENT Selection
 #endif
