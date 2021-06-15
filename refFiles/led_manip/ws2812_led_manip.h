@@ -37,7 +37,7 @@
 //===================================================
 //================================\HEADER'S_Definitions/================================>
 #ifndef __WS2812_LED_MANIP__
-#define __WS2812_LED_MANIP__	// __WS2812_LED_MANIP__ BEGIN
+#define __WS2812_LED_MANIP__    // __WS2812_LED_MANIP__ BEGIN
 
 //----------------------------------\GLOBAL_Definition/---------------------------------.
 // '-> BIT Definition : Security in case of omitted "base_sfr.h".
@@ -63,7 +63,7 @@
 
 //----------------------------------\OUTPUT_Definition/---------------------------------.
 // '-> PORT Definition : Strip dedicated pin on port P2 ..
-#define    BYO_WS281x P2
+#define BYO_WS281x P2
 // '-> PIN Definition : .. on pin nbr 4 : /!\ FROM 0 /!\:
 sbit SBIT_OUT_STRIP = BYO_WS281x ^ 4;
 
@@ -102,10 +102,8 @@ typedef struct {
 } color;
 
 //-- LED STATUS     : ------>
-typedef enum {
-	OFF = 0,
-	ON
-} myBool;
+typedef enum { FALSE = 0, TRUE } myBool;
+typedef enum { OFF = 0, ON } ledStatement;
 
 //-- LED / PIXEL (STRIP) : ->
 #if __LED_ARRANGEMENT == __LED_ARRANGEMENT_STRIP
@@ -125,7 +123,7 @@ typedef enum {
 #endif
 
 //-- GLOBAL VARIABLES	: -------------------------------->
-// Declare an array of << pixel >> defining the LED's display. Init. to 0 in the 'C' file.
+extern xdata const color BLACK;
 extern xdata pixel display[MAX_LEDS];
 
 //-- GLOBAL MACROS ..   : -------------------------------->
@@ -135,118 +133,85 @@ extern xdata pixel display[MAX_LEDS];
 // depending of the hardware !
 #define SEND0()                 \
 do {                            \
-    SBIT_OUT_STRIP = 1;         \
-    _nop_(); _nop_(); _nop_();  \
-    _nop_(); _nop_(); _nop_();  \
-    SBIT_OUT_STRIP = 0;         \
-    _nop_(); _nop_(); _nop_();  \
-    _nop_(); _nop_(); _nop_();  \
-    _nop_(); _nop_(); _nop_();  \
+	SBIT_OUT_STRIP = 1;         \
+	_nop_(); _nop_(); _nop_();  \
+	_nop_(); _nop_(); _nop_();  \
+	SBIT_OUT_STRIP = 0;         \
+	_nop_(); _nop_(); _nop_();  \
+	_nop_(); _nop_(); _nop_();  \
+	_nop_(); _nop_(); _nop_();  \
 } while(0)
 // .. sending DATA '1' in Manchester  / Timing : 0 > 0.85[us] | 1 > 0.45[us] +- 150[ns] :
 // Same remark as before* <= Number of _nop_() needs to be adjusted
 // depending of the hardware !
-#define SEND1()                 \
+#define SEND1()                	\
 do {                            \
-    SBIT_OUT_STRIP = 1;         \
-    _nop_(); _nop_(); _nop_();  \
-    _nop_(); _nop_(); _nop_();  \
-    _nop_(); _nop_(); _nop_();  \
-    _nop_(); _nop_(); _nop_();  \
-    _nop_(); _nop_(); _nop_();  \
-    _nop_();                    \
-    SBIT_OUT_STRIP = 0;         \
-    _nop_(); _nop_(); _nop_();  \
+	SBIT_OUT_STRIP = 1;         \
+	_nop_(); _nop_(); _nop_();  \
+	_nop_(); _nop_(); _nop_();  \
+	_nop_(); _nop_(); _nop_();  \
+	_nop_(); _nop_(); _nop_();  \
+	_nop_(); _nop_(); _nop_();  \
+	_nop_();                    \
+	SBIT_OUT_STRIP = 0;         \
+	_nop_(); _nop_(); _nop_();  \
 } while(0)
 // .. sending ONE bit of a specific color.
-#define SEND_COLOR_BIT(COLOR, MASK) {   \
-if ((COLOR & MASK) != 0)                \
-    SEND1();                            \
-else                                    \
-    SEND0();                            \
+#define SEND_COLOR_BIT(COLOR, MASK) {	\
+	if ((COLOR & MASK) != 0)            \
+		SEND1();                        \
+	else                                \
+		SEND0();                        \
 }
 
 //===================================================
 //===============================\FUNCTIONS'_Prototypes/================================>
 //======================================================================================>
-/* Description  :   Filling color and setting status to the specific LED position.
- * Creation     :   To be retrieved ...
- * Input		:   addressDisplay, 6bytes - address of the strip
- *					newColor, 3bytes - color to set
- *					position, xbytes - position in the strip to set the color.
- * Output	 	:	Nothin'                                                            */
-extern void pixel_Set(pixel * addressDisplay, color newColor, posType position);
+/* Description  :   Test if color is BLACK.											   */
+extern myBool isBlack(const color* col1);
+
 //======================================================================================>
-/* Description  :   Resetting color & status to the specific LED position.
- * Creation     :   To be retrieved ...
- * Input		:   addressDisplay, 6bytes - address of the strip
- *					position, xbytes - position in the strip to set the color.
- * Output	 	:	Nothin'                                                            */
-extern void pixel_Reset(pixel * addressDisplay, posType position);
+/* Description  :   Filling color and setting status to the specific LED position.	   */
+extern void pixel_Set(pixel* addressDisplay, color newColor, posType position);
 //======================================================================================>
-/* Description  :   Recovering << color >> of a specific LED.
- * Creation     :   To be retrieved ...
- * Input		:   addressDisplay, 6bytes - address of the strip
- *					position, xbytes - position in the strip to set the color.
- * Output	 	:	Nothin'                                                            */
-extern color pixel_GetColor(pixel * addressDisplay, posType position);
+/* Description  :   Resetting color & status to the specific LED position.			   */
+extern void pixel_Reset(pixel* addressDisplay, posType position);
 //======================================================================================>
-/* Description  :   Recovering << status >> of a specific LED.
- * Creation     :   To be retrieved ...
- * Input		:   addressDisplay, 6bytes - address of the strip
- *					position, xbytes - position in the strip to set the color.
- * Output	 	:	Nothin'                                                            */
-extern ledStatus pixel_GetStatus(pixel * addressDisplay, posType position);
+/* Description  :   Recovering << color >> of a specific LED.						   */
+extern color pixel_GetColor(pixel* addressDisplay, posType position);
 //======================================================================================>
-/* Description  :   Toggling status into the specific strip position.
- * Creation     :   To be retrieved ...
- * Input		:   addressDisplay, 6bytes - address of the strip
- *					position, xbytes - position in the strip to set the color.
- * Output	 	:	Nothin'                                                            */
-extern void pixel_ToggleStatus(pixel * addressDisplay, posType position);
+/* Description  :   Recovering << status >> of a specific LED.						   */
+extern ledStatus pixel_GetStatus(pixel* addressDisplay, posType position);
 //======================================================================================>
-/* Description  :   Send the 24bits color (one by one) of a pixel.
- * Creation     :   To be retrieved ...
- * Input		:   red, 1byte.
- *					green, 1byte.
- *					blue, 1byte.
- * Output	 	:	Nothin'                                                            */
+/* Description  :   Toggling status into the specific strip position.				   */
+extern void pixel_ToggleStatus(pixel* addressDisplay, posType position);
+//======================================================================================>
+/* Description  :   Send the 24bits color (one by one) of a pixel.					   */
 void pixel_Show(unsigned char red, unsigned char green, unsigned char blue);
 
 //-------------------------------------------------------------------------------------->
-/* Description  :   Show the entire strip through dedicated output pin.
- * Creation     :   To be retrieved ...
- * Input		:   addressDisplay, 6bytes - address of the strip
- * Output	 	:	Nothin'                                                            */
-extern void leds_Show(pixel * addressDisplay);
+/* Description  :   Show the entire strip through dedicated output pin.				   */
+extern void leds_Show(pixel* addressDisplay);
 //======================================================================================>
-/* Description  :   Clear COLOR & STATUS on the strip + display it (shut down).
- * Creation     :   To be retrieved ...
- * Input		:   addressDisplay, 6bytes - address of the strip
- * Output	 	:	Nothin'                                                            */
-extern void leds_Off(pixel * addressDisplay);
+/* Description  :   Clear COLOR & STATUS on the strip + display it (shut down).		   */
+extern void leds_Off(pixel* addressDisplay);
 //======================================================================================>
-/* Description  :   Clear ONLY status on the strip, to keep the color in memory.
- * Creation     :   To be retrieved ...
- * Input	    :   addressDisplay, 6bytes - address of the strip
- * Output	 	:	Nothin'                                                            */
-extern void leds_ResetStatus(pixel * addressDisplay);
+/* Description  :   Clear ONLY status on the strip, to keep the color in memory.	   */
+extern void leds_ResetStatus(pixel* addressDisplay);
 //======================================================================================>
 /* Description  :   Reverse every LED status on all the strip, but keep ONLY the FIRST
- *                  colors in memory to light all the ON leds up.
- * Creation     :   To be retrieved ...
- * Input	    :   addressDisplay, 6bytes - address of the strip
- * Output	 	:	Nothin'                                                            */
-extern void leds_InvertMono(pixel * addressDisplay);
+ *                  color retrieved in memory to light all the ON leds up.			   */
+extern void leds_InvertMono(pixel* addressDisplay);
 //======================================================================================>
 /* Description  :   Set a chain of LEDs to a specific color.
- * Creation     :   To be retrieved ...
- * Input		:   addressDisplay, 6bytes - address of the strip
- *					position, 2bytes - position in the strip to set the color.
- *					begin, 2bytes - FIRST position of the chain to light up.
- *					end, 2bytes - Position BEFORE the last of the chain to light up.
+ * Input		:   addressDisplay, sizeof(void*) - address of the strip
+ *					position, sizeof(posType) - position in the strip to set the color.
+ *					begin, sizeof(posType) -
+ *									FIRST position of the chain to light up.
+ *					end, sizeof(posType) -
+ *									Position BEFORE the last of the chain to light up.
  * Output	 	:	Nothin'                                                            */
-extern void leds_ChainedLeds(pixel * addressDisplay, color newColor, \
-														posType begin, posType end);
+extern void leds_ChainedLeds(pixel* addressDisplay, color newColor, \
+															posType begin, posType end);
 
-#endif	// __WS2812_LED_MANIP__ END
+#endif    // __WS2812_LED_MANIP__ END
