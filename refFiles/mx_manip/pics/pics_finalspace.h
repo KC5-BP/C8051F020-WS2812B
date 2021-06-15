@@ -1,15 +1,10 @@
-
-// Linker to : ..
-// No linker required !
-
-// Header's Definition :
-// Beginning of definition...
-#ifndef __pics_finalspace__
-#define __pics_finalspace__
 //===================================================
 //================================\HEADER'S_Definitions/================================>
+#ifndef __PICS_FINALSPACE__
+#define __PICS_FINALSPACE__	// __PICS_FINALSPACE__ BEGIN
 
-//-- GLOBAL VARIABLES   : -------------------------------->
+//-- GLOBAL PICTURES ARRAYS	: ---------------------------->
+//==========================>
 xdata const unsigned char imgData_Mooncake_Red[256] = { \
 0x0b, 0x0b, 0x0b, 0x0b, 0x0b, 0x0b, 0x0b, 0x0b, 0x0b, 0x0b, 0x0b, 0x0b, 0x0b, 0x0b, 0x0b, 0x0b, \
 0x0b, 0x0b, 0x0b, 0x00, 0x00, 0x0b, 0x0b, 0x0b, 0x0b, 0x0b, 0x0b, 0x00, 0x00, 0x0b, 0x0b, 0x0b, \
@@ -61,9 +56,9 @@ xdata const unsigned char imgData_Mooncake_Blue[256] = { \
 0x0b, 0x0d, 0x0b, 0x0b, 0x00, 0x0b, 0x0b, 0x0b, 0x0b, 0x0b, 0x0b, 0x00, 0x0b, 0x0b, 0x0d, 0x0b, \
 0x0b, 0x0b, 0x00, 0x00, 0x0b, 0x0b, 0x0b, 0x0b, 0x0b, 0x0b, 0x0b, 0x0b, 0x00, 0x00, 0x0b, 0x0b, \
 0x0b, 0x0b, 0x0b, 0x0b, 0x0b, 0x0b, 0x0b, 0x0b, 0x0b, 0x0b, 0x0b, 0x0b, 0x0b, 0x0b, 0x0b, 0x0b };
+//==========================>
 
-#endif
-// End of definition.
+#endif	// __PICS_FINALSPACE__ END
 
 /*======================================================================================>
 =======================================================================================*/
@@ -83,8 +78,8 @@ xdata const unsigned char imgData_Mooncake_Blue[256] = { \
 |x|           |/.-"_/           > By :  KC5-BP
 |x| .__---+-_/'|--"
 |x|         _| |_--,            > Description :
-|x|        ',/ |   /                >   Give the array to display unicorns
-|x|        /|| |  /                 >   on a 16x16 matrix with
+|x|        ',/ |   /                >   Give the array to display some Final Space
+|x|        /|| |  /                 >   cartoon references on a 16x16 matrix with
 |x|     |\| |/ |- |                 >   WS2812b leds.
 |x| .-,-/ | /  '/-"
 |x| -\|/-/\/ ^,'|

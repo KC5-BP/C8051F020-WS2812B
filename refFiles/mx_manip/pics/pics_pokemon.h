@@ -1,16 +1,10 @@
-
-// Linker to : ..
-// No linker required !
-
-// Header's Definition :
-// Beginning of definition...
-#ifndef __pics_pokemon__
-#define __pics_pokemon__
 //===================================================
 //================================\HEADER'S_Definitions/================================>
+#ifndef __PICS_POKEMON__
+#define __PICS_POKEMON__	// __PICS_POKEMON__ BEGIN
 
-//-- GLOBAL VARIABLES   : -------------------------------->
-//-------------------------------------------------------------------------------------->
+//-- GLOBAL PICTURES ARRAYS	: ---------------------------->
+//==========================>
 xdata const unsigned char imgData_Kaiminus_Red[256] = { \
 0x36, 0x36, 0x36, 0x36, 0x00, 0x00, 0x00, 0x36, 0x36, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, \
 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x25, 0x36, 0x00, 0x36, 0x00, 0x36, 0x36, 0x36, 0x36, 0x36, \
@@ -62,7 +56,7 @@ xdata const unsigned char imgData_Kaiminus_Blue[256] = { \
 0x34, 0x34, 0x34, 0x34, 0x34, 0x00, 0x00, 0x00, 0x34, 0x00, 0x00, 0x34, 0x34, 0x34, 0x34, 0x34, \
 0x34, 0x34, 0x34, 0x34, 0x34, 0x34, 0x34, 0x34, 0x34, 0x34, 0x34, 0x34, 0x34, 0x34, 0x34, 0x34, \
 0x34, 0x34, 0x34, 0x34, 0x34, 0x34, 0x34, 0x34, 0x34, 0x34, 0x34, 0x34, 0x34, 0x34, 0x34, 0x34 };
-//-------------------------------------------------------------------------------------->
+//==========================>
 xdata const unsigned char imgData_Lugia_Red[256] = { \
 0x17, 0x17, 0x17, 0x17, 0x00, 0x00, 0x17, 0x17, 0x17, 0x17, 0x17, 0x00, 0x36, 0x36, 0x36, 0x36, \
 0x36, 0x36, 0x36, 0x00, 0x17, 0x17, 0x17, 0x17, 0x00, 0x00, 0x36, 0x36, 0x00, 0x17, 0x17, 0x17, \
@@ -114,10 +108,9 @@ xdata const unsigned char imgData_Lugia_Blue[256] = { \
 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x36, 0x36, 0x36, 0x36, 0x00, 0x00, 0x00, \
 0x00, 0x00, 0x36, 0x36, 0x36, 0x36, 0x36, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, \
 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x36, 0x36, 0x36, 0x36, 0x04, 0x36, 0x00, 0x00 };
-//-------------------------------------------------------------------------------------->
+//==========================>
 
-#endif
-// End of definition.
+#endif	// __PICS_POKEMON__ END
 
 /*======================================================================================>
 =======================================================================================*/
@@ -128,7 +121,7 @@ xdata const unsigned char imgData_Lugia_Blue[256] = { \
 |x|  ,__  -'""`;
 |x| /   \  /"'  \
 |x|   __// \-"-_/
-|x| ´"   \  |           > Title : pics_finalspace.h
+|x| ´"   \  |           > Title : pics_pokemon.h
 |x| \     |  \  _.-"',
 |x| "^,-´\/\  '" ,--. \         > Src : pics_unicorns.h
 |x|  \|\| | | , /    | |
@@ -137,7 +130,7 @@ xdata const unsigned char imgData_Lugia_Blue[256] = { \
 |x|           |/.-"_/           > By :  KC5-BP
 |x| .__---+-_/'|--"
 |x|         _| |_--,            > Description :
-|x|        ',/ |   /                >   Give the array to display unicorns
+|x|        ',/ |   /                >   Give the array to display some Pokemons
 |x|        /|| |  /                 >   on a 16x16 matrix with
 |x|     |\| |/ |- |                 >   WS2812b leds.
 |x| .-,-/ | /  '/-"
