@@ -40,7 +40,9 @@
 
 //-- GLOBAL VARIABLES INIT : ----------------------------->
 xdata offsetText Offset = {0, 0};
+//xdata offsetText Offset = (offsetText) { .column = 0, .line = 0 };
 xdata matrixFormat formatDisplay = {0, CLASSIC};
+//xdata matrixFormat formatDisplay = { .orientation = 0, .font = CLASSIC };
 
 //===================================================
 //===============================\FUNCTIONS'_Prototypes/================================>

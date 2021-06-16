@@ -38,8 +38,12 @@
 xdata const color BLACK = {0, 0, 0};
 #if __LED_ARRANGEMENT == __LED_ARRANGEMENT_STRIP
 	xdata pixel display[MAX_LEDS] = { {0, 0, 0}, OFF };
+	//xdata pixel display[MAX_LEDS] =
+	// 						(pixel) { .colorPix = BLACK, .status = OFF };
 #elif __LED_ARRANGEMENT == __LED_ARRANGEMENT_MATRX
 	xdata pixel display[MAX_LEDS] = { {0, 0, 0}, OFF, 0, 0 };
+	//xdata pixel display[MAX_LEDS] =
+	// 						(pixel) { .colorPix = BLACK, .status = OFF, .x = 0, .y = 0 };
 #else
 	// WRONG __LED_ARRANGEMENT Selection
 #endif
@@ -62,13 +66,8 @@ void pixel_Set(pixel* addressDisplay, color newColor, posType position) {
 	if (position < MAX_LEDS) {
 		addressDisplay += position;
 		addressDisplay->colorPix = newColor;
-
-		// Set the status to ON if color different of "black" {0, 0, 0} :
-		if (isBlack(&newColor) == TRUE) {
-			addressDisplay->status = (char) OFF;
-		} else {
-			addressDisplay->status = (char) ON;
-		}
+		addressDisplay->status = (isBlack(&newColor) == TRUE) ?
+								 							(char) OFF : (char) ON;
 	}
 }
 
