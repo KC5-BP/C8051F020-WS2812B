@@ -11,7 +11,7 @@ For example :
     * I want to improve the reading of a struct initialisation such as :
       * **xdata offsetText Offset = {0, 0};** \
   And I want to make it clearer by writing :
-      * xdata offsetText Offset = {**.column = 0**, **.line = 0**}; \
+      * xdata offsetText Offset = (offsetText) {**.column = 0**, **.line = 0**}; \
   But Keil takes the dot before one struct member as an error syntax. 
   So lots of little details like this blocks me to improve my code.
 1. led_Show() : Error when using it in matrix_Print().
