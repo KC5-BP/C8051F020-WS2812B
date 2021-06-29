@@ -169,7 +169,7 @@ do {                            \
 //===============================\FUNCTIONS'_Prototypes/================================>
 //======================================================================================>
 /* Description  :   Test if color is BLACK.											   */
-extern myBool isBlack(const color* col1);
+extern myBool isBlack(const color* col);
 
 //======================================================================================>
 /* Description  :   Filling color and setting status to the specific LED position.	   */

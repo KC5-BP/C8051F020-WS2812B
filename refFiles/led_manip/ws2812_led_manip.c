@@ -51,11 +51,11 @@ xdata const color BLACK = {0, 0, 0};
 //===================================================
 //===============================\FUNCTIONS'_Definition/================================>
 //======================================================================================>
-extern myBool isBlack(const color* col1) {
+myBool isBlack(const color* col) {
 	myBool status = FALSE;
-	if ((col1->Red == BLACK.Red)
-			&& (col1->Green == BLACK.Green)
-				&& (col1->Blue == BLACK.Blue))
+	if ((col->Red == BLACK.Red)
+			&& (col->Green == BLACK.Green)
+				&& (col->Blue == BLACK.Blue))
 		status = TRUE;
 	return status;
 }
