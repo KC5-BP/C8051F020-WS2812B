@@ -1,109 +1,93 @@
+/*..-----------------------------------------------------------------------------------.
+../ .---------------------------------------------------------------------------------. \
+./´/
+|x| __--""'\
+|x|  ,__  -'""`;
+|x| /   \  /"'  \
+|x|   __// \-"-_/
+|x| ´"   \  |           > Title : time
+|x| \     |  \  _.-"',
+|x| "^,-´\/\  '" ,--. \         > Src : None
+|x|  \|\| | | , /    | |
+|x|     '`'\|._ |   / /
+|x|         '\),/  / |          > Creation : 2017.03.14
+|x|           |/.-"_/           > By :  KC5-BP
+|x| .__---+-_/'|--"
+|x|         _| |_--,            > Description :
+|x|        ',/ |   /                >   Bodies of timers functions.
+|x|        /|| |  /
+|x|     |\| |/ |- |
+|x| .-,-/ | /  '/-"
+|x| -\|/-/\/ ^,'|
+|x| _-     |  |/
+|x|  .  --"  /
+|x| /--__,.-/
+.\`\__________________________________________________________________________________/´/
+..`____________________________________________________________________________________´
+========================================================================================>
+=======================================================================================*/
+#include <c8051f020.h>
+#include "base_sfr.h"
+#include "time.h"
 
-// Title			: 	Timers_Wait_Xms
-// Source		: 	Timers_Wait_Xms.c
-/* Author		: 	K�vin - Claude - Simon,
-						BOUGNON - PEIGNE*/
-// Creation		: 	14.03.2017
-// Last_Update	:	16.03.2018
-/* Description	: 	Insert the library for the Timers.*/
-
-/*========================================================================================>
-=========================================================================================*/
-
-#include <c8051f020.h>		// Include definition folder SFR
-#include "base_sfr.h"		// Include Base(define, sbit, sfr,...)
-#include "time.h"				// Include Timers function and Waiting Function.
-
-// Gloabl value :
+//-- GLOBAL VARIABLES INIT : ----------------------------->
 //uint8 byGV_Count_Timer = 0;		// Start value of counter to 0.
 
-void disableTimers(void) {
-	TR0 = 0;
-	//TR1 = 0;
-	TR2 = 0;
-	//T3_STOP()
-	//T4_STOP()
+//===================================================
+//===============================\FUNCTIONS'_Definition/================================>
+//======================================================================================>
+extern void disableTimers(void) {
+    TR0 = 0;
+    //TR1 = 0;
+    TR2 = 0;
+    //TR3_STOP()
+    //TR4_STOP()
+}
+//======================================================================================>
+extern void enableTimers(void) {
+    TR0 = 1;
+    //TR1 = 1;
+    TR2 = 1;
+    //TR3_START()
+    //TR4_START()
 }
 
-void enableTimers(void) {
-	TR0 = 1;
-	//TR1 = 1;
-	TR2 = 1;
-	//T3_START()
-	//T4_START()
-}
+//======================================================================================>
+void Timer0_ISR(void) interrupt 1 {
+    static xdata uint16 cntInit = 0;
+    static xdata uint8 cntTasks = 100;
 
-//========================================================================
-//================================\InterruptTimer0/=======================================>
-//=================================================
-void Timer0_ISR (void)		interrupt 1
-// Description :	Timer0 interrupt trigger every 1ms.
-// Date 			:	24.03.2017
-// Input			:	Nothing
-// Output	 	:	Nothing
-{	// Var. Dec. : 
-	static xdata uint16 ui16_Cnt_INIT = 0;	// Counter for Init.
-	static xdata uint8 ui8_Cnt_TASKS = 100;	// Counter for Service Tasks.
-	
-	// Reset counter value from 63'691.
-	// For a time of 1ms.
-	TL0 = 0xCB;
-	TH0 = 0xF8;
-	
-  // 2[s] = 2'000[ms] : 1[ms] * 1998 (0 -> 1999 => 2000 iterations + 
-																									// One increasing before changing state).
-	if(ui16_Cnt_INIT < (2000 - 2))
-	{
-		ui16_Cnt_INIT++;
-	}
-	else
-	{
-		if(++ui8_Cnt_TASKS >= 10)	// Go to Service Tasks every 10ms.
-		{	// Update State of the State Machine :
+    // Reset counter value to 63'691 for a time of 1ms.
+    TH0 = 0xF8; TL0 = 0xCB;
+
+    // 2[s] = 2'000[ms] : 1[ms] * 1998 (0 -> 1999 => 2000 iterations +
+    // One increasing before changing state).
+    if( cntInit < (2000 - 2) )
+        ++cntInit;
+    else {
+        if(++cntTasks >= 10) {
+            cntTasks = 0;
             updateAppState(APP_STATE_SERVICE_TASKS);
-			
-			// Reset Service Tasks counter :
-			ui8_Cnt_TASKS = 0;
-		}
-		else
-		{ /* Nothing, because we pre-increase the counter in condition already. */ }
-	}
-	
-// 	// Reset counter value from 63'691.
-// 	// For a time of 1ms.
-// 	TL0 = 0xCB;
-// 	TH0 = 0xF8;
+        }
+    }
 }
-//------------------------------------------------->
-void Timer0_init (void)
-// Fonction
-// Description	:	Initialization of Interrupt with time of ...[ms/us].
-// Date 			:	01.03.2018
-// Input			:	Nothing
-// Output	 	:	Nothing
-{
-	T0_CLK_DIV_12();	// SYSCLK/12 = 1.8432 [MHz].
-	T0_SYSCLK_INT();	// System Internal clock.
-//	XBR1 |= BIT1; 		// External clock enable in Crossbar.
-	T0_GATE0_INT();	// Internal command.
-// XBR1 |= BIT2;		// External Input enable in Crossbar.
-	T0_MOD_16BITS();	// Mode Counter 16 bits.
-		// Flag autoreset but if needed : TF0.
-	ET0 = 1;					// Activate Interrupt Timer0 or not.
-	PT0 = 1;					// Priority 0 = LOW, 1 = HIGH.
-	TL0 = 0xCB;				// Start value set to "65'536-((WishedTime*22118400)/Div)"
-	TH0 = 0xF8;				// Div = 12 ; 47'104-0xB800 for 10ms.//63'692-0xF8CC for 1ms.
-								// 			  65'351-0xFF47 for 100us.//65'517-0xFFED for 10us.
-								// 			  65'534-0xFFFE for 1us.
-								// Change if you need a different application.
-	/* Start Out with TR0 = 1; || or possibly HERE !.*/
+//----------------------------------------------------------------->
+void Timer0_init(void) {
+    T0_CLK_DIV_12()
+    T0_SYSCLK_INT()
+//	XBR1 |= BIT1;       // External clock enable in Crossbar.
+    T0_GATE0_INT()      // Internal command.
+// XBR1 |= BIT2;        // External Input enable in Crossbar.
+    T0_MOD_16BITS()
+    // Flag autoreset but if needed : Register is TF0.
+    ET0 = 1;            // Activate Interrupt Timer0 or not.
+    PT0 = 1;            // Priority : 0 = LOW, 1 = HIGH.
+    TH0 = 0xF8;         // Start value set to "65'536-((WishedTime*22118400)/Div)"
+    TL0 = 0xCB;
+    /* Start Out with TR0 = 1; || or possibly HERE !.*/
 }
 
-
-
-// //========================================================================
-// //================================\InterruptTimer1/=======================================>
-// //=================================================
+//======================================================================================>
 // void Timer1_ISR (void)		interrupt 3
 // // Fonction
 // // Description :	Execute this part when the interrupt is triggered...
