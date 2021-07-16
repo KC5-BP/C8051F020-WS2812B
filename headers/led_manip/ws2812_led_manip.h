@@ -56,9 +56,9 @@
 #define BRIGHT_MAX 0xFF // MAX Intensity : 60mA for 1 LED at "TRUE" white (R-G-B to 255).
 #define BRIGHT_MIN 0x00 // MIN Intensity : LED turned "off".
 
-#define BRIGHT_MID 0x36 // MID Intensity : Average usage to avoid over-consumption.
+//#define BRIGHT_MID 0x36 // MID Intensity : Average usage to avoid over-consumption.
 #ifndef BRIGHT_MID
-#define BRIGHT_MID 0x10 // MID Intensity : Alternated value (just comment upper line).
+#define BRIGHT_MID 0x1E // MID Intensity : Alternated value (just comment upper line).
 #endif
 
 //----------------------------------\OUTPUT_Definition/---------------------------------.

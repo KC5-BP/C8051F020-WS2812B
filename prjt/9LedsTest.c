@@ -139,7 +139,8 @@ int main(void) {
 
                     // Starting mode :
                     //stateInTasks = COLOR_ALL;
-                    stateInTasks = AUDIO_REACT;
+                    stateInTasks = STATIC_FADER;
+                    //stateInTasks = AUDIO_REACT;
 
                     enableTimers();
                     updateAppState(APP_STATE_WAIT);
@@ -174,6 +175,7 @@ int main(void) {
                                 pixel_Set(display, col_strip, j);
                                 pixel_ToggleStatus(display, j);
                             }
+                            greenSens = UP;
                         }
                     }
 
@@ -280,21 +282,19 @@ int main(void) {
                                 if (++shiftingDelay >= faderSpeed) {
                                     shiftingDelay = 0;
 
-                                    if ( (greenSens != 0) &&
+                                    if ( (greenSens == UP) &&
                                             (col_strip.Green < BRIGHT_MID) ) {
                                         col_strip.Red++;
                                         col_strip.Green++;
-                                        //col_strip.Blue++;
                                     } else
-                                        greenSens = 0;
+                                        greenSens = DOWN;
 
-                                    if ( (greenSens == 0) &&
-                                            (col_strip.Green > BRIGHT_MID) ) {
+                                    if ( (greenSens == DOWN) &&
+                                            (col_strip.Green > BRIGHT_MIN) ) {
                                         col_strip.Red--;
                                         col_strip.Green--;
-                                        //col_strip.Blue--;
                                     } else
-                                        greenSens = 1;
+                                        greenSens = UP;
 
                                     for (j = 0; j < MAX_LEDS; j++)
                                         pixel_Set(display, col_strip, j);

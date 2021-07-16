@@ -45,7 +45,7 @@ typedef enum { APP_STATE_INIT = 0,
                APP_STATE_SERVICE_TASKS,
                APP_STATE_WAIT } APP_STATES;
 typedef enum { FALSE = 0, TRUE } MY_BOOL;
-typedef enum { DOWN = 0, UP } SENS;
+typedef enum { DOWN = 0, UP } SENS_FADER;
 
 //-- REGISTERS DEFINITION 16-BIT : ----------------------->
 sfr16 DP        = 0x82;     // data pointer
