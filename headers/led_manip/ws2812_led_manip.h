@@ -102,7 +102,6 @@ typedef struct {
 } color;
 
 //-- LED STATUS     : ------>
-typedef enum { FALSE = 0, TRUE } myBool;
 typedef enum { OFF = 0, ON } ledStatement;
 
 //-- LED / PIXEL (STRIP) : ->
@@ -171,7 +170,7 @@ do {                            \
 extern pixel* displayInit(posType nbrOfLeds);
 //======================================================================================>
 /* Description  :   Test if color is BLACK.											   */
-extern myBool isBlack(const color* col);
+extern MY_BOOL isBlack(const color* col);
 
 //======================================================================================>
 /* Description  :   Filling color and setting status to the specific LED position.	   */

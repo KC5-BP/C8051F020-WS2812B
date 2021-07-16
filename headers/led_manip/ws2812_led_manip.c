@@ -59,8 +59,8 @@ pixel* displayInit(posType nbrOfLeds) {
 }
 
 //======================================================================================>
-myBool isBlack(const color* col) {
-	myBool status = FALSE;
+MY_BOOL isBlack(const color* col) {
+    MY_BOOL status = FALSE;
 	if ((col->Red == BLACK.Red)
 			&& (col->Green == BLACK.Green)
 				&& (col->Blue == BLACK.Blue))

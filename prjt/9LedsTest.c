@@ -142,7 +142,7 @@ int main(void) {
                     stateInTasks = AUDIO_REACT;
 
                     enableTimers();
-                    UpdateState(APP_STATE_WAIT);
+                    updateAppState(APP_STATE_WAIT);
                     break;
 
                 //======================================================================>
@@ -351,7 +351,7 @@ int main(void) {
                             }
                             break;
                     }
-                    UpdateState(APP_STATE_WAIT);
+                    updateAppState(APP_STATE_WAIT);
                     break;
 
                 //======================================================================>

@@ -1,7 +1,7 @@
 
 // Title			: 	Timers_Wait_Xms
 // Source		: 	Timers_Wait_Xms.c
-/* Author		: 	Kévin - Claude - Simon,
+/* Author		: 	Kï¿½vin - Claude - Simon,
 						BOUGNON - PEIGNE*/
 // Creation		: 	14.03.2017
 // Last_Update	:	16.03.2018
@@ -60,7 +60,7 @@ void Timer0_ISR (void)		interrupt 1
 	{
 		if(++ui8_Cnt_TASKS >= 10)	// Go to Service Tasks every 10ms.
 		{	// Update State of the State Machine :
-			UpdateState(APP_STATE_SERVICE_TASKS);
+            updateAppState(APP_STATE_SERVICE_TASKS);
 			
 			// Reset Service Tasks counter :
 			ui8_Cnt_TASKS = 0;
