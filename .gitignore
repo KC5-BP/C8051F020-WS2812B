@@ -1,4 +1,23 @@
+*.bak
+
+*.iex
+
+*.lnp
+*.LST
+
+*.M51
+
+*.OBJ
+
+*.plg
+
+*.uvopt
+*.uvproj
+
 .idea
+
+9LedsTest
+
 00-Archives/_*
 
 PROUT
