@@ -59,16 +59,6 @@ pixel* displayInit(posType nbrOfLeds) {
 }
 
 //======================================================================================>
-MY_BOOL isBlack(const color* col) {
-    MY_BOOL status = FALSE;
-	if ((col->Red == BLACK.Red)
-			&& (col->Green == BLACK.Green)
-				&& (col->Blue == BLACK.Blue))
-		status = TRUE;
-	return status;
-}
-
-//======================================================================================>
 void pixel_Set(pixel* addressDisplay, color newColor, posType position) {
 	//assert(position < MAX_LEDS);    // Check << position >> validity.
 	if (position < MAX_LEDS) {
@@ -78,7 +68,6 @@ void pixel_Set(pixel* addressDisplay, color newColor, posType position) {
 								 							(char) OFF : (char) ON;
 	}
 }
-
 //======================================================================================>
 void pixel_Reset(pixel* addressDisplay, posType position) {
 	//assert(position < MAX_LEDS);    // Check << position >> validity.
@@ -88,29 +77,25 @@ void pixel_Reset(pixel* addressDisplay, posType position) {
 		addressDisplay->status = (char) OFF;
 	}
 }
-
 //======================================================================================>
 color pixel_GetColor(pixel* addressDisplay, posType position) {
 	//assert(position < MAX_LEDS);    // Check << position >> validity.
 	return (addressDisplay + position)->colorPix;
 }
-
 //======================================================================================>
 ledStatus pixel_GetStatus(pixel* addressDisplay, posType position) {
 	//assert(position < MAX_LEDS);    // Check << position >> validity.
 	return (addressDisplay + position)->status;
 }
-
 //======================================================================================>
 void pixel_ToggleStatus(pixel* addressDisplay, posType position) {
 	//assert(position < MAX_LEDS);    // Check << position >> validity.
 	addressDisplay += position;
 	addressDisplay->status = !addressDisplay->status;
 }
-
 //======================================================================================>
 void pixel_Show(unsigned char red, unsigned char green, unsigned char blue) {
-	// For the WS2812b, the order is High bit to low AND Green - Red - Blue.
+	// For the WS2812b, the order is High bit to Low AND Green - Red - Blue.
 	// Sending GREEN.
 	SEND_COLOR_BIT(green, BIT7) /*   */ SEND_COLOR_BIT(green, BIT6)
 	SEND_COLOR_BIT(green, BIT5) /*   */ SEND_COLOR_BIT(green, BIT4)
@@ -126,6 +111,16 @@ void pixel_Show(unsigned char red, unsigned char green, unsigned char blue) {
 	SEND_COLOR_BIT(blue, BIT5) /*   */ SEND_COLOR_BIT(blue, BIT4)
 	SEND_COLOR_BIT(blue, BIT3) /*   */ SEND_COLOR_BIT(blue, BIT2)
 	SEND_COLOR_BIT(blue, BIT1) /*   */ SEND_COLOR_BIT(blue, BIT0)
+}
+
+//======================================================================================>
+MY_BOOL isBlack(const color* col) {
+    MY_BOOL status = FALSE;
+    if ( (col->Red == BLACK.Red)
+            && (col->Green == BLACK.Green)
+                && (col->Blue == BLACK.Blue) )
+        status = TRUE;
+    return status;
 }
 
 //======================================================================================>
@@ -146,7 +141,6 @@ void leds_Show(pixel* addressDisplay) {
 	// Enable / Re-activate Timer after "Packets" Sent.
 	enableTimers();
 }
-
 //======================================================================================>
 void leds_Off(pixel* addressDisplay) {
 	xdata posType i;
@@ -154,7 +148,6 @@ void leds_Off(pixel* addressDisplay) {
 		pixel_Reset(addressDisplay, i);
 	leds_Show(addressDisplay);
 }
-
 //======================================================================================>
 void leds_ResetStatus(pixel* addressDisplay) {
 	posType i;
@@ -163,7 +156,6 @@ void leds_ResetStatus(pixel* addressDisplay) {
 		++addressDisplay;
 	}
 }
-
 //======================================================================================>
 void leds_InvertMono(pixel* addressDisplay) {
 	posType i;
@@ -184,7 +176,6 @@ void leds_InvertMono(pixel* addressDisplay) {
 			pixel_Reset(addressDisplay, i);
 	}
 }
-
 //======================================================================================>
 void leds_ChainedLeds(pixel* addressDisplay, color newColor, \
 														posType begin, posType end) {

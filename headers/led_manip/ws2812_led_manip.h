@@ -64,7 +64,7 @@
 //----------------------------------\OUTPUT_Definition/---------------------------------.
 // '-> PORT Definition : Strip dedicated pin on port P2 ..
 #define BYO_WS281x P2
-// '-> PIN Definition : .. on pin nbr 4 : /!\ FROM 0 /!\:
+// '-> PIN Definition : sbit /!\ FROM 0 /!\ :
 sbit SBIT_OUT_STRIP = BYO_WS281x ^ 4;
 
 // '-> Kind of display ; - __LED_ARRANGEMENT_STRIP is a simple strip.
@@ -127,14 +127,14 @@ extern xdata pixel display[MAX_LEDS];
 
 //-- GLOBAL MACROS ..   : -------------------------------->
 // .. sending DATA '0' in Manchester  / Timing : 0 > 0.4[us] | 1 > 0.8[us] +- 150[ns] :
-// _nop_() is in <intrins.h> and waste a time machine, like a delay but scaling
-// on the CPU's Clock* <= Number of _nop_() needs to be adjusted
-// depending of the hardware !
+// _nop_() scaled on the CPU's Clock*
+//                  * Number of _nop_() may need to be adjusted depending of the clock !
 #define SEND0()                 \
 do {                            \
 	SBIT_OUT_STRIP = 1;         \
 	_nop_(); _nop_(); _nop_();  \
 	_nop_(); _nop_(); _nop_();  \
+	_nop_();                    \
 	SBIT_OUT_STRIP = 0;         \
 	_nop_(); _nop_(); _nop_();  \
 	_nop_(); _nop_(); _nop_();  \
@@ -153,7 +153,7 @@ do {                            \
 	_nop_(); _nop_(); _nop_();  \
 	_nop_();                    \
 	SBIT_OUT_STRIP = 0;         \
-	_nop_(); _nop_(); _nop_();  \
+	_nop_();                    \
 } while(0)
 // .. sending ONE bit of a specific color.
 #define SEND_COLOR_BIT(COLOR, MASK) {	\
@@ -166,11 +166,9 @@ do {                            \
 //===================================================
 //===============================\FUNCTIONS'_Prototypes/================================>
 //======================================================================================>
-/* Description  :   											   */
+/* Description  :   Initiate to 0 a certain number of << pixel >> struct and
+ *                  return the address to the memory allocated.                        */
 extern pixel* displayInit(posType nbrOfLeds);
-//======================================================================================>
-/* Description  :   Test if color is BLACK.											   */
-extern MY_BOOL isBlack(const color* col);
 
 //======================================================================================>
 /* Description  :   Filling color and setting status to the specific LED position.	   */
@@ -191,7 +189,11 @@ extern void pixel_ToggleStatus(pixel* addressDisplay, posType position);
 /* Description  :   Send the 24bits color (one by one) of a pixel.					   */
 void pixel_Show(unsigned char red, unsigned char green, unsigned char blue);
 
-//-------------------------------------------------------------------------------------->
+//======================================================================================>
+/* Description  :   Test if color is BLACK.											   */
+extern MY_BOOL isBlack(const color* col);
+
+//======================================================================================>
 /* Description  :   Show the entire strip through dedicated output pin.				   */
 extern void leds_Show(pixel* addressDisplay);
 //======================================================================================>
