@@ -48,7 +48,6 @@ void SYSCLK_Init(void) {
     OSCICN = 0x88;  // Select external oscillator for SYSCLK
                     // AND enable the oscillation error detector.
 }
-
 //======================================================================================>
 void Ports_Init(void) {
     #define BYC_OPEN_DRAIN 	0x00	// More likely for Inputs
@@ -126,7 +125,6 @@ void Ports_Init(void) {
     #undef BYC_OPEN_DRAIN
     #undef BYC_PUSH_PULL
 }
-
 //======================================================================================>
 void SYS_Init(void) {
     SYSCLK_Init();

@@ -121,12 +121,16 @@ extern APP_STATES StateOfTheMachine;
 //======================================================================================>
 /* Description  :   Enable external clock (quartz)                                     */
 void SYSCLK_Init(void);
+//======================================================================================>
 /* Description  :   Ports 0 to 7 Initialization
  *                  Default state P 7 - 0 : Weak Pull up enable /
  *                                          Open Drain / Data 0xFF.                    */
 void PORTS_Init(void);
+//======================================================================================>
 /* Description  :   Initialize the main peripherals (CPU's Clock, Ports).              */
 extern void SYS_Init(void);
+
+//======================================================================================>
 /* Description  :   Update the State of the State Machine inside the main.             */
 extern void updateAppState(APP_STATES NewState);
 
