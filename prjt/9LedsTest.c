@@ -40,18 +40,18 @@
 +too+large */
 
 //===================================================
-//=================================\Global_Definitions/==================================>
-#define    PRESS_MODE_DN (BYI_PRESS & BIT0)
-#define    PRESS_MODE_UP (BYI_PRESS & BIT1)
+//=================================\Global_Definitions/=================================>
+#define PRESS_MODE_DN (BYI_PRESS & BIT0)
+#define PRESS_MODE_UP (BYI_PRESS & BIT1)
 
-#define    PRESS_RED_DN (BYI_PRESS & BIT2)
-#define    PRESS_RED_UP (BYI_PRESS & BIT3)
+#define PRESS_RED_DN (BYI_PRESS & BIT2)
+#define PRESS_RED_UP (BYI_PRESS & BIT3)
 
-#define    PRESS_GRN_DN (BYI_PRESS & BIT4)
-#define    PRESS_GRN_UP (BYI_PRESS & BIT5)
+#define PRESS_GRN_DN (BYI_PRESS & BIT4)
+#define PRESS_GRN_UP (BYI_PRESS & BIT5)
 
-#define    PRESS_BLU_DN (BYI_PRESS & BIT6)
-#define    PRESS_BLU_UP (BYI_PRESS & BIT7)
+#define PRESS_BLU_DN (BYI_PRESS & BIT6)
+#define PRESS_BLU_UP (BYI_PRESS & BIT7)
 
 #define STEP_COLOR 0x18
 
@@ -138,8 +138,8 @@ int main(void) {
                     leds_Off(display);
 
                     // Starting mode :
-                    //stateInTasks = COLOR_ALL;
-                    stateInTasks = STATIC_FADER;
+                    stateInTasks = COLOR_ALL;
+                    //stateInTasks = STATIC_FADER;
                     //stateInTasks = AUDIO_REACT;
 
                     enableTimers();
@@ -147,7 +147,7 @@ int main(void) {
                     break;
 
                 //======================================================================>
-                case APP_STATE_SERVICE_TASKS : // Come every 10ms
+                case APP_STATE_SERVICE_TASKS : // Look into the ISR of T0 in << time.c >>
                     ui8_PressBtn_0 = PRESS_Modifier(PRESS_MODE_DN, &stateInTasks,
                                                     ui8_PressBtn_0, 1, DOWN, TOT_MODES);
                     ui8_PressBtn_1 = PRESS_Modifier(PRESS_MODE_UP, &stateInTasks,
@@ -366,16 +366,9 @@ int main(void) {
 }
 
 //========================================================================
-//===================================\Functions_Init./====================================>
-//===================================================
-//========================================================================
-//====================================\PERIPH_init/=======================================>
-//=================================================
-void PERIPH_Init(void)
-// Description	:	Initialize the peripheral functions, like Timers, Ext. Int., ADC, etc ...
-// Input		: Nothing.
-// Output		: Nothing.
-{
+//==================================\Functions_Init./===================================>
+//======================================================================================>
+void PERIPH_Init(void) {
     Timer0_init();
 
     ADC1_8bits_init();
@@ -383,27 +376,20 @@ void PERIPH_Init(void)
 //- Activate ALL Interruptions ------------------->
     EA = 1;
 }
-
-//========================================================================
-//===================================\PRESS_Modifier/=====================================>
-//=================================================
-uint8 PRESS_Modifier(uint8 _PressInput, uint8* _ui8_Dest, uint8 _ui8_DeBounce, \
-uint8 _ui8_Step, uint8 _ui8_Sens, uint16 _ui16_MaxLimit)
-// Description	:	Just test Outputs like LEDs & Inputs like Switches and Press Buttons.
-// Input		: Nothing.
-// Output		: Nothing.
-{    // Var. Dec. :
+//======================================================================================>
+uint8 PRESS_Modifier(uint8 _pressInput, uint8* _dest, uint8 _oldDebounceState, \
+                        uint8 _step, uint8 _sens, uint16 _maxLimit) {
     uint8 ui8_Return;
-    int16 i16_ValRec = *_ui8_Dest;
+    int16 i16_ValRec = *_dest;
 
-    if (_ui8_Sens != DOWN) {
-        if (_PressInput == 0) {
-            if (_ui8_DeBounce == 0) {
-                i16_ValRec += _ui8_Step;
-                if (i16_ValRec >= _ui16_MaxLimit) {
-                    *_ui8_Dest = _ui16_MaxLimit;
+    if (_sens != DOWN) {
+        if (_pressInput == 0) {
+            if (_oldDebounceState == 0) {
+                i16_ValRec += _step;
+                if (i16_ValRec >= _maxLimit) {
+                    *_dest = _maxLimit;
                 } else {
-                    *_ui8_Dest = i16_ValRec;
+                    *_dest = i16_ValRec;
                 }
             } else {
             }
@@ -412,13 +398,13 @@ uint8 _ui8_Step, uint8 _ui8_Sens, uint16 _ui16_MaxLimit)
             ui8_Return = 0;
         }
     } else {
-        if (_PressInput == 0) {
-            if (_ui8_DeBounce == 0) {
-                i16_ValRec -= _ui8_Step;
+        if (_pressInput == 0) {
+            if (_oldDebounceState == 0) {
+                i16_ValRec -= _step;
                 if (i16_ValRec <= 0) {
-                    *_ui8_Dest = 0;
+                    *_dest = 0;
                 } else {
-                    *_ui8_Dest = i16_ValRec;
+                    *_dest = i16_ValRec;
                 }
             } else {
             }
@@ -429,24 +415,21 @@ uint8 _ui8_Step, uint8 _ui8_Sens, uint16 _ui16_MaxLimit)
     }
     return ui8_Return;
 }
-
-uint8 PRESS_ModifierLoop(uint8 _PressInput, uint8* _ui8_Dest, uint8 _ui8_DeBounce, \
-uint8 _ui8_Step, uint8 _ui8_Sens, uint16 _ui16_MinLimit, uint16 _ui16_MaxLimit)
-// Description	:	Just test Outputs like LEDs & Inputs like Switches and Press Buttons.
-// Input		: Nothing.
-// Output		: Nothing.
-{    // Var. Dec. :
+//======================================================================================>
+uint8 PRESS_ModifierLoop(uint8 _pressInput, uint8* _dest, uint8 _oldDebounceState,  \
+                            uint8 _step, uint8 _sens, uint16 _minLimit,             \
+                                uint16 _maxLimit) {
     uint8 ui8_Return;
-    int16 i16_ValRec = *_ui8_Dest;
+    int16 i16_ValRec = *_dest;
 
-    if (_ui8_Sens != DOWN) {
-        if (_PressInput == 0) {
-            if (_ui8_DeBounce == 0) {
-                i16_ValRec += _ui8_Step;
-                if (i16_ValRec > _ui16_MaxLimit) {
-                    *_ui8_Dest = _ui16_MinLimit;
+    if (_sens != DOWN) {
+        if (_pressInput == 0) {
+            if (_oldDebounceState == 0) {
+                i16_ValRec += _step;
+                if (i16_ValRec > _maxLimit) {
+                    *_dest = _minLimit;
                 } else {
-                    *_ui8_Dest = i16_ValRec;
+                    *_dest = i16_ValRec;
                 }
             } else {
             }
@@ -455,13 +438,13 @@ uint8 _ui8_Step, uint8 _ui8_Sens, uint16 _ui16_MinLimit, uint16 _ui16_MaxLimit)
             ui8_Return = 0;
         }
     } else {
-        if (_PressInput == 0) {
-            if (_ui8_DeBounce == 0) {
-                i16_ValRec -= _ui8_Step;
+        if (_pressInput == 0) {
+            if (_oldDebounceState == 0) {
+                i16_ValRec -= _step;
                 if (i16_ValRec < 0) {
-                    *_ui8_Dest = _ui16_MaxLimit;
+                    *_dest = _maxLimit;
                 } else {
-                    *_ui8_Dest = i16_ValRec;
+                    *_dest = i16_ValRec;
                 }
             } else {
             }
