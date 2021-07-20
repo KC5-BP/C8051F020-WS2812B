@@ -55,7 +55,7 @@ xdata const color BLACK = {0, 0, 0};
 //===============================\FUNCTIONS'_Definition/================================>
 //======================================================================================>
 pixel* displayInit(posType nbrOfLeds) {
-    return calloc(nbrOfLeds, sizeof(pixel));
+    return (pixel*) calloc(nbrOfLeds, sizeof(pixel));
 }
 
 //======================================================================================>

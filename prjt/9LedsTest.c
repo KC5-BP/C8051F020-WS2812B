@@ -108,6 +108,11 @@ int main(void) {
     xdata unsigned char oneOnTwo = 0;
     xdata unsigned char sens = 0, sens_OLD = 0;
 // AUDIO_REACT :
+    enum AUDIO_THEME { THEME_R = 0, THEME_G, THEME_B,
+                       THEME_RG, THEME_RB,
+                       THEME_GB, THEME_RGB };
+    xdata unsigned char audioTheme = THEME_R;
+    const uint8 TOT_THEMES = 7 - 1;
     //xdata unsigned char tempo = 0;
 
     // For loop :
@@ -138,9 +143,9 @@ int main(void) {
                     leds_Off(display);
 
                     // Starting mode :
-                    stateInTasks = COLOR_ALL;
+                    //stateInTasks = COLOR_ALL;
                     //stateInTasks = STATIC_FADER;
-                    //stateInTasks = AUDIO_REACT;
+                    stateInTasks = AUDIO_REACT;
 
                     enableTimers();
                     updateAppState(APP_STATE_WAIT);
@@ -187,10 +192,10 @@ int main(void) {
                                 flagDisplayed = TRUE;
                             } else {
                                 ui8_PressBtn_2 = PRESS_Modifier(PRESS_RED_DN,
-                                                    &col_strip.Red, ui8_PressBtn_2, \
+                                                                &col_strip.Red, ui8_PressBtn_2, \
                                                         STEP_COLOR, DOWN, BRIGHT_MAX);
                                 ui8_PressBtn_3 = PRESS_Modifier(PRESS_RED_UP,
-                                                    &col_strip.Red, ui8_PressBtn_3, \
+                                                                &col_strip.Red, ui8_PressBtn_3, \
                                                         STEP_COLOR, UP, BRIGHT_MAX);
 
                                 ui8_PressBtn_4 = PRESS_Modifier(PRESS_GRN_DN,
@@ -310,22 +315,67 @@ int main(void) {
                                 leds_Show(display);
                                 flagDisplayed = TRUE;
                             } else {
+                                ui8_PressBtn_2 = PRESS_Modifier(PRESS_RED_DN,           \
+                                                        &audioTheme, ui8_PressBtn_2,    \
+                                                        1, DOWN, TOT_THEMES);
+                                ui8_PressBtn_3 = PRESS_Modifier(PRESS_RED_UP,           \
+                                                        &audioTheme, ui8_PressBtn_3,    \
+                                                        1, UP, TOT_THEMES);
+
                                 //if(1 < ++tempo) {
                                 //	tempo = 0;
-                                //col_strip.Red = col_strip.Green = col_strip.Blue = map_uint8(byGV_ADC1, 50, 255, BRIGHT_MIN, BRIGHT_WHITE_MAX);
-
-                                //col_strip.Red = 0;
-                                col_strip.Green = 0;
-                                //col_strip.Blue = 0;
-
-                                col_strip.Red = col_strip.Blue = map_uint8(byGV_ADC1,   \
-                                                            50, 255,                    \
-                                                                BRIGHT_MIN, BRIGHT_MID);
-                                //col_strip.Blue = map_uint8(byGV_ADC1, 50, 255, BRIGHT_MIN, BRIGHT_MID / 2);
-
-                                //col_strip.Green = col_strip.Blue = map_uint8(byGV_ADC1, 50, 255, BRIGHT_MIN, BRIGHT_MID);
-
                                 //byGV_ADC1 = map_uint8(byGV_ADC1, 0, 255, 0, MAX_LEDS);
+
+                                switch (audioTheme) {
+                                    case THEME_R:
+                                        col_strip.Red = map_uint8(byGV_ADC1, 50, 255,   \
+                                                                BRIGHT_MIN, BRIGHT_MID);
+                                        col_strip.Green = 0;
+                                        col_strip.Blue = 0;
+                                        break;
+                                    case THEME_G:
+                                        col_strip.Green = map_uint8(byGV_ADC1, 50, 255, \
+                                                                BRIGHT_MIN, BRIGHT_MID);
+                                        col_strip.Red = 0;
+                                        col_strip.Blue = 0;
+                                        break;
+                                    case THEME_B:
+                                        col_strip.Blue = map_uint8(byGV_ADC1, 50, 255,  \
+                                                                BRIGHT_MIN, BRIGHT_MID);
+                                        col_strip.Red = 0;
+                                        col_strip.Green = 0;
+                                        break;
+
+                                    case THEME_RG:
+                                        col_strip.Red = col_strip.Green =               \
+                                                                map_uint8(byGV_ADC1, 50,\
+                                                                    255, BRIGHT_MIN,    \
+                                                                        BRIGHT_MID);
+                                        col_strip.Blue = 0;
+                                        break;
+                                    case THEME_RB:
+                                        col_strip.Red = col_strip.Blue =                \
+                                                                map_uint8(byGV_ADC1, 50,\
+                                                                    255, BRIGHT_MIN,    \
+                                                                        BRIGHT_MID);
+                                        col_strip.Green = 0;
+                                        break;
+
+                                    case THEME_GB:
+                                        col_strip.Green = col_strip.Blue =              \
+                                                                map_uint8(byGV_ADC1, 50,\
+                                                                    255, BRIGHT_MIN,    \
+                                                                        BRIGHT_MID);
+                                        col_strip.Red = 0;
+                                        break;
+
+                                    case THEME_RGB:
+                                        col_strip.Red = col_strip.Green =               \
+                                            col_strip.Blue = map_uint8(byGV_ADC1, 50,   \
+                                                                        255, BRIGHT_MIN,\
+                                                                            BRIGHT_MID);
+                                        break;
+                                }
 
                                 if ( (col_strip.Red != Red_OLD) ||          \
                                         (col_strip.Green != Green_OLD) ||   \
