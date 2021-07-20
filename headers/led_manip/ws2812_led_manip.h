@@ -78,7 +78,7 @@ sbit SBIT_OUT_STRIP = BYO_WS281x ^ 4;
 //---------------------------------\DSIPLAY_Definitions/--------------------------------.
 //-- SYNONYM TYPE       : -------------------------------->
 // '-> NUMBER of LEDs presents on the strip :
-#define MAX_LEDS 941
+#define MAX_LEDS 9
 // Rounded posType to the nearest round value.
 // Like this I can make the condition " < MAX_LEDS + 1 "  without overflows problem.
 #if MAX_LEDS < 250        // Max. before round : 255
