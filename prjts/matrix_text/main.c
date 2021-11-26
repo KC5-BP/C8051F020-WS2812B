@@ -253,10 +253,6 @@ int main(void) {
 															
 																matrix_SetTextPosition(xPos, yPos);
 																matrix_Print(display, colText, "HELLO WOLRD!");
-																/*matrix_SetTextPosition(xPos, 8);
-																matrix_Print(display, colText, "J\'TE POUF");
-																matrix_SetTextPosition(xPos+40, 0);
-																matrix_Print(display, colText, "BIBOU^");*/
                                 leds_Show(display);
 															
                                 flagDisplayed = TRUE;
